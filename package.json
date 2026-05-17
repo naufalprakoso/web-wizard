@@ -1,0 +1,39 @@
+{
+  "name": "web-wizard",
+  "version": "0.1.0",
+  "description": "Open-source CLI to generate responsive websites with CMS, admin dashboard, Firebase, and theme settings.",
+  "type": "module",
+  "bin": {
+    "web-wizard": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "tsx cli/src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "execa": "^9.3.0",
+    "fs-extra": "^11.2.0",
+    "ora": "^8.1.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.14.10",
+    "@types/prompts": "^2.4.9",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "license": "MIT"
+}
