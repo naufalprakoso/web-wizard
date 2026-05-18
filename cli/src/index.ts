@@ -14,8 +14,8 @@ program
   .description("Create a new website project.")
   .argument("[projectName]", "Project folder name")
   .option("--app-type <appType>", "landing-page, company-profile, product-catalog")
-  .option("--frontend <frontend>", "next")
-  .option("--storage <storage>", "firebase-storage")
+  .option("--frontend <frontend>", "next, react, nuxt")
+  .option("--storage <storage>", "firebase-storage, bunny, none")
   .option("--install", "Install generated project dependencies")
   .action((projectName: string | undefined, options) => {
     return createCommand(projectName, options);

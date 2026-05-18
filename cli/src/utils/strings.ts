@@ -39,8 +39,10 @@ export function normalizeAppType(value: string | undefined): string | null {
 
 export function normalizeFrontend(value: string | undefined): string | null {
   if (!value) return null;
-  const normalized = value.trim().toLowerCase().replace(".", "");
+  const normalized = value.trim().toLowerCase().replace(".", "").replace(/\s+/g, "-");
   if (["next", "nextjs"].includes(normalized)) return "next";
+  if (["react", "reactjs"].includes(normalized)) return "react";
+  if (["nuxt", "nuxtjs"].includes(normalized)) return "nuxt";
   return normalized;
 }
 
@@ -48,6 +50,8 @@ export function normalizeStorage(value: string | undefined): string | null {
   if (!value) return null;
   const normalized = value.trim().toLowerCase().replace(/\s+/g, "-");
   if (["firebase", "firebase-storage"].includes(normalized)) return "firebase-storage";
+  if (["bunny", "bunny-net", "bunnynet"].includes(normalized)) return "bunny";
+  if (["none", "no-storage", "no"].includes(normalized)) return "none";
   return normalized;
 }
 

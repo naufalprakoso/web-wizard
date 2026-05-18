@@ -30,7 +30,29 @@ const appChoices = [
   { title: "Product Catalog Website", value: "product-catalog" }
 ];
 
+const frontendChoices = [
+  { title: "Next.js", description: "Fully supported", value: "next" },
+  { title: "React.js", description: "Planned", value: "react" },
+  { title: "Nuxt.js", description: "Planned", value: "nuxt" }
+];
+
+const storageChoices = [
+  { title: "Firebase Storage", description: "Fully supported", value: "firebase-storage" },
+  { title: "Bunny.net", description: "Planned", value: "bunny" },
+  { title: "No Storage", description: "Planned", value: "none" }
+];
+
+const includeChoices = [
+  { title: "Admin Dashboard", value: "admin-dashboard", selected: true },
+  { title: "CMS", value: "cms", selected: true },
+  { title: "Firebase Auth", value: "firebase-auth", selected: true },
+  { title: "Contact Form", value: "contact-form", selected: true },
+  { title: "SEO Setup", value: "seo", selected: true },
+  { title: "Theme Color Settings", value: "theme-settings", selected: true }
+];
+
 export async function createPrompt(input: CreatePromptInput): Promise<CreatePromptResult | null> {
+  const fullySpecified = Boolean(input.projectName && input.appType && input.frontend && input.storage);
   const firstPass = await prompts(
     [
       {
@@ -45,15 +67,28 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
         name: "appType",
         message: "App type",
         choices: appChoices,
+        initial: 2
+      },
+      {
+        type: input.frontend ? null : "select",
+        name: "frontend",
+        message: "Frontend",
+        choices: frontendChoices,
         initial: 0
       },
       {
-        type: null,
-        name: "frontend"
+        type: input.storage ? null : "select",
+        name: "storage",
+        message: "Storage",
+        choices: storageChoices,
+        initial: 0
       },
       {
-        type: null,
-        name: "storage"
+        type: fullySpecified ? null : "multiselect",
+        name: "includeOptions",
+        message: "Include options",
+        choices: includeChoices,
+        instructions: false
       }
     ],
     { onCancel: () => true }
@@ -77,12 +112,26 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
     throw new Error("Supported app types are: landing-page, company-profile, product-catalog.");
   }
 
-  if (frontend !== "next") {
-    throw new Error("Web Template Wizard currently supports Next.js only. Use --frontend next.");
-  }
+  const selectedFrontend = await resolvePlannedChoice({
+    kind: "Frontend",
+    value: frontend,
+    supportedValue: "next",
+    supportedLabel: "Next.js"
+  });
+  if (!selectedFrontend) return null;
 
-  if (storage !== "firebase-storage") {
-    throw new Error("Web Template Wizard currently supports Firebase Storage only. Use --storage firebase-storage.");
+  const selectedStorage = await resolvePlannedChoice({
+    kind: "Storage",
+    value: storage,
+    supportedValue: "firebase-storage",
+    supportedLabel: "Firebase Storage"
+  });
+  if (!selectedStorage) return null;
+
+  const includeOptions = (firstPass.includeOptions as string[] | undefined) ?? includeChoices.map((choice) => choice.value);
+  const missingOptions = includeChoices.filter((choice) => !includeOptions.includes(choice.value));
+  if (missingOptions.length > 0) {
+    console.log("For this MVP, all include options are generated so the project stays complete and runnable.");
   }
 
   return {
@@ -90,8 +139,8 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
     displayName: toDisplayName(projectName),
     appType,
     appDisplayName: toDisplayName(appType),
-    frontend: "next",
-    storage: "firebase-storage",
+    frontend: selectedFrontend,
+    storage: selectedStorage,
     includeAdminDashboard: true,
     includeCms: true,
     includeFirebaseAuth: true,
@@ -103,4 +152,31 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
 
 function isSupportedAppType(value: string): value is CreatePromptResult["appType"] {
   return value === "landing-page" || value === "company-profile" || value === "product-catalog";
+}
+
+async function resolvePlannedChoice<TSupported extends "next" | "firebase-storage">({
+  kind,
+  value,
+  supportedValue,
+  supportedLabel
+}: {
+  kind: string;
+  value: string;
+  supportedValue: TSupported;
+  supportedLabel: string;
+}): Promise<TSupported | null> {
+  if (value === supportedValue) return supportedValue;
+
+  const friendlyName = value === "react" ? "React.js" : value === "nuxt" ? "Nuxt.js" : value === "bunny" ? "Bunny.net" : value === "none" ? "No Storage" : value;
+  const answer = await prompts(
+    {
+      type: "confirm",
+      name: "continueWithSupported",
+      message: `${kind} option "${friendlyName}" is planned but not fully implemented yet. Continue with ${supportedLabel} instead?`,
+      initial: true
+    },
+    { onCancel: () => true }
+  );
+
+  return answer.continueWithSupported ? supportedValue : null;
 }

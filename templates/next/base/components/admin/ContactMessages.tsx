@@ -7,16 +7,32 @@ import type { ContactMessage } from "@/lib/contact/contact-types";
 
 export function ContactMessages() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    void listContactMessages().then(setMessages);
+    void listContactMessages().then((items) => {
+      setMessages(items);
+      setLoading(false);
+    });
   }, []);
 
   return (
     <Card className="p-5">
-      <h2 className="text-xl font-black text-primary">Contact messages</h2>
+      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 className="text-xl font-black text-primary">Contact messages</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-600">Inbound product questions and catalog inquiries.</p>
+        </div>
+        <span className="rounded-full bg-page px-3 py-1 text-xs font-black text-slate-600">{messages.length} total</span>
+      </div>
       <div className="mt-4 grid gap-3">
-        {messages.length === 0 ? <p className="text-sm text-slate-600">No messages yet.</p> : null}
+        {loading ? <p className="text-sm font-semibold text-slate-600">Loading messages...</p> : null}
+        {!loading && messages.length === 0 ? (
+          <div className="rounded-theme border border-dashed border-slate-300 bg-slate-50 p-5">
+            <p className="font-black text-primary">No messages yet.</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">When visitors submit the contact form, their inquiries will appear here if Firestore is configured.</p>
+          </div>
+        ) : null}
         {messages.map((message) => (
           <article key={message.id} className="rounded-theme border border-slate-200 p-4">
             <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">

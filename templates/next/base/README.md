@@ -2,6 +2,18 @@
 
 Created with Web Template Wizard.
 
+## Project Overview
+
+This is a responsive Next.js website generated for `__APP_DISPLAY_NAME__`. It includes a public website, admin login, CMS-ready content, Firebase Auth, Firestore, Firebase Storage, contact messages, SEO defaults, and theme color settings.
+
+Product Catalog projects include:
+
+- Product and category pages
+- Search, category filters, and sort UI
+- Product detail pages with specifications and inquiry CTA
+- Admin CMS forms for products, categories, catalog copy, and SEO
+- Contact form and admin message inbox
+
 ## Install
 
 ```bash
@@ -10,6 +22,15 @@ npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+## Useful Scripts
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run typecheck
+```
 
 ## Configure Firebase
 
@@ -32,41 +53,75 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_ADMIN_EMAILS=admin@example.com
 ```
 
-`NEXT_PUBLIC_ADMIN_EMAILS` is used by the client-side admin guard. Firestore and Storage rules must also be edited to include the same admin email list.
+The website renders with fallback content when Firebase is not configured. Firebase is required for saving CMS content, products, categories, theme settings, uploaded images, and contact messages.
 
 ## First Admin
 
-For the first release, create the first admin manually in Firebase Authentication:
+For this release, create the first admin manually in Firebase Authentication:
 
 1. Open Firebase Console.
-2. Go to Authentication → Users.
+2. Go to Authentication -> Users.
 3. Add a user with email and password.
 4. Add that email to `NEXT_PUBLIC_ADMIN_EMAILS`.
-5. Add the same email to `firestore.rules` and `storage.rules`.
+5. Replace `admin@example.com` with the same email in `firestore.rules` and `storage.rules`.
 
 This avoids public admin registration. For stricter production setups, migrate the `isAdmin()` rule to Firebase custom claims.
 
 ## Security Rules
 
-Deploy the generated rules from this project:
+Deploy the generated Firestore and Storage rules:
 
 ```bash
 firebase deploy --only firestore:rules,storage
 ```
 
-Before deploying, replace `admin@example.com` in `firestore.rules` and `storage.rules`.
+Before deploying, replace `admin@example.com` in both rule files.
 
 ## Admin Dashboard
 
 Go to `/admin/login`, sign in with the allowlisted admin email, then manage:
 
 - CMS content
+- Products and categories
+- Product images
+- Featured products
+- Product status and specifications
+- Product detail SEO
+- WhatsApp/contact CTA
 - Theme colors
 - Contact messages
+
+## Catalog Content
+
+Product Catalog content uses this Firestore structure:
+
+```text
+siteSettings/
+  theme
+  seo
+  general
+  catalog
+
+cms/
+  productCatalog
+
+products/
+  {productId}
+
+categories/
+  {categoryId}
+
+messages/
+  {messageId}
+```
+
+Use stable product IDs because they become product detail URLs such as `/products/modular-oak-desk`.
 
 ## Theme Colors
 
 Admin users can edit primary, secondary, accent, background, text color, and border radius in `/admin/settings`. Values are saved in Firestore under `siteSettings/theme` and applied to the public website through CSS variables.
+
+If Firebase is not configured yet, the website uses safe default theme values.
 
 ## Deploy
 

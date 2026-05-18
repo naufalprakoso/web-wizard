@@ -26,6 +26,8 @@ npm run dev -- create my-website
 - Firestore and Storage rules
 - `.env.example`
 - Setup README
+- Product search/filter UI for Product Catalog websites
+- Product/category CMS structure for Product Catalog websites
 
 ## Installation
 
@@ -45,8 +47,8 @@ npm run dev -- create my-website
 Generate a specific template:
 
 ```bash
-npm run dev -- create company-site -- --app-type company-profile --frontend next --storage firebase-storage
-npm run dev -- create catalog-site -- --app-type product-catalog --frontend next --storage firebase-storage
+npm run dev -- create company-site --app-type company-profile --frontend next --storage firebase-storage
+npm run dev -- create catalog-site --app-type product-catalog --frontend next --storage firebase-storage
 ```
 
 The generated app then runs with:
@@ -61,8 +63,8 @@ npm run dev
 
 ```bash
 npm run dev -- create my-website
-npm run dev -- create acme-site -- --app-type company-profile
-npm run dev -- create catalog-site -- --app-type product-catalog --frontend next --storage firebase-storage
+npm run dev -- create acme-site --app-type company-profile
+npm run dev -- create catalog-site --app-type product-catalog --frontend next --storage firebase-storage
 ```
 
 The published command target is:
@@ -85,15 +87,19 @@ web-template-wizard create my-website
 
 ## Frontend
 
-- Next.js App Router only
+- Next.js App Router: fully supported
+- React.js: planned
+- Nuxt.js: planned
 
-Passing any other frontend to `--frontend` exits with a clear error.
+If React.js or Nuxt.js is selected, the CLI explains that it is planned and asks whether to continue with Next.js.
 
 ## Storage
 
-- Firebase Storage only
+- Firebase Storage: fully supported
+- Bunny.net: planned
+- No Storage: planned
 
-Passing any other storage adapter to `--storage` exits with a clear error.
+If Bunny.net or No Storage is selected, the CLI explains that it is planned and asks whether to continue with Firebase Storage.
 
 ## Template Architecture
 
@@ -144,7 +150,9 @@ Admin access is based on an email allowlist for this release. The project README
 
 - Optional Firebase custom claims script
 - Sitemap and robots generation
-- Additional app types and adapters can be added later through the same modular template boundary, but they are not exposed by the CLI today.
+- React.js and Nuxt.js frontend adapters
+- Bunny.net and no-storage modes
+- Additional app types through the same modular template boundary
 
 ## Contributing
 

@@ -5,11 +5,15 @@ export const productSchema = z.object({
   published: z.boolean(),
   featured: z.boolean(),
   name: z.string().min(2),
+  shortDescription: z.string().min(10),
   description: z.string().min(10),
   imageUrl: z.string().url().or(z.literal("")),
+  imageAlt: z.string().optional(),
+  imageTone: z.string().optional(),
   category: z.string().min(2),
   price: z.string().optional(),
   status: z.string().min(2),
+  specifications: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })).default([]),
   seoTitle: z.string().min(2),
   seoDescription: z.string().min(10)
 });
@@ -17,6 +21,7 @@ export const productSchema = z.object({
 export const categorySchema = z.object({
   id: z.string().optional(),
   published: z.boolean(),
+  featured: z.boolean().optional(),
   name: z.string().min(2),
   description: z.string().min(2)
 });
@@ -26,6 +31,8 @@ export const productCatalogSchema = z.object({
   headline: z.string().min(4),
   subtitle: z.string().min(10),
   about: z.string().min(10),
+  trustHeadline: z.string().min(4),
+  trustPoints: z.array(z.string().min(2)).default([]),
   whatsappCta: z.string().min(2),
   whatsappUrl: z.string().url().or(z.literal("")),
   seoTitle: z.string().min(4),

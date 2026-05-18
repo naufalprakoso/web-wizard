@@ -35,6 +35,12 @@ export async function addCollectionItem<T extends Record<string, unknown>>(colle
   return item.id;
 }
 
+export async function saveCollectionItem<T extends Record<string, unknown>>(collectionName: string, id: string, data: T): Promise<void> {
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore is not configured.");
+  await setDoc(doc(db, collectionName, id), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+}
+
 export async function updateCollectionItem<T extends Record<string, unknown>>(collectionName: string, id: string, data: T): Promise<void> {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore is not configured.");

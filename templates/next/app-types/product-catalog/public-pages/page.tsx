@@ -4,6 +4,7 @@ import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { CatalogExplorer, ProductVisual } from "@/components/sections/CatalogExplorer";
 import { getCmsDocument, listCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { defaultCategories, defaultProducts, productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
@@ -20,73 +21,106 @@ export default async function ProductCatalogPage() {
     listCollection<Product>("products"),
     listCollection<Category>("categories")
   ]);
-  const products = (dbProducts.length > 0 ? dbProducts : defaultProducts).filter((item) => item.published);
+  const products = normalizeProducts(dbProducts.length > 0 ? dbProducts : defaultProducts).filter((item) => item.published);
   const categories = (dbCategories.length > 0 ? dbCategories : defaultCategories).filter((item) => item.published);
   const featured = products.filter((product) => product.featured);
+  const heroProducts = (featured.length > 0 ? featured : products).slice(0, 3);
 
   return (
     <>
       <PublicHeader />
       <main>
-        <section className="bg-stone-50 py-16">
-          <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <section className="overflow-hidden bg-page py-14 md:py-20">
+          <div className="section-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
             <div>
               <p className="text-sm font-black uppercase tracking-widest text-accent">Product catalog</p>
-              <h1 className="mt-4 text-5xl font-black leading-tight text-primary md:text-6xl">{content.headline}</h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-600">{content.subtitle}</p>
+              <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight text-primary sm:text-5xl lg:text-6xl">{content.headline}</h1>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{content.subtitle}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="#products">Browse products</ButtonLink>
                 <ButtonLink href={content.whatsappUrl} variant="secondary">WhatsApp us</ButtonLink>
               </div>
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {["CMS-ready", "Inquiry-first", "Mobile polished"].map((item) => (
+                  <div key={item} className="rounded-theme border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-black text-primary">{item}</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">Built into the generated catalog.</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {featured.slice(0, 2).map((product) => (
-                <img key={product.name} className="aspect-[4/5] w-full rounded-theme object-cover shadow-xl" src={product.imageUrl} alt="" />
-              ))}
+            <div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] sm:items-end">
+              {heroProducts[0] ? (
+                <div className="sm:pb-10">
+                  <ProductVisual product={heroProducts[0]} className="aspect-[4/5] w-full rounded-theme shadow-xl" />
+                </div>
+              ) : null}
+              <div className="grid gap-4">
+                {heroProducts.slice(1, 3).map((product) => (
+                  <ProductVisual key={product.id ?? product.name} product={product} className="aspect-[16/11] w-full rounded-theme shadow-lg" />
+                ))}
+                <div className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm">
+                  <p className="text-sm font-bold uppercase tracking-widest text-accent">Catalog note</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{content.about}</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="py-16">
+        <section id="categories" className="py-16 md:py-20">
           <div className="section-shell">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-sm font-black uppercase tracking-widest text-accent">Categories</p>
-                <h2 className="mt-3 text-4xl font-black text-primary">Shop by intent.</h2>
+                <h2 className="mt-3 text-3xl font-black text-primary md:text-4xl">Browse by category.</h2>
               </div>
-              <p className="max-w-xl leading-7 text-stone-600">{content.about}</p>
+              <ButtonLink href="/products" variant="ghost" className="justify-start md:justify-center">View all products</ButtonLink>
             </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {categories.map((category) => (
-                <Card key={category.name} className="p-5">
-                  <h3 className="text-xl font-black text-primary">{category.name}</h3>
-                  <p className="mt-3 leading-7 text-stone-600">{category.description}</p>
-                </Card>
-              ))}
+            {categories.length === 0 ? (
+              <Card className="mt-8 p-6">
+                <p className="font-black text-primary">No categories published yet.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Add categories in the admin CMS to guide visitors through your catalog.</p>
+              </Card>
+            ) : (
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
+                {categories.map((category) => (
+                  <Card key={category.id ?? category.name} className="p-5 transition hover:-translate-y-1 hover:border-accent hover:shadow-lg">
+                    <p className="text-xs font-black uppercase tracking-widest text-accent">{category.featured ? "Featured" : "Category"}</p>
+                    <h3 className="mt-3 text-xl font-black text-primary">{category.name}</h3>
+                    <p className="mt-3 leading-7 text-slate-600">{category.description}</p>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section id="products" className="bg-slate-50 py-16 md:py-20">
+          <div className="section-shell">
+            <div className="max-w-2xl">
+              <p className="text-sm font-black uppercase tracking-widest text-accent">Products</p>
+              <h2 className="mt-3 text-3xl font-black text-primary md:text-4xl">Search the catalog.</h2>
+              <p className="mt-4 leading-7 text-slate-600">Filter by category, search by product detail, and sort the catalog without turning this into a checkout flow.</p>
+            </div>
+            <div className="mt-8">
+              <CatalogExplorer products={products} categories={categories} ctaLabel={content.whatsappCta} />
             </div>
           </div>
         </section>
 
-        <section id="products" className="bg-white py-16">
-          <div className="section-shell">
-            <div className="max-w-2xl">
-              <p className="text-sm font-black uppercase tracking-widest text-accent">Products</p>
-              <h2 className="mt-3 text-4xl font-black text-primary">Featured catalog.</h2>
+        <section id="about" className="py-16 md:py-20">
+          <div className="section-shell grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div>
+              <p className="text-sm font-black uppercase tracking-widest text-accent">Why choose us</p>
+              <h2 className="mt-3 text-3xl font-black text-primary md:text-4xl">{content.trustHeadline}</h2>
             </div>
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <a key={product.id ?? product.name} href={`/products/${product.id ?? encodeURIComponent(product.name)}`} className="group rounded-theme border border-stone-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                  <img className="aspect-[4/3] w-full rounded-theme object-cover" src={product.imageUrl} alt="" />
-                  <div className="p-2">
-                    <div className="mt-3 flex items-center justify-between gap-3">
-                      <p className="text-xs font-black uppercase tracking-widest text-accent">{product.category}</p>
-                      {product.price ? <p className="font-black text-primary">{product.price}</p> : null}
-                    </div>
-                    <h3 className="mt-2 text-xl font-black text-primary">{product.name}</h3>
-                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-stone-600">{product.description}</p>
-                    <p className="mt-4 text-sm font-black text-accent">{content.whatsappCta}</p>
-                  </div>
-                </a>
+            <div className="grid gap-4 md:grid-cols-3">
+              {(content.trustPoints.length > 0 ? content.trustPoints : productCatalogDefaultContent.trustPoints).map((point) => (
+                <Card key={point} className="p-5">
+                  <div className="mb-4 h-1.5 w-12 rounded-full bg-secondary" />
+                  <p className="text-sm font-bold leading-6 text-slate-700">{point}</p>
+                </Card>
               ))}
             </div>
           </div>
@@ -97,4 +131,12 @@ export default async function ProductCatalogPage() {
       <PublicFooter />
     </>
   );
+}
+
+function normalizeProducts(products: Product[]): Product[] {
+  return products.map((product) => ({
+    ...product,
+    shortDescription: product.shortDescription || product.description,
+    specifications: product.specifications ?? []
+  }));
 }
