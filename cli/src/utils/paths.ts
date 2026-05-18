@@ -12,5 +12,5 @@ export function getPackageRoot(): string {
     currentDir = path.dirname(currentDir);
   }
 
-  throw new Error("Unable to locate Web Wizard package root.");
+  throw new Error("Unable to locate Web Template Wizard package root.");
 }

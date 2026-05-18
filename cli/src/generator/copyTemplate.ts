@@ -1,3 +1,4 @@
+import path from "node:path";
 import fs from "fs-extra";
 
 type CopyTemplateOptions = {
@@ -9,7 +10,8 @@ export async function copyTemplate(sourceDir: string, targetDir: string, options
     overwrite: true,
     errorOnExist: false,
     filter: (source) => {
-      if (source.includes("node_modules")) return false;
+      const relativeSource = path.relative(sourceDir, source);
+      if (relativeSource.split(path.sep).includes("node_modules")) return false;
       if (options.skipRootReadme && source === `${sourceDir}/README.md`) return false;
       return true;
     }

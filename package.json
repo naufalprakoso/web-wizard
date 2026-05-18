@@ -1,10 +1,10 @@
 {
-  "name": "web-wizard",
-  "version": "0.1.0",
-  "description": "Open-source CLI to generate responsive websites with CMS, admin dashboard, Firebase, and theme settings.",
+  "name": "web-template-wizard",
+  "version": "0.1.1",
+  "description": "Open-source CLI to generate responsive website templates with CMS, admin dashboard, Firebase, and theme settings.",
   "type": "module",
   "bin": {
-    "web-wizard": "./dist/index.js"
+    "web-template-wizard": "dist/index.js"
   },
   "files": [
     "dist",

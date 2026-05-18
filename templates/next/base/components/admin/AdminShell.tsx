@@ -33,7 +33,7 @@ export function AdminShell({ children, title }: { children: React.ReactNode; tit
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:flex-row md:p-6">
         <aside className="rounded-theme border border-slate-200 bg-white p-3 shadow-sm md:sticky md:top-6 md:h-[calc(100vh-48px)] md:w-64">
           <div className="px-3 py-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-accent">Web Wizard</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-accent">Web Template Wizard</p>
             <p className="mt-1 text-lg font-black text-primary">Admin</p>
           </div>
           <nav className="grid grid-cols-3 gap-2 md:grid-cols-1">

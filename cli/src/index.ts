@@ -5,8 +5,8 @@ import { createCommand } from "./commands/create.js";
 const program = new Command();
 
 program
-  .name("web-wizard")
-  .description("Generate responsive websites with CMS, admin dashboard, Firebase, and customizable themes.")
+  .name("web-template-wizard")
+  .description("Generate responsive website templates with CMS, admin dashboard, Firebase, and customizable themes.")
   .version("0.1.0");
 
 program

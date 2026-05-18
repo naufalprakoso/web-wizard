@@ -78,11 +78,11 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
   }
 
   if (frontend !== "next") {
-    throw new Error("Web Wizard currently supports Next.js only. Use --frontend next.");
+    throw new Error("Web Template Wizard currently supports Next.js only. Use --frontend next.");
   }
 
   if (storage !== "firebase-storage") {
-    throw new Error("Web Wizard currently supports Firebase Storage only. Use --storage firebase-storage.");
+    throw new Error("Web Template Wizard currently supports Firebase Storage only. Use --storage firebase-storage.");
   }
 
   return {

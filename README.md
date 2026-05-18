@@ -1,9 +1,9 @@
-# Web Wizard
+# Web Template Wizard
 
-Web Wizard is an open-source CLI for building responsive websites with CMS, admin dashboard, Firebase, and theme settings.
+Web Template Wizard is an open-source CLI for building responsive website templates with CMS, admin dashboard, Firebase, and theme settings.
 
 ```bash
-npx web-wizard create my-website
+npx web-template-wizard create my-website
 ```
 
 For local development:
@@ -68,13 +68,13 @@ npm run dev -- create catalog-site -- --app-type product-catalog --frontend next
 The published command target is:
 
 ```bash
-npx web-wizard create my-website
+npx web-template-wizard create my-website
 ```
 
 Package builds expose the executable as:
 
 ```bash
-web-wizard create my-website
+web-template-wizard create my-website
 ```
 
 ## Supported App Types
@@ -97,7 +97,7 @@ Passing any other storage adapter to `--storage` exits with a clear error.
 
 ## Template Architecture
 
-Web Wizard uses a modular template system to avoid a separate full project template for every combination:
+Web Template Wizard uses a modular template system to avoid a separate full project template for every combination:
 
 ```text
 Core Engine

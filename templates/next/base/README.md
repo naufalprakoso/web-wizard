@@ -1,6 +1,6 @@
 # __PROJECT_NAME__
 
-Created with Web Wizard.
+Created with Web Template Wizard.
 
 ## Install
 
