@@ -2,6 +2,22 @@
   "name": "web-template-wizard",
   "version": "0.1.1",
   "description": "Open-source CLI to generate responsive website templates with CMS, admin dashboard, Firebase, and theme settings.",
+  "homepage": "https://github.com/naufalprakoso/web-wizard#readme",
+  "bugs": {
+    "url": "https://github.com/naufalprakoso/web-wizard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naufalprakoso/web-wizard.git"
+  },
+  "keywords": [
+    "website",
+    "template",
+    "generator",
+    "nextjs",
+    "firebase",
+    "cms"
+  ],
   "type": "module",
   "bin": {
     "web-template-wizard": "dist/index.js"

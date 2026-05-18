@@ -1,0 +1,43 @@
+name: Bug report
+description: Report a reproducible problem with Web Template Wizard.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Run `npx web-template-wizard --version`.
+      placeholder: "0.1.1"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the exact command and options you used.
+      placeholder: |
+        1. Run `npx web-template-wizard create demo --app-type landing-page`
+        2. Run `cd demo && npm install && npm run dev`
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node.js version, and npm version.
+      placeholder: "macOS 15, Node 22, npm 10"
