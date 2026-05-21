@@ -39,9 +39,14 @@ export function ThemeSettingsForm() {
       setStatus("Use valid hex colors and a CSS radius value.");
       return;
     }
-    await saveThemeSettings(parsed.data);
-    applyPreview(parsed.data);
-    setStatus("Theme saved and preview updated.");
+    try {
+      await saveThemeSettings(parsed.data);
+      applyPreview(parsed.data);
+      setStatus("Theme saved and preview updated.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to save theme settings.";
+      setStatus(message);
+    }
   }
 
   return (

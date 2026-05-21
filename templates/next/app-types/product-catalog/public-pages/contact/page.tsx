@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { getCmsDocument } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
-  return buildMetadata(`Contact | ${content.seoTitle}`, "Ask about products, categories, availability, or catalog support.");
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  return buildMetadata(`Contact | ${content?.seoTitle ?? productCatalogDefaultContent.seoTitle}`, "Ask about products, categories, availability, or catalog support.");
 }
 
 export default async function ContactPage() {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  if (!content) notFound();
 
   return (
     <>

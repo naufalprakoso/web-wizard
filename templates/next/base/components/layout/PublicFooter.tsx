@@ -1,4 +1,4 @@
-const appType = "__APP_TYPE__";
+const appType: string = "__APP_TYPE__";
 
 export function PublicFooter() {
   const productCatalog = appType === "product-catalog";

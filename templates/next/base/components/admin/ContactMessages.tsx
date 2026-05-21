@@ -8,12 +8,19 @@ import type { ContactMessage } from "@/lib/contact/contact-types";
 export function ContactMessages() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    void listContactMessages().then((items) => {
-      setMessages(items);
-      setLoading(false);
-    });
+    void listContactMessages()
+      .then((items) => {
+        setMessages(items);
+        setError("");
+      })
+      .catch((messagesError) => {
+        const message = messagesError instanceof Error ? messagesError.message : "Unable to load contact messages.";
+        setError(message);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -27,7 +34,8 @@ export function ContactMessages() {
       </div>
       <div className="mt-4 grid gap-3">
         {loading ? <p className="text-sm font-semibold text-slate-600">Loading messages...</p> : null}
-        {!loading && messages.length === 0 ? (
+        {error ? <p className="rounded-theme bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p> : null}
+        {!loading && !error && messages.length === 0 ? (
           <div className="rounded-theme border border-dashed border-slate-300 bg-slate-50 p-5">
             <p className="font-black text-primary">No messages yet.</p>
             <p className="mt-2 text-sm leading-6 text-slate-600">When visitors submit the contact form, their inquiries will appear here if Firestore is configured.</p>

@@ -12,7 +12,7 @@ export async function copyTemplate(sourceDir: string, targetDir: string, options
     filter: (source) => {
       const relativeSource = path.relative(sourceDir, source);
       if (relativeSource.split(path.sep).includes("node_modules")) return false;
-      if (options.skipRootReadme && source === `${sourceDir}/README.md`) return false;
+      if (options.skipRootReadme && path.relative(sourceDir, source) === "README.md") return false;
       return true;
     }
   });

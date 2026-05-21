@@ -122,9 +122,9 @@ export function ProductVisual({ product, className = "" }: { product: Product; c
 
   return (
     <div className={`${className} relative overflow-hidden bg-gradient-to-br ${product.imageTone || "from-slate-100 via-stone-100 to-zinc-200"}`}>
-      <div className="absolute left-[12%] top-[14%] h-24 w-24 rounded-full bg-white/50 blur-xl" />
-      <div className="absolute bottom-[18%] right-[12%] h-28 w-28 rounded-full bg-white/40 blur-2xl" />
-      <div className="absolute inset-x-8 bottom-8 rounded-theme border border-white/60 bg-white/70 p-4 shadow-sm backdrop-blur">
+      <div className="absolute left-[12%] top-[14%] h-[42%] w-[52%] rotate-[-5deg] rounded-theme border border-white/70 bg-white/45 shadow-sm" />
+      <div className="absolute right-[13%] top-[22%] h-[48%] w-[30%] rotate-[7deg] rounded-theme border border-white/70 bg-white/35 shadow-sm" />
+      <div className="absolute inset-x-8 bottom-8 rounded-theme border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur">
         <p className="text-xs font-black uppercase tracking-widest text-accent">{product.category}</p>
         <p className="mt-1 text-lg font-black text-primary">{product.name}</p>
       </div>

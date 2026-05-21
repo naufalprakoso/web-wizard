@@ -5,7 +5,8 @@ import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProductVisual } from "@/components/sections/CatalogExplorer";
-import { getCmsDocument, getCollectionItem, listCollection } from "@/lib/cms/cms-service";
+import { hasFirebaseConfig } from "@/lib/firebase/client";
+import { getPublishedCmsDocument, getPublishedCollectionItem, listPublishedCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { defaultProducts, productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
 import type { Product } from "@/lib/app-type/cms/schema";
@@ -15,8 +16,11 @@ type Props = {
 };
 
 async function findProduct(slug: string): Promise<Product | null> {
-  const fromDb = await getCollectionItem<Product>("products", slug);
-  if (fromDb?.published) return normalizeProduct(fromDb);
+  if (hasFirebaseConfig()) {
+    const fromDb = await getPublishedCollectionItem<Product>("products", slug);
+    return fromDb ? normalizeProduct(fromDb) : null;
+  }
+
   const fallback = defaultProducts.find((product) => product.id === slug && product.published);
   return fallback ? normalizeProduct(fallback) : null;
 }
@@ -32,13 +36,13 @@ export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
   const [product, content, dbProducts] = await Promise.all([
     findProduct(slug),
-    getCmsDocument("productCatalog", productCatalogDefaultContent),
-    listCollection<Product>("products")
+    getPublishedCmsDocument("productCatalog", productCatalogDefaultContent),
+    listPublishedCollection<Product>("products")
   ]);
 
-  if (!product) notFound();
+  if (!product || !content) notFound();
 
-  const allProducts = (dbProducts.length > 0 ? dbProducts : defaultProducts).map(normalizeProduct).filter((item) => item.published);
+  const allProducts = (dbProducts ?? defaultProducts).map(normalizeProduct).filter((item) => item.published);
   const relatedProducts = allProducts.filter((item) => item.id !== product.id && item.category === product.category).slice(0, 3);
 
   return (
@@ -78,7 +82,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <p className="mt-5 text-lg font-semibold leading-8 text-slate-700">{product.shortDescription}</p>
             <p className="mt-4 leading-8 text-slate-600">{product.description}</p>
             <div className="mt-7 grid gap-3">
-              <ButtonLink className="w-full sm:w-auto" href={content.whatsappUrl}>{content.whatsappCta}</ButtonLink>
+              <ButtonLink className="w-full sm:w-auto" href={content.whatsappUrl || "/contact"}>{content.whatsappCta}</ButtonLink>
               <a className="text-sm font-bold text-accent" href="/products">Back to catalog</a>
             </div>
           </section>

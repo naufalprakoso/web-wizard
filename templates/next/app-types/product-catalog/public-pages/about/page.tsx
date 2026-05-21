@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { Card } from "@/components/ui/Card";
-import { getCmsDocument } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
-  return buildMetadata(`About | ${content.seoTitle}`, content.about);
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  return buildMetadata(`About | ${content?.seoTitle ?? productCatalogDefaultContent.seoTitle}`, content?.about ?? productCatalogDefaultContent.about);
 }
 
 export default async function AboutPage() {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  if (!content) notFound();
   const trustPoints = content.trustPoints.length > 0 ? content.trustPoints : productCatalogDefaultContent.trustPoints;
 
   return (

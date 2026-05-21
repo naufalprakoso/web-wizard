@@ -44,5 +44,6 @@ export async function createCommand(projectName: string | undefined, options: Cr
   }
 
   logger.success(`Created ${answers.displayName} in ${targetDir}`);
-  logger.info(`Next steps: cd ${safeProjectName} && npm install && npm run dev`);
+  logger.info(`Template: ${answers.appDisplayName} · Frontend: Next.js · Storage: Firebase Storage`);
+  logger.info(options.install ? `Next steps: cd ${safeProjectName} && npm run dev` : `Next steps: cd ${safeProjectName} && npm install && npm run dev`);
 }

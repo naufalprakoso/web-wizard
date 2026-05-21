@@ -17,16 +17,7 @@ export type GenerateProjectOptions = {
   targetDir: string;
 };
 
-const requiredModules = [
-  "firebase-auth",
-  "firebase-storage",
-  "firestore-rules",
-  "admin-dashboard",
-  "cms",
-  "theme-settings",
-  "contact-form",
-  "seo"
-] as const;
+const moduleTemplates = ["firestore-rules"] as const;
 
 export async function generateProject(options: GenerateProjectOptions): Promise<void> {
   const spinner = ora("Generating project").start();
@@ -37,7 +28,7 @@ export async function generateProject(options: GenerateProjectOptions): Promise<
     await fs.ensureDir(options.targetDir);
     await copyTemplate(path.join(nextRoot, "base"), options.targetDir);
 
-    for (const moduleName of requiredModules) {
+    for (const moduleName of moduleTemplates) {
       await mergeModuleTemplate(path.join(nextRoot, "modules", moduleName), options.targetDir);
     }
 

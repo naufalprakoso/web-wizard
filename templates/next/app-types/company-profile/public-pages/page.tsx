@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { getCmsDocument } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { companyProfileDefaultContent } from "@/lib/app-type/cms/default-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("companyProfile", companyProfileDefaultContent);
-  return buildMetadata(content.seoTitle, content.seoDescription);
+  const content = await getPublishedCmsDocument("companyProfile", companyProfileDefaultContent);
+  return buildMetadata(content?.seoTitle ?? companyProfileDefaultContent.seoTitle, content?.seoDescription ?? companyProfileDefaultContent.seoDescription);
 }
 
 export default async function CompanyProfilePage() {
-  const content = await getCmsDocument("companyProfile", companyProfileDefaultContent);
+  const content = await getPublishedCmsDocument("companyProfile", companyProfileDefaultContent);
+  if (!content) notFound();
 
   return (
     <>

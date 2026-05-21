@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 
-const appType = "__APP_TYPE__";
+const appType: string = "__APP_TYPE__";
 
 const defaultNavItems = [
   { label: "Home", href: "/" },

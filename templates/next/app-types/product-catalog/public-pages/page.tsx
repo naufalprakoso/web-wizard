@@ -1,28 +1,31 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { CatalogExplorer, ProductVisual } from "@/components/sections/CatalogExplorer";
-import { getCmsDocument, listCollection } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument, listPublishedCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { defaultCategories, defaultProducts, productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
 import type { Category, Product } from "@/lib/app-type/cms/schema";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
-  return buildMetadata(content.seoTitle, content.seoDescription);
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  return buildMetadata(content?.seoTitle ?? productCatalogDefaultContent.seoTitle, content?.seoDescription ?? productCatalogDefaultContent.seoDescription);
 }
 
 export default async function ProductCatalogPage() {
   const [content, dbProducts, dbCategories] = await Promise.all([
-    getCmsDocument("productCatalog", productCatalogDefaultContent),
-    listCollection<Product>("products"),
-    listCollection<Category>("categories")
+    getPublishedCmsDocument("productCatalog", productCatalogDefaultContent),
+    listPublishedCollection<Product>("products"),
+    listPublishedCollection<Category>("categories")
   ]);
-  const products = normalizeProducts(dbProducts.length > 0 ? dbProducts : defaultProducts).filter((item) => item.published);
-  const categories = (dbCategories.length > 0 ? dbCategories : defaultCategories).filter((item) => item.published);
+  if (!content) notFound();
+
+  const products = normalizeProducts(dbProducts ?? defaultProducts).filter((item) => item.published);
+  const categories = (dbCategories ?? defaultCategories).filter((item) => item.published);
   const featured = products.filter((product) => product.featured);
   const heroProducts = (featured.length > 0 ? featured : products).slice(0, 3);
 
@@ -38,7 +41,7 @@ export default async function ProductCatalogPage() {
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{content.subtitle}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="#products">Browse products</ButtonLink>
-                <ButtonLink href={content.whatsappUrl} variant="secondary">WhatsApp us</ButtonLink>
+                <ButtonLink href={content.whatsappUrl || "/contact"} variant="secondary">{content.whatsappUrl ? "WhatsApp us" : "Contact us"}</ButtonLink>
               </div>
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {["CMS-ready", "Inquiry-first", "Mobile polished"].map((item) => (

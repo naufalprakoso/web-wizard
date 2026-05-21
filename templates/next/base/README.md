@@ -55,6 +55,8 @@ NEXT_PUBLIC_ADMIN_EMAILS=admin@example.com
 
 The website renders with fallback content when Firebase is not configured. Firebase is required for saving CMS content, products, categories, theme settings, uploaded images, and contact messages.
 
+`NEXT_PUBLIC_ADMIN_EMAILS` controls the client-side admin gate. It does not update deployed Firestore or Storage rules by itself.
+
 ## First Admin
 
 For this release, create the first admin manually in Firebase Authentication:
@@ -75,7 +77,14 @@ Deploy the generated Firestore and Storage rules:
 firebase deploy --only firestore:rules,storage
 ```
 
-Before deploying, replace `admin@example.com` in both rule files.
+Before deploying, replace `admin@example.com` in both rule files. If the env allowlist and rule allowlist do not match, the admin UI may let you sign in while Firestore or Storage writes are rejected.
+
+## Troubleshooting
+
+- Public site is visible but CMS saves fail: check `.env.local` and confirm Firestore is enabled.
+- Admin sign-in works but saves/uploads fail: keep `NEXT_PUBLIC_ADMIN_EMAILS`, `firestore.rules`, and `storage.rules` allowlists in sync.
+- Contact form says Firestore is not configured: add Firebase Web App values to `.env.local` and restart `npm run dev`.
+- Product detail 404: publish the product and keep its stable slug/ID.
 
 ## Admin Dashboard
 

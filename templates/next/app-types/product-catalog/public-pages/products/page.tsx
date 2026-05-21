@@ -2,24 +2,27 @@ import type { Metadata } from "next";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { CatalogExplorer } from "@/components/sections/CatalogExplorer";
-import { getCmsDocument, listCollection } from "@/lib/cms/cms-service";
+import { notFound } from "next/navigation";
+import { getPublishedCmsDocument, listPublishedCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { defaultCategories, defaultProducts, productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
 import type { Category, Product } from "@/lib/app-type/cms/schema";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("productCatalog", productCatalogDefaultContent);
-  return buildMetadata(`Products | ${content.seoTitle}`, content.seoDescription);
+  const content = await getPublishedCmsDocument("productCatalog", productCatalogDefaultContent);
+  return buildMetadata(`Products | ${content?.seoTitle ?? productCatalogDefaultContent.seoTitle}`, content?.seoDescription ?? productCatalogDefaultContent.seoDescription);
 }
 
 export default async function ProductsPage() {
   const [content, dbProducts, dbCategories] = await Promise.all([
-    getCmsDocument("productCatalog", productCatalogDefaultContent),
-    listCollection<Product>("products"),
-    listCollection<Category>("categories")
+    getPublishedCmsDocument("productCatalog", productCatalogDefaultContent),
+    listPublishedCollection<Product>("products"),
+    listPublishedCollection<Category>("categories")
   ]);
-  const products = normalizeProducts(dbProducts.length > 0 ? dbProducts : defaultProducts).filter((item) => item.published);
-  const categories = (dbCategories.length > 0 ? dbCategories : defaultCategories).filter((item) => item.published);
+  if (!content) notFound();
+
+  const products = normalizeProducts(dbProducts ?? defaultProducts).filter((item) => item.published);
+  const categories = (dbCategories ?? defaultCategories).filter((item) => item.published);
 
   return (
     <>

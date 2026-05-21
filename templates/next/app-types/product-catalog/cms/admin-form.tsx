@@ -22,15 +22,20 @@ export function AppContentForm() {
       getCmsDocument("productCatalog", productCatalogDefaultContent),
       listCollection<Product>("products"),
       listCollection<Category>("categories")
-    ]).then(([cms, productItems, categoryItems]) => {
-      setContent({
-        ...productCatalogDefaultContent,
-        ...cms,
-        trustPoints: cms.trustPoints ?? productCatalogDefaultContent.trustPoints
+    ])
+      .then(([cms, productItems, categoryItems]) => {
+        setContent({
+          ...productCatalogDefaultContent,
+          ...cms,
+          trustPoints: cms.trustPoints ?? productCatalogDefaultContent.trustPoints
+        });
+        if (productItems.length > 0) setProducts(productItems.map(normalizeProduct));
+        if (categoryItems.length > 0) setCategories(categoryItems);
+      })
+      .catch((error) => {
+        const message = error instanceof Error ? error.message : "Unable to load CMS data.";
+        setStatus(message);
       });
-      if (productItems.length > 0) setProducts(productItems.map(normalizeProduct));
-      if (categoryItems.length > 0) setCategories(categoryItems);
-    });
   }, []);
 
   async function saveOverview() {
@@ -39,8 +44,13 @@ export function AppContentForm() {
       setStatus("Complete catalog overview, trust, CTA, and SEO fields before saving.");
       return;
     }
-    await saveCmsDocument("productCatalog", parsed.data);
-    setStatus("Catalog overview saved.");
+    try {
+      await saveCmsDocument("productCatalog", parsed.data);
+      setStatus("Catalog overview saved.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to save catalog overview.";
+      setStatus(message);
+    }
   }
 
   async function saveProduct(product: Product) {
@@ -50,9 +60,14 @@ export function AppContentForm() {
       return;
     }
     const id = product.id?.trim() || slugify(product.name);
-    await saveCollectionItem("products", id, { ...parsed.data, id });
-    setProducts((items) => items.map((item) => (item === product ? { ...parsed.data, id } : item)));
-    setStatus(`Product "${parsed.data.name}" saved.`);
+    try {
+      await saveCollectionItem("products", id, { ...parsed.data, id });
+      setProducts((items) => items.map((item) => (item === product ? { ...parsed.data, id } : item)));
+      setStatus(`Product "${parsed.data.name}" saved.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to save product.";
+      setStatus(message);
+    }
   }
 
   async function saveCategory(category: Category) {
@@ -62,9 +77,14 @@ export function AppContentForm() {
       return;
     }
     const id = category.id?.trim() || slugify(category.name);
-    await saveCollectionItem("categories", id, { ...parsed.data, id });
-    setCategories((items) => items.map((item) => (item === category ? { ...parsed.data, id } : item)));
-    setStatus(`Category "${parsed.data.name}" saved.`);
+    try {
+      await saveCollectionItem("categories", id, { ...parsed.data, id });
+      setCategories((items) => items.map((item) => (item === category ? { ...parsed.data, id } : item)));
+      setStatus(`Category "${parsed.data.name}" saved.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to save category.";
+      setStatus(message);
+    }
   }
 
   return (
@@ -91,7 +111,7 @@ export function AppContentForm() {
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
               <h2 className="text-xl font-black text-primary">Catalog overview</h2>
-              <p className="mt-1 text-sm leading-6 text-slate-600">Hero copy, trust messaging, WhatsApp CTA, and SEO defaults.</p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">Hero copy, trust messaging, inquiry CTA, and SEO defaults.</p>
             </div>
             <label className="flex items-center gap-3 rounded-theme border border-slate-200 px-3 py-2 text-sm font-bold text-slate-700">
               <input type="checkbox" checked={content.published} onChange={(event) => setContent({ ...content, published: event.target.checked })} />
@@ -100,8 +120,8 @@ export function AppContentForm() {
           </div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <TextField label="Headline" value={content.headline} onChange={(headline) => setContent({ ...content, headline })} />
-            <TextField label="WhatsApp CTA" value={content.whatsappCta} onChange={(whatsappCta) => setContent({ ...content, whatsappCta })} />
-            <TextField label="WhatsApp URL" value={content.whatsappUrl} onChange={(whatsappUrl) => setContent({ ...content, whatsappUrl })} />
+            <TextField label="Inquiry CTA" value={content.whatsappCta} onChange={(whatsappCta) => setContent({ ...content, whatsappCta })} />
+            <TextField label="Optional WhatsApp URL" value={content.whatsappUrl} onChange={(whatsappUrl) => setContent({ ...content, whatsappUrl })} />
             <TextField label="SEO title" value={content.seoTitle} onChange={(seoTitle) => setContent({ ...content, seoTitle })} />
             <TextArea label="Subtitle" value={content.subtitle} onChange={(subtitle) => setContent({ ...content, subtitle })} />
             <TextArea label="About" value={content.about} onChange={(about) => setContent({ ...content, about })} />

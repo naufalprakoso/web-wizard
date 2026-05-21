@@ -19,8 +19,9 @@ export function ContactSection({ title = "Start the conversation", subtitle = "T
       });
       event.currentTarget.reset();
       setStatus("Message sent. We will reply soon.");
-    } catch {
-      setStatus("Check your details and try again.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Check your details and try again.";
+      setStatus(message);
     }
   }
 

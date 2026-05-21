@@ -12,7 +12,7 @@ export const productCatalogDefaultContent: ProductCatalogContent = {
     "Responsive layouts tuned for mobile browsing"
   ],
   whatsappCta: "Ask about this product",
-  whatsappUrl: "https://wa.me/6200000000000",
+  whatsappUrl: "",
   seoTitle: "Premium Product Catalog",
   seoDescription: "A responsive product catalog website with CMS, Firebase, product management, and contact CTAs."
 };

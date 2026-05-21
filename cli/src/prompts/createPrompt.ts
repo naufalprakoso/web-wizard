@@ -42,17 +42,7 @@ const storageChoices = [
   { title: "No Storage", description: "Planned", value: "none" }
 ];
 
-const includeChoices = [
-  { title: "Admin Dashboard", value: "admin-dashboard", selected: true },
-  { title: "CMS", value: "cms", selected: true },
-  { title: "Firebase Auth", value: "firebase-auth", selected: true },
-  { title: "Contact Form", value: "contact-form", selected: true },
-  { title: "SEO Setup", value: "seo", selected: true },
-  { title: "Theme Color Settings", value: "theme-settings", selected: true }
-];
-
 export async function createPrompt(input: CreatePromptInput): Promise<CreatePromptResult | null> {
-  const fullySpecified = Boolean(input.projectName && input.appType && input.frontend && input.storage);
   const firstPass = await prompts(
     [
       {
@@ -82,13 +72,6 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
         message: "Storage",
         choices: storageChoices,
         initial: 0
-      },
-      {
-        type: fullySpecified ? null : "multiselect",
-        name: "includeOptions",
-        message: "Include options",
-        choices: includeChoices,
-        instructions: false
       }
     ],
     { onCancel: () => true }
@@ -128,12 +111,6 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
   });
   if (!selectedStorage) return null;
 
-  const includeOptions = (firstPass.includeOptions as string[] | undefined) ?? includeChoices.map((choice) => choice.value);
-  const missingOptions = includeChoices.filter((choice) => !includeOptions.includes(choice.value));
-  if (missingOptions.length > 0) {
-    console.log("For this MVP, all include options are generated so the project stays complete and runnable.");
-  }
-
   return {
     projectName,
     displayName: toDisplayName(projectName),
@@ -168,6 +145,11 @@ async function resolvePlannedChoice<TSupported extends "next" | "firebase-storag
   if (value === supportedValue) return supportedValue;
 
   const friendlyName = value === "react" ? "React.js" : value === "nuxt" ? "Nuxt.js" : value === "bunny" ? "Bunny.net" : value === "none" ? "No Storage" : value;
+  if (!process.stdin.isTTY) {
+    console.warn(`${kind} option "${friendlyName}" is planned. Generating the stable ${supportedLabel} template instead.`);
+    return supportedValue;
+  }
+
   const answer = await prompts(
     {
       type: "confirm",

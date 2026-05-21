@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { getCmsDocument } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { landingPageDefaultContent } from "@/lib/app-type/cms/default-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCmsDocument("landingPage", landingPageDefaultContent);
-  return buildMetadata(content.seoTitle, content.seoDescription);
+  const content = await getPublishedCmsDocument("landingPage", landingPageDefaultContent);
+  return buildMetadata(content?.seoTitle ?? landingPageDefaultContent.seoTitle, content?.seoDescription ?? landingPageDefaultContent.seoDescription);
 }
 
 export default async function LandingPage() {
-  const content = await getCmsDocument("landingPage", landingPageDefaultContent);
+  const content = await getPublishedCmsDocument("landingPage", landingPageDefaultContent);
+  if (!content) notFound();
 
   return (
     <>
@@ -32,7 +34,6 @@ export default async function LandingPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-secondary" />
               <img className="relative aspect-[4/3] w-full rounded-theme object-cover shadow-2xl" src={content.heroImage} alt="" />
             </div>
           </div>

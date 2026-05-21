@@ -91,7 +91,7 @@ web-template-wizard create my-website
 - React.js: planned
 - Nuxt.js: planned
 
-If React.js or Nuxt.js is selected, the CLI explains that it is planned and asks whether to continue with Next.js.
+If React.js or Nuxt.js is selected interactively, the CLI explains that it is planned and asks whether to continue with Next.js. In non-interactive/scripted runs, it prints a warning and generates the stable Next.js template instead so automation does not hang.
 
 ## Storage
 
@@ -99,7 +99,7 @@ If React.js or Nuxt.js is selected, the CLI explains that it is planned and asks
 - Bunny.net: planned
 - No Storage: planned
 
-If Bunny.net or No Storage is selected, the CLI explains that it is planned and asks whether to continue with Firebase Storage.
+If Bunny.net or No Storage is selected interactively, the CLI explains that it is planned and asks whether to continue with Firebase Storage. In non-interactive/scripted runs, it prints a warning and generates the stable Firebase Storage template instead.
 
 ## Template Architecture
 
@@ -115,7 +115,9 @@ Core Engine
 + Storage Adapter
 ```
 
-The generator starts from `templates/next/base`, merges one of the three supported app types from `templates/next/app-types/*`, then merges required Firebase/CMS/admin/theme/contact/SEO modules from `templates/next/modules/*`.
+The generator starts from `templates/next/base`, merges generated Firebase rules from `templates/next/modules/firestore-rules`, then overlays one of the supported app types from `templates/next/app-types/*`.
+
+The base template owns shared Next.js, Firebase client, admin, CMS services, theme, contact, layout, and UI components. App-type templates own public pages, app-specific CMS schema/defaults/forms, sections, and theme presets.
 
 ## Firestore Structure
 
