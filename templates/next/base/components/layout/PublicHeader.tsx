@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 
 const appType: string = "__APP_TYPE__";
+const showAdminLink = process.env.NEXT_PUBLIC_SHOW_ADMIN_LINK === "true";
 
 const defaultNavItems = [
   { label: "Home", href: "/" },
@@ -33,13 +34,14 @@ export function PublicHeader() {
           {navItems.map((item) => (
             <NavLink key={item.href} item={item} pathname={pathname} />
           ))}
-          <ButtonLink href="/admin/login" variant="ghost" className="ml-2 px-3">Admin</ButtonLink>
+          {showAdminLink ? <ButtonLink href="/admin/login" variant="ghost" className="ml-2 px-3">Admin</ButtonLink> : null}
         </nav>
         <button
           type="button"
           className="focus-ring inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-theme border border-slate-200 bg-white lg:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
+          aria-controls="mobile-navigation"
           aria-label="Toggle navigation"
         >
           <span className="grid gap-1.5">
@@ -50,7 +52,7 @@ export function PublicHeader() {
         </button>
       </div>
       {open ? (
-        <nav className="border-t border-slate-200 bg-white px-4 py-4 shadow-lg lg:hidden">
+        <nav id="mobile-navigation" className="border-t border-slate-200 bg-white px-4 py-4 shadow-lg lg:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
             {navItems.map((item) => (
               <a
@@ -62,9 +64,11 @@ export function PublicHeader() {
                 {item.label}
               </a>
             ))}
-            <a href="/admin/login" className="rounded-theme px-3 py-3 font-bold text-slate-700 hover:bg-slate-50" onClick={() => setOpen(false)}>
-              Admin
-            </a>
+            {showAdminLink ? (
+              <a href="/admin/login" className="rounded-theme px-3 py-3 font-bold text-slate-700 hover:bg-slate-50" onClick={() => setOpen(false)}>
+                Admin
+              </a>
+            ) : null}
           </div>
         </nav>
       ) : null}
