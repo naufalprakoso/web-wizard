@@ -5,13 +5,13 @@ export const productCatalogDefaultContent: ProductCatalogContent = {
   headline: "Curated products, presented with clarity",
   subtitle: "A premium catalog experience for teams that want buyers to browse, compare, and start a direct inquiry without the complexity of checkout.",
   about: "Built for product-led brands, studios, distributors, and small teams that need polished product pages, category browsing, and fast contact paths.",
-  trustHeadline: "Designed for confident product discovery",
+  trustHeadline: "Built for inquiry-led product discovery",
   trustPoints: [
-    "CMS-ready product and category structure",
-    "Inquiry-first calls to action for direct sales",
-    "Responsive layouts tuned for mobile browsing"
+    "Published-only catalog reads keep draft products private",
+    "Category browsing and search help visitors narrow decisions quickly",
+    "Inquiry-first CTAs support direct sales without checkout complexity"
   ],
-  whatsappCta: "Ask about this product",
+  whatsappCta: "Request availability",
   whatsappUrl: "",
   seoTitle: "Premium Product Catalog",
   seoDescription: "A responsive product catalog website with CMS, Firebase, product management, and contact CTAs."

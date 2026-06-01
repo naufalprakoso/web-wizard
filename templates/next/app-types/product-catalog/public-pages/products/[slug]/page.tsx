@@ -44,6 +44,8 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const allProducts = (dbProducts ?? defaultProducts).map(normalizeProduct).filter((item) => item.published);
   const relatedProducts = allProducts.filter((item) => item.id !== product.id && item.category === product.category).slice(0, 3);
+  const inquiryHref = content.whatsappUrl || "/contact";
+  const galleryItems = [product.category, product.status, product.price || "Contact for price"];
 
   return (
     <>
@@ -63,29 +65,35 @@ export default async function ProductDetailPage({ params }: Props) {
           <div className="grid gap-4">
             <ProductVisual product={product} className="aspect-[4/3] w-full rounded-theme shadow-xl" />
             <div className="grid gap-3 sm:grid-cols-3">
-              {[product.category, product.status, product.price || "Contact for price"].map((item) => (
+              {galleryItems.map((item, index) => (
                 <div key={item} className="rounded-theme border border-slate-200 bg-white p-4 shadow-sm">
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">Detail</p>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">{["Category", "Status", "Price"][index]}</p>
                   <p className="mt-1 font-black text-primary">{item}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <section className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm md:p-7">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full bg-secondary px-4 py-2 text-sm font-black text-slate-950">{product.category}</span>
-              <span className="rounded-full bg-page px-4 py-2 text-sm font-black text-slate-700">{product.status}</span>
-            </div>
-            <h1 className="mt-5 text-4xl font-black leading-tight text-primary md:text-5xl">{product.name}</h1>
-            {product.price ? <p className="mt-4 text-2xl font-black text-accent">{product.price}</p> : null}
-            <p className="mt-5 text-lg font-semibold leading-8 text-slate-700">{product.shortDescription}</p>
-            <p className="mt-4 leading-8 text-slate-600">{product.description}</p>
-            <div className="mt-7 grid gap-3">
-              <ButtonLink className="w-full sm:w-auto" href={content.whatsappUrl || "/contact"}>{content.whatsappCta}</ButtonLink>
-              <a className="text-sm font-bold text-accent" href="/products">Back to catalog</a>
-            </div>
-          </section>
+          <div className="grid gap-4 lg:sticky lg:top-24">
+            <section className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-full bg-secondary px-4 py-2 text-sm font-black text-slate-950">{product.category}</span>
+                <span className="rounded-full bg-page px-4 py-2 text-sm font-black text-slate-700">{product.status}</span>
+              </div>
+              <h1 className="mt-5 break-words text-4xl font-black leading-tight text-primary md:text-5xl">{product.name}</h1>
+              {product.price ? <p className="mt-4 text-2xl font-black text-accent">{product.price}</p> : null}
+              <p className="mt-5 text-lg font-semibold leading-8 text-slate-700">{product.shortDescription}</p>
+              <p className="mt-4 leading-8 text-slate-600">{product.description}</p>
+            </section>
+            <aside className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm font-black uppercase tracking-widest text-accent">Inquiry panel</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">Ask about availability, materials, lead time, or custom requirements for this product.</p>
+              <div className="mt-5 grid gap-3">
+                <ButtonLink className="w-full" href={inquiryHref}>{content.whatsappCta}</ButtonLink>
+                <ButtonLink className="w-full" href="/products" variant="ghost">Back to catalog</ButtonLink>
+              </div>
+            </aside>
+          </div>
         </section>
 
         <section className="section-shell pb-16">

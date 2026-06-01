@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Category, Product } from "@/lib/app-type/cms/schema";
 
 type CatalogExplorerProps = {
@@ -8,16 +8,39 @@ type CatalogExplorerProps = {
   categories: Category[];
   ctaLabel: string;
   compact?: boolean;
+  syncUrl?: boolean;
 };
 
 type SortMode = "featured" | "price-asc" | "price-desc" | "newest";
 
-export function CatalogExplorer({ products, categories, ctaLabel, compact = false }: CatalogExplorerProps) {
+export function CatalogExplorer({ products, categories, ctaLabel, compact = false, syncUrl = false }: CatalogExplorerProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState<SortMode>("featured");
 
+  useEffect(() => {
+    if (!syncUrl) return;
+    const params = new URLSearchParams(window.location.search);
+    setQuery(params.get("q") ?? "");
+    setCategory(params.get("category") ?? "All");
+    const sortParam = params.get("sort") as SortMode | null;
+    if (sortParam && ["featured", "price-asc", "price-desc", "newest"].includes(sortParam)) {
+      setSort(sortParam);
+    }
+  }, [syncUrl]);
+
+  useEffect(() => {
+    if (!syncUrl) return;
+    const params = new URLSearchParams();
+    if (query.trim()) params.set("q", query.trim());
+    if (category !== "All") params.set("category", category);
+    if (sort !== "featured") params.set("sort", sort);
+    const nextUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+    window.history.replaceState(null, "", nextUrl);
+  }, [category, query, sort, syncUrl]);
+
   const categoryNames = useMemo(() => ["All", ...categories.map((item) => item.name)], [categories]);
+  const activeFilterCount = Number(Boolean(query.trim())) + Number(category !== "All") + Number(sort !== "featured");
   const filteredProducts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return products
@@ -60,6 +83,20 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
             </select>
           </label>
         </div>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm font-bold text-slate-600">
+            Showing <span className="text-primary">{filteredProducts.length}</span> of <span className="text-primary">{products.length}</span> products
+          </p>
+          {activeFilterCount > 0 ? (
+            <button type="button" className="focus-ring rounded-full px-3 py-2 text-sm font-black text-accent hover:bg-page" onClick={() => {
+              setQuery("");
+              setCategory("All");
+              setSort("featured");
+            }}>
+              Clear filters
+            </button>
+          ) : null}
+        </div>
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {categoryNames.map((item) => {
             const active = item === category;
@@ -77,6 +114,13 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
             );
           })}
         </div>
+        {activeFilterCount > 0 ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {query.trim() ? <ActiveChip label={`Search: ${query.trim()}`} onClear={() => setQuery("")} /> : null}
+            {category !== "All" ? <ActiveChip label={`Category: ${category}`} onClear={() => setCategory("All")} /> : null}
+            {sort !== "featured" ? <ActiveChip label={`Sort: ${sortLabel(sort)}`} onClear={() => setSort("featured")} /> : null}
+          </div>
+        ) : null}
       </div>
 
       {filteredProducts.length === 0 ? (
@@ -85,6 +129,13 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
           <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
             Try another search term or category. In the admin dashboard, you can publish more products and categories for this catalog.
           </p>
+          <button type="button" className="focus-ring mt-5 rounded-theme bg-primary px-5 py-3 text-sm font-black text-white" onClick={() => {
+            setQuery("");
+            setCategory("All");
+            setSort("featured");
+          }}>
+            Reset catalog view
+          </button>
         </div>
       ) : (
         <div className={`grid gap-5 ${compact ? "sm:grid-cols-2 xl:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
@@ -102,10 +153,16 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
                 </div>
                 <h3 className="mt-3 text-xl font-black leading-tight text-primary">{product.name}</h3>
                 <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{product.shortDescription || product.description}</p>
+                {product.specifications?.[0] ? (
+                  <p className="mt-3 rounded-theme bg-page px-3 py-2 text-xs font-bold text-slate-600">
+                    {product.specifications[0].label}: {product.specifications[0].value}
+                  </p>
+                ) : null}
                 <div className="mt-4 flex items-center justify-between gap-3">
-                  <span className="text-sm font-bold text-accent">{ctaLabel}</span>
+                  <span className="text-sm font-bold text-accent">Compare details</span>
                   <span className="rounded-full bg-page px-3 py-1 text-xs font-bold text-slate-600">{product.status}</span>
                 </div>
+                <p className="mt-2 text-xs font-bold text-slate-500">{ctaLabel}</p>
               </div>
             </a>
           ))}
@@ -113,6 +170,21 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
       )}
     </div>
   );
+}
+
+function ActiveChip({ label, onClear }: { label: string; onClear: () => void }) {
+  return (
+    <button type="button" className="focus-ring rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-black text-accent" onClick={onClear}>
+      {label} ×
+    </button>
+  );
+}
+
+function sortLabel(sort: SortMode) {
+  if (sort === "price-asc") return "Price low to high";
+  if (sort === "price-desc") return "Price high to low";
+  if (sort === "newest") return "Newest";
+  return "Featured";
 }
 
 export function ProductVisual({ product, className = "" }: { product: Product; className?: string }) {

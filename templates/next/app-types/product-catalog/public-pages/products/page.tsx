@@ -35,7 +35,7 @@ export default async function ProductsPage() {
             <p className="mt-5 text-lg leading-8 text-slate-600">{content.subtitle}</p>
           </div>
           <div className="mt-10">
-            <CatalogExplorer products={products} categories={categories} ctaLabel={content.whatsappCta} />
+            <CatalogExplorer products={products} categories={categories} ctaLabel={content.whatsappCta} syncUrl />
           </div>
         </div>
       </main>

@@ -28,6 +28,11 @@ export default async function ProductCatalogPage() {
   const categories = (dbCategories ?? defaultCategories).filter((item) => item.published);
   const featured = products.filter((product) => product.featured);
   const heroProducts = (featured.length > 0 ? featured : products).slice(0, 3);
+  const stats = [
+    { label: "Products", value: String(products.length) },
+    { label: "Categories", value: String(categories.length) },
+    { label: "Inquiry path", value: content.whatsappUrl ? "Direct chat" : "Contact form" }
+  ];
 
   return (
     <>
@@ -35,24 +40,24 @@ export default async function ProductCatalogPage() {
       <main>
         <section className="overflow-hidden bg-page py-14 md:py-20">
           <div className="section-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-black uppercase tracking-widest text-accent">Product catalog</p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight text-primary sm:text-5xl lg:text-6xl">{content.headline}</h1>
+              <h1 className="mt-4 max-w-4xl break-words text-3xl font-black leading-tight text-primary sm:text-5xl lg:text-6xl">{content.headline}</h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{content.subtitle}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="#products">Browse products</ButtonLink>
                 <ButtonLink href={content.whatsappUrl || "/contact"} variant="secondary">{content.whatsappUrl ? "WhatsApp us" : "Contact us"}</ButtonLink>
               </div>
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                {["CMS-ready", "Inquiry-first", "Mobile polished"].map((item) => (
-                  <div key={item} className="rounded-theme border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-sm font-black text-primary">{item}</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">Built into the generated catalog.</p>
+                {stats.map((item) => (
+                  <div key={item.label} className="rounded-theme border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-2xl font-black text-primary">{item.value}</p>
+                    <p className="mt-1 text-xs font-black uppercase tracking-widest text-slate-500">{item.label}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] sm:items-end">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-[0.85fr_1.15fr] sm:items-end">
               {heroProducts[0] ? (
                 <div className="sm:pb-10">
                   <ProductVisual product={heroProducts[0]} className="aspect-[4/5] w-full rounded-theme shadow-xl" />
@@ -62,10 +67,27 @@ export default async function ProductCatalogPage() {
                 {heroProducts.slice(1, 3).map((product) => (
                   <ProductVisual key={product.id ?? product.name} product={product} className="aspect-[16/11] w-full rounded-theme shadow-lg" />
                 ))}
-                <div className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm">
-                  <p className="text-sm font-bold uppercase tracking-widest text-accent">Catalog note</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{content.about}</p>
-                </div>
+                {heroProducts.length > 0 ? (
+                  <div className="rounded-theme border border-slate-200 bg-white p-5 shadow-sm">
+                    <p className="text-sm font-bold uppercase tracking-widest text-accent">Featured stack</p>
+                    <div className="mt-4 grid gap-3">
+                      {heroProducts.map((product) => (
+                        <a key={product.id ?? product.name} href={`/products/${product.id ?? encodeURIComponent(product.name)}`} className="grid grid-cols-[1fr_auto] gap-3 rounded-theme bg-slate-50 p-3 transition hover:bg-page">
+                          <span>
+                            <span className="block text-sm font-black text-primary">{product.name}</span>
+                            <span className="mt-1 block text-xs font-semibold text-slate-500">{product.category} · {product.status}</span>
+                          </span>
+                          <span className="text-sm font-black text-accent">{product.price || "Ask"}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-theme border border-dashed border-slate-300 bg-white p-5 shadow-sm">
+                    <p className="text-sm font-bold uppercase tracking-widest text-accent">Catalog setup</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">Publish your first product from the admin CMS to fill this hero area.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -88,11 +110,13 @@ export default async function ProductCatalogPage() {
             ) : (
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 {categories.map((category) => (
-                  <Card key={category.id ?? category.name} className="p-5 transition hover:-translate-y-1 hover:border-accent hover:shadow-lg">
+                  <a key={category.id ?? category.name} href={`/products?category=${encodeURIComponent(category.name)}`} className="group rounded-theme border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-accent hover:shadow-lg">
+                    <div className={`mb-5 h-2 rounded-full ${categoryTone(category.name)}`} />
                     <p className="text-xs font-black uppercase tracking-widest text-accent">{category.featured ? "Featured" : "Category"}</p>
                     <h3 className="mt-3 text-xl font-black text-primary">{category.name}</h3>
                     <p className="mt-3 leading-7 text-slate-600">{category.description}</p>
-                  </Card>
+                    <p className="mt-5 text-sm font-black text-primary transition group-hover:text-accent">Browse {category.name}</p>
+                  </a>
                 ))}
               </div>
             )}
@@ -134,6 +158,12 @@ export default async function ProductCatalogPage() {
       <PublicFooter />
     </>
   );
+}
+
+function categoryTone(name: string) {
+  const tones = ["bg-secondary", "bg-accent", "bg-primary"];
+  const index = name.length % tones.length;
+  return tones[index];
 }
 
 function normalizeProducts(products: Product[]): Product[] {
