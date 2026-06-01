@@ -103,3 +103,115 @@ Product Catalog build output includes:
 
 - P0: none.
 - P1: none unresolved. Admin allowlist sync and category rename behavior are documented MVP/future-work tradeoffs.
+
+## Landing page improvement cycle - 2026-06-01
+
+### Commands executed
+
+- `npm run build`
+- `node dist/index.js create product-final2 --app-type product-catalog --frontend next --storage firebase-storage`
+- `node dist/index.js create landing-final2 --app-type landing-page --frontend next --storage firebase-storage`
+- `node dist/index.js create company-final2 --app-type company-profile --frontend next --storage firebase-storage`
+- `npm install` in each generated `final2` project
+- `npm run typecheck && npm run build` in each generated `final2` project
+- Playwright/Chrome runtime QA from `/tmp/web-wizard-qa-runner`
+
+### Generated project names
+
+- `/tmp/web-wizard-landing-final2/product/product-final2`
+- `/tmp/web-wizard-landing-final2/landing/landing-final2`
+- `/tmp/web-wizard-landing-final2/company/company-final2`
+
+### Build results
+
+- Root CLI build passed.
+- Product Catalog `final2`: install passed, typecheck passed, build passed.
+- Landing Page `final2`: install passed, typecheck passed, build passed.
+- Company Profile `final2`: install passed, typecheck passed, build passed.
+
+### Runtime results
+
+- Product Catalog route smoke passed for `/`, `/products`, `/products/ceramic-task-lamp`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, and `/admin/settings`.
+- Admin protected routes returned 200 and redirected/rendered the login gate as expected when admin auth is not configured.
+- Product search/filter passed: searching `lamp` and selecting category `Home` updated the URL to `/products?q=lamp&category=Home` and showed only `Ceramic Task Lamp`.
+- Landing Page homepage rendered with the improved campaign sections and no external branded/default image dependency.
+- Company Profile homepage rendered with the improved services, sectors, work patterns, team, values, and contact sections.
+- Mobile layout QA passed for all three templates: Playwright measured `scrollWidth=390` at a 390px viewport and found no overflowing elements.
+
+### Screenshots
+
+- `/tmp/web-wizard-landing-final2/screenshots/product-desktop.png`
+- `/tmp/web-wizard-landing-final2/screenshots/product-mobile-playwright.png`
+- `/tmp/web-wizard-landing-final2/screenshots/landing-desktop.png`
+- `/tmp/web-wizard-landing-final2/screenshots/landing-mobile-playwright.png`
+- `/tmp/web-wizard-landing-final2/screenshots/company-desktop.png`
+- `/tmp/web-wizard-landing-final2/screenshots/company-mobile-playwright.png`
+
+### Remaining issues
+
+- P0: none.
+- P1: none unresolved from this landing-page pass.
+- P2: admin form validation can still become more granular in a later pass.
+
+## Landing page improvement cycle - pass 3
+
+### Commands executed
+
+- `npm run build`
+- `node dist/index.js create product-pass3 --app-type product-catalog --frontend next --storage firebase-storage`
+- `node dist/index.js create landing-pass3 --app-type landing-page --frontend next --storage firebase-storage`
+- `node dist/index.js create company-pass3 --app-type company-profile --frontend next --storage firebase-storage`
+- `npm install` in each generated pass3 project
+- `npm run typecheck && npm run build` in each generated pass3 project
+- Runtime QA with Chrome/Playwright fallback from `/tmp/web-wizard-qa-runner`
+- `QA_BASE_URL=http://localhost:<port> npm run qa:routes` in each generated pass3 project
+
+### Generated project names
+
+- `/tmp/web-wizard-landing-pass3/product/product-pass3`
+- `/tmp/web-wizard-landing-pass3/landing/landing-pass3`
+- `/tmp/web-wizard-landing-pass3/company/company-pass3`
+
+### Build results
+
+- Root CLI build passed.
+- Product Catalog pass3: install passed, typecheck passed, build passed.
+- Landing Page pass3: install passed, typecheck passed, build passed.
+- Company Profile pass3: install passed, typecheck passed, build passed.
+- Generated build output includes `robots.txt` and `sitemap.xml`.
+
+### Runtime results
+
+- Product Catalog routes passed: `/`, `/products`, `/products/ceramic-task-lamp`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, `/sitemap.xml`.
+- Landing Page routes passed: `/`, `/admin/login`, `/robots.txt`, `/sitemap.xml`.
+- Company Profile routes passed: `/`, `/admin/login`, `/robots.txt`, `/sitemap.xml`.
+- Product search/filter still works: searching `lamp` and choosing `Home` produces `/products?q=lamp&category=Home` and shows only `Ceramic Task Lamp`.
+- Generated `qa:routes` script passed in Product Catalog, Landing Page, and Company Profile.
+- Mobile overflow check passed at 390px for all three templates: `scrollWidth=390`, no overflowing elements.
+
+### Screenshots
+
+- `/tmp/web-wizard-landing-pass3/screenshots/product-desktop.png`
+- `/tmp/web-wizard-landing-pass3/screenshots/product-mobile.png`
+- `/tmp/web-wizard-landing-pass3/screenshots/landing-desktop.png`
+- `/tmp/web-wizard-landing-pass3/screenshots/landing-mobile.png`
+- `/tmp/web-wizard-landing-pass3/screenshots/company-desktop.png`
+- `/tmp/web-wizard-landing-pass3/screenshots/company-mobile.png`
+
+### Bugs and UX issues fixed in pass 3
+
+- Added local non-branded SVG visual assets for generated Landing Page and Company Profile hero fallbacks.
+- Added generated `robots.txt`, `sitemap.xml`, and `qa:routes`.
+- Added skip link and improved mobile navigation accessibility.
+- Added subject chips and response expectation copy to contact forms.
+- Replaced pipe-delimited CMS array editing in Landing Page and Company Profile with add/reorder/remove repeater fields.
+- Added CMS preview panels and more specific schema error messages.
+- Added Landing Page content variants and FAQ accordion.
+- Added Company Profile capability matrix, case-study challenge/approach/result structure, team initials, and contact blocks.
+- Added Product Catalog result count, active filter chips, clear filters, stronger empty state, richer cards, category visual rails, and sticky product-detail inquiry panel.
+
+### Remaining issues
+
+- P0: none.
+- P1: none unresolved.
+- P2: generated QA script is route-focused; screenshot/overflow QA remains an agent/developer workflow rather than a dependency-free npm script.

@@ -33,6 +33,22 @@
   - `/tmp/web-wizard-review/screenshots/product-desktop.png`
   - `/tmp/web-wizard-review/screenshots/product-mobile.png`
 - Follow-up generated Product Catalog passed install, typecheck, build, and route smoke after removing the fake default WhatsApp URL.
+- Landing-page improvement pass generated fresh Product Catalog, Landing Page, and Company Profile projects under `/tmp/web-wizard-landing-final2`.
+- All three `final2` projects passed `npm install` and `npm run typecheck && npm run build`.
+- Runtime QA checked Product Catalog routes `/`, `/products`, `/products/ceramic-task-lamp`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, and `/admin/settings`.
+- Product Catalog search/filter interaction passed with `/products?q=lamp&category=Home`.
+- Desktop and mobile screenshots were captured for all three supported MVP templates:
+  - `/tmp/web-wizard-landing-final2/screenshots/product-desktop.png`
+  - `/tmp/web-wizard-landing-final2/screenshots/product-mobile-playwright.png`
+  - `/tmp/web-wizard-landing-final2/screenshots/landing-desktop.png`
+  - `/tmp/web-wizard-landing-final2/screenshots/landing-mobile-playwright.png`
+  - `/tmp/web-wizard-landing-final2/screenshots/company-desktop.png`
+  - `/tmp/web-wizard-landing-final2/screenshots/company-mobile-playwright.png`
+- Mobile overflow check passed for Product Catalog, Landing Page, and Company Profile at 390px viewport.
+- Pass 3 generated Product Catalog, Landing Page, and Company Profile projects under `/tmp/web-wizard-landing-pass3`.
+- Pass 3 verified all three projects with `npm install`, `npm run typecheck && npm run build`, runtime route smoke, mobile overflow checks, and screenshots.
+- Generated `qa:routes` passed for Product Catalog, Landing Page, and Company Profile.
+- Generated projects now include `robots.txt`, `sitemap.xml`, local default visuals, CMS repeater fields, and contact subject chips.
 
 ## Remaining documented tradeoffs
 

@@ -9,10 +9,13 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 ## What already works
 
 - CLI can generate Product Catalog, Landing Page, and Company Profile projects with explicit supported flags.
-- Product Catalog generated project installs, typechecks, and builds.
+- Product Catalog, Landing Page, and Company Profile generated projects install, typecheck, and build.
 - Product Catalog routes exist for `/`, `/products`, `/products/[slug]`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, and `/admin/settings`.
 - Firebase config has a no-env fallback, so public pages render without `.env.local`.
 - Product Catalog has useful sample products, categories, search/filter/sort UI, product detail pages, related products, admin CMS tabs, image upload fields, contact form, and theme settings.
+- Landing Page now has a more complete conversion structure: hero, proof points, problem/audience section, outcome section, benefits, steps, testimonials, FAQ, final CTA, and contact.
+- Company Profile now has stronger first-screen positioning plus structured services, sectors, stats, work patterns, team bios, values, and contact.
+- Generated projects now include local non-branded visual assets, `robots.txt`, `sitemap.xml`, and a dependency-free `qa:routes` smoke script.
 - Firestore and Storage rules are generated.
 - Root README and generated README explain the main flow.
 
@@ -35,7 +38,9 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 - Resolved: CLI next steps now omit `npm install` when `--install` already ran.
 - Resolved: CLI output now states selected template, Next.js, and Firebase Storage.
 - Resolved: Unsupported options fall back predictably in non-interactive use.
-- Public header exposes Admin link on marketing/product pages; useful for generated projects, but it makes the default public site feel less production-polished.
+- Resolved: Public header no longer exposes the Admin link by default. It can be enabled with `NEXT_PUBLIC_SHOW_ADMIN_LINK=true` for internal demos.
+- Resolved: Contact forms now provide selectable inquiry subjects and response expectation copy.
+- Resolved: Landing Page FAQ is interactive instead of a static card grid.
 
 ## Template architecture issues
 
@@ -48,6 +53,10 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 
 - Resolved: Landing Page and Company Profile generated projects typecheck and build after fixes.
 - Resolved: Generated `.env.example` and README now warn that admin env and deployed rules must stay in sync.
+- Resolved: Landing Page and Company Profile no longer depend on external stock hero images by default.
+- Resolved: Generated landing pages use richer app-type-specific content instead of looking like lightly re-skinned variants of one page.
+- Resolved: Landing Page and Company Profile CMS array fields use add/reorder/remove controls instead of manual pipe-delimited text editing.
+- Resolved: Product Catalog listing has result counts, active filters, clear filters, and stronger no-results recovery.
 
 ## Security concerns
 
@@ -66,9 +75,10 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 
 ## Responsive design issues
 
-- Product Catalog layout is generally responsive.
+- Product Catalog, Landing Page, and Company Profile layouts were checked at desktop and 390px mobile widths.
 - Admin tabs and nav are mobile-friendly enough, but dense product forms can become long on mobile.
 - Resolved: Product placeholder visuals were simplified to product-card-like panels without decorative blur shapes.
+- Resolved: Mobile hero overflow/clipped heading issue on all three landing-page templates by constraining hero grid children and reducing mobile heading scale.
 
 ## Documentation gaps
 
@@ -91,6 +101,8 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 - Resolved: Remove misleading include-options prompt.
 - Resolved: Improve generated README and Firebase admin/rules setup guidance.
 - Resolved: Improve Product Catalog fallback visuals and responsive polish.
+- Resolved: Improve Landing Page and Company Profile landing quality so all supported MVP templates have distinct, credible homepages.
+- Resolved: Add basic SEO routes, route QA script, mobile nav accessibility, CMS repeater fields, and local default visuals.
 
 Current unresolved P1: none. Admin allowlist sync remains documented as an MVP tradeoff rather than a generator feature because this release intentionally avoids onboarding flow and complex roles.
 

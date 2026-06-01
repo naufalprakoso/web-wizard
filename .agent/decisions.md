@@ -31,3 +31,39 @@ React.js, Nuxt.js, Bunny.net, and no-storage modes remain planned. Interactive u
 ## Module architecture
 
 Shared Next.js, Firebase, CMS, admin, theme, contact, SEO, and UI code lives in the base template. The only current module overlay is generated Firebase rules. App-type overlays own app-specific public pages, CMS schema/default content/forms, sections, and theme presets.
+
+## Public admin link
+
+The public header hides the Admin link by default and exposes it only when `NEXT_PUBLIC_SHOW_ADMIN_LINK=true`. This keeps generated public sites production-presentable while still allowing maintainers to enable a shortcut for demos or internal testing.
+
+## Landing page visuals
+
+Landing Page and Company Profile templates use CSS-generated fallback visuals when no CMS image is configured. This avoids copyrighted or branded default assets, avoids external stock-image dependencies, and keeps generated projects useful before Firebase Storage is configured.
+
+The fallback visuals are intentionally app-type-specific: Landing Page gets a campaign/offer panel, Company Profile gets an operating-summary panel, and Product Catalog keeps product-card-like visuals from the catalog data.
+
+## Landing page content model
+
+Landing Page content was expanded around conversion structure: proof points, problem statement, audience segments, outcome copy, final CTA, and role-aware testimonials. Company Profile content was expanded around company credibility: structured services, sectors, stats, work patterns, team bios, and values.
+
+These additions improve supported MVP templates without adding new product surfaces like onboarding, subscription, tenant mode, owner dashboard, or complex roles.
+
+## Mobile layout constraints
+
+Hero text containers and visual columns use `min-w-0` and smaller mobile heading scales. The goal is to prevent CSS grid children from forcing horizontal overflow while preserving large editorial type on desktop.
+
+## Generated SEO routes
+
+Generated projects include `robots.txt` and `sitemap.xml` through Next.js metadata routes. `NEXT_PUBLIC_SITE_URL` controls the production URL. Admin routes are disallowed in `robots.txt`; Product Catalog adds the main catalog routes to the sitemap without trying to enumerate CMS products at build time.
+
+## Dependency-free QA script
+
+Generated projects include `npm run qa:routes`, which checks critical routes with built-in Node `fetch`. Screenshot and overflow QA are intentionally kept out of the generated dependency graph to avoid adding Playwright or browser binaries to every generated project.
+
+## CMS repeater fields
+
+Landing Page and Company Profile admin forms use reusable repeater fields for array content. This removes manual pipe-delimited editing while keeping the MVP simple and dependency-free. Rich drag-and-drop was rejected because it would add dependency and interaction complexity before the core template is stabilized.
+
+## Contact subjects
+
+Contact messages now include a simple subject selected from three chips. This improves admin inbox context without introducing complex lead routing, roles, or CRM-style workflow.
