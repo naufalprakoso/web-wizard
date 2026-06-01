@@ -30,6 +30,7 @@ npm run dev
 npm run build
 npm run start
 npm run typecheck
+npm run qa:routes
 ```
 
 ## Configure Firebase
@@ -51,11 +52,28 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_ADMIN_EMAILS=admin@example.com
+NEXT_PUBLIC_SHOW_ADMIN_LINK=false
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 The website renders with fallback content when Firebase is not configured. Firebase is required for saving CMS content, products, categories, theme settings, uploaded images, and contact messages.
 
 `NEXT_PUBLIC_ADMIN_EMAILS` controls the client-side admin gate. It does not update deployed Firestore or Storage rules by itself.
+
+`NEXT_PUBLIC_SHOW_ADMIN_LINK=true` shows an Admin link in the public header. Keep it `false` for a cleaner production public site and use `/admin/login` directly.
+
+`NEXT_PUBLIC_SITE_URL` is used by generated `robots.txt` and `sitemap.xml`. Use your deployed site URL in production.
+
+## QA Smoke Check
+
+Run the app, then check important generated routes:
+
+```bash
+npm run dev
+QA_BASE_URL=http://localhost:3000 npm run qa:routes
+```
+
+The script checks public routes and `/admin/login`. Product Catalog projects also check `/products`, `/about`, and `/contact`.
 
 ## First Admin
 

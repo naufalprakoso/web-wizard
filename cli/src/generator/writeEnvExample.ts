@@ -12,6 +12,12 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 # Comma-separated admin emails for the client-side admin gate.
 # Also replace admin@example.com in firestore.rules and storage.rules before deploy.
 NEXT_PUBLIC_ADMIN_EMAILS=admin@example.com
+
+# Set to true if you want the public header to show an Admin link.
+NEXT_PUBLIC_SHOW_ADMIN_LINK=false
+
+# Used by generated sitemap and robots routes.
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 `;
 
 export async function writeEnvExample(targetDir: string): Promise<void> {
