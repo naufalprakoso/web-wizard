@@ -6,6 +6,7 @@ import { submitContactMessage } from "@/lib/contact/contact-service";
 
 export function ContactSection({ title = "Start the conversation", subtitle = "Tell us what you need and we will get back to you soon." }: { title?: string; subtitle?: string }) {
   const [status, setStatus] = useState("");
+  const [subject, setSubject] = useState("Product questions");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,6 +15,7 @@ export function ContactSection({ title = "Start the conversation", subtitle = "T
       await submitContactMessage({
         name: String(form.get("name") ?? ""),
         email: String(form.get("email") ?? ""),
+        subject,
         message: String(form.get("message") ?? ""),
         website: String(form.get("website") ?? "")
       });
@@ -34,14 +36,21 @@ export function ContactSection({ title = "Start the conversation", subtitle = "T
           <p className="mt-4 max-w-xl text-base leading-8 text-white/75 md:text-lg">{subtitle}</p>
           <div className="mt-8 grid gap-3 text-sm text-white/70 sm:grid-cols-3">
             {["Product questions", "Availability checks", "Custom requests"].map((item) => (
-              <div key={item} className="rounded-theme border border-white/10 bg-white/5 p-4">
-                <p className="font-bold text-white">{item}</p>
-              </div>
+              <button
+                key={item}
+                type="button"
+                className={`focus-ring rounded-theme border p-4 text-left transition ${subject === item ? "border-secondary bg-secondary text-slate-950" : "border-white/10 bg-white/5 hover:border-white/30"}`}
+                onClick={() => setSubject(item)}
+              >
+                <p className={`font-bold ${subject === item ? "text-slate-950" : "text-white"}`}>{item}</p>
+              </button>
             ))}
           </div>
+          <p className="mt-4 text-sm font-semibold text-white/60">Typical response time: one business day after Firebase is configured.</p>
         </div>
         <form onSubmit={handleSubmit} className="rounded-theme bg-white p-5 text-slate-950 shadow-2xl md:p-6">
           <input className="hidden" name="website" tabIndex={-1} autoComplete="off" />
+          <input type="hidden" name="subject" value={subject} />
           <div className="grid gap-4 md:grid-cols-2">
             <label className="text-sm font-bold">
               Name

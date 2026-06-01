@@ -35,13 +35,15 @@ service cloud.firestore {
     }
 
     match /messages/{messageId} {
-      allow create: if request.resource.data.keys().hasOnly(["name", "email", "message", "published", "createdAt", "updatedAt"])
+      allow create: if request.resource.data.keys().hasOnly(["name", "email", "subject", "message", "published", "createdAt", "updatedAt"])
         && request.resource.data.published == false
         && request.resource.data.name is string
         && request.resource.data.email is string
+        && request.resource.data.subject is string
         && request.resource.data.message is string
         && request.resource.data.name.size() <= 120
         && request.resource.data.email.size() <= 200
+        && request.resource.data.subject.size() <= 120
         && request.resource.data.message.size() <= 2000;
       allow read, update, delete: if isAdmin();
     }

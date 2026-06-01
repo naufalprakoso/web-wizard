@@ -44,7 +44,10 @@ export function ContactMessages() {
         {messages.map((message) => (
           <article key={message.id} className="rounded-theme border border-slate-200 p-4">
             <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
-              <p className="font-bold text-primary">{message.name}</p>
+              <div>
+                <p className="font-bold text-primary">{message.name}</p>
+                {message.subject ? <p className="mt-1 text-xs font-black uppercase tracking-widest text-slate-500">{message.subject}</p> : null}
+              </div>
               <a className="text-sm font-semibold text-accent" href={`mailto:${message.email}`}>{message.email}</a>
             </div>
             <p className="mt-2 text-sm leading-6 text-slate-600">{message.message}</p>
