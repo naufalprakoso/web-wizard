@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">Campaign page preview</title>
+  <desc id="desc">A clean landing page mockup with offer, proof, and lead sections.</desc>
+  <rect width="960" height="720" rx="36" fill="#ffffff"/>
+  <path d="M0 0h960v720H0z" fill="#f8fafc"/>
+  <path d="M0 0h960L540 420H0z" fill="#dbeafe"/>
+  <path d="M960 0v720L510 360z" fill="#fef3c7"/>
+  <rect x="72" y="74" width="170" height="20" rx="10" fill="#0f172a"/>
+  <rect x="698" y="54" width="182" height="58" rx="29" fill="#f59e0b"/>
+  <rect x="72" y="294" width="610" height="42" rx="21" fill="#0f172a"/>
+  <rect x="72" y="364" width="684" height="28" rx="14" fill="#cbd5e1"/>
+  <rect x="72" y="416" width="548" height="24" rx="12" fill="#e2e8f0"/>
+  <g fill="#ffffff" stroke="#cbd5e1" stroke-width="2">
+    <rect x="72" y="560" width="250" height="74" rx="18"/>
+    <rect x="354" y="560" width="250" height="74" rx="18"/>
+    <rect x="636" y="560" width="250" height="74" rx="18"/>
+  </g>
+  <g fill="#2563eb" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="4">
+    <text x="96" y="607">OFFER</text>
+    <text x="378" y="607">PROOF</text>
+    <text x="660" y="607">LEAD</text>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">Company capability preview</title>
+  <desc id="desc">A strategic company profile mockup with capability panels and trust markers.</desc>
+  <rect width="960" height="720" rx="36" fill="#ffffff" opacity=".1"/>
+  <rect x="34" y="34" width="892" height="652" rx="30" fill="#ffffff" opacity=".12" stroke="#ffffff" stroke-opacity=".22" stroke-width="2"/>
+  <rect x="72" y="74" width="372" height="462" rx="18" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".28" stroke-width="2"/>
+  <rect x="500" y="74" width="388" height="462" rx="18" fill="#ffffff" opacity=".13" stroke="#ffffff" stroke-opacity=".28" stroke-width="2"/>
+  <rect x="98" y="102" width="124" height="18" rx="9" fill="#f59e0b"/>
+  <rect x="98" y="168" width="298" height="20" rx="10" fill="#ffffff" opacity=".72"/>
+  <rect x="98" y="214" width="248" height="18" rx="9" fill="#ffffff" opacity=".48"/>
+  <rect x="98" y="258" width="210" height="18" rx="9" fill="#ffffff" opacity=".42"/>
+  <rect x="538" y="398" width="312" height="92" rx="16" fill="#ffffff" opacity=".18"/>
+  <rect x="538" y="526" width="338" height="18" rx="9" fill="#ffffff" opacity=".72"/>
+  <rect x="538" y="574" width="246" height="18" rx="9" fill="#ffffff" opacity=".42"/>
+  <path d="M376 34 926 586v100H804L254 34z" fill="#ffffff" opacity=".1"/>
+  <path d="M34 606 606 34h94L128 686H34z" fill="#ffffff" opacity=".08"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".24" stroke-width="2">
+    <rect x="72" y="570" width="284" height="72" rx="16"/>
+    <rect x="388" y="570" width="232" height="72" rx="16"/>
+    <rect x="652" y="570" width="236" height="72" rx="16"/>
+  </g>
+  <g fill="#f59e0b" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" letter-spacing="4">
+    <text x="94" y="615">CLARITY</text>
+    <text x="414" y="615">DELIVERY</text>
+    <text x="682" y="615">TRUST</text>
+  </g>
+</svg>
