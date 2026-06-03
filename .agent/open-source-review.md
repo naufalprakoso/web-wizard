@@ -8,13 +8,15 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 
 ## What already works
 
-- CLI can generate Product Catalog, Landing Page, and Company Profile projects with explicit supported flags.
-- Product Catalog, Landing Page, and Company Profile generated projects install, typecheck, and build.
+- CLI can generate Product Catalog, Landing Page, Company Profile, Portfolio, and Service Business projects with explicit supported flags.
+- Product Catalog, Landing Page, Company Profile, Portfolio, and Service Business generated projects install, typecheck, and build.
 - Product Catalog routes exist for `/`, `/products`, `/products/[slug]`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, and `/admin/settings`.
 - Firebase config has a no-env fallback, so public pages render without `.env.local`.
 - Product Catalog has useful sample products, categories, search/filter/sort UI, product detail pages, related products, admin CMS tabs, image upload fields, contact form, and theme settings.
 - Landing Page now has a more complete conversion structure: hero, proof points, problem/audience section, outcome section, benefits, steps, testimonials, FAQ, final CTA, and contact.
 - Company Profile now has stronger first-screen positioning plus structured services, sectors, stats, work patterns, team bios, values, and contact.
+- Portfolio adds a distinct personal/project site structure with selected work, skill chips, services, testimonials, notes, and contact.
+- Service Business adds a distinct local/service operator structure with services, packages, process, case studies, FAQ, final CTA, and contact.
 - Generated projects now include local non-branded visual assets, `robots.txt`, `sitemap.xml`, and a dependency-free `qa:routes` smoke script.
 - Firestore and Storage rules are generated.
 - Root README and generated README explain the main flow.
@@ -47,6 +49,7 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 - Resolved: Generator now only merges the existing Firestore rules module; shared features are explicitly treated as base-template features.
 - Resolved: Header/footer app-type branching no longer causes non-catalog TypeScript failures.
 - App-type CMS forms share patterns but duplicate field helpers; this is P2 maintainability polish.
+- Resolved: Shared contact subject chips now use app-type-specific labels instead of Product Catalog labels everywhere.
 - Resolved: Product Catalog fallback visuals use product-card-like panels instead of decorative abstract placeholders.
 
 ## Generated project issues
@@ -69,13 +72,16 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 ## CMS/admin gaps
 
 - Product Catalog CMS has overview/products/categories, but dashboard metrics are static.
+- Portfolio CMS now has template-specific CRUD collections for projects, services, testimonials, and notes.
+- Service Business CMS now has template-specific CRUD collections for services, packages, process steps, case studies, and FAQ.
+- Company Profile CMS now has template-specific CRUD collections for services, case studies, and team members.
 - Contact inbox is read-only but now has error handling.
 - Forms still show mostly generic validation messages; field-level validation remains P2.
 - Admin routes are client-protected; unauthenticated users see a loading gate then redirect.
 
 ## Responsive design issues
 
-- Product Catalog, Landing Page, and Company Profile layouts were checked at desktop and 390px mobile widths.
+- Product Catalog, Landing Page, Company Profile, Portfolio, and Service Business layouts were checked at desktop and 390px mobile widths.
 - Admin tabs and nav are mobile-friendly enough, but dense product forms can become long on mobile.
 - Resolved: Product placeholder visuals were simplified to product-card-like panels without decorative blur shapes.
 - Resolved: Mobile hero overflow/clipped heading issue on all three landing-page templates by constraining hero grid children and reducing mobile heading scale.
@@ -102,6 +108,8 @@ The strongest path is to keep Next.js + Firebase Storage as the only fully suppo
 - Resolved: Improve generated README and Firebase admin/rules setup guidance.
 - Resolved: Improve Product Catalog fallback visuals and responsive polish.
 - Resolved: Improve Landing Page and Company Profile landing quality so all supported MVP templates have distinct, credible homepages.
+- Resolved: Add Portfolio and Service Business as complete supported MVP templates rather than placeholders.
+- Resolved: Make CMS records template-specific where repeated data needs real CRUD instead of one generic document editor.
 - Resolved: Add basic SEO routes, route QA script, mobile nav accessibility, CMS repeater fields, and local default visuals.
 
 Current unresolved P1: none. Admin allowlist sync remains documented as an MVP tradeoff rather than a generator feature because this release intentionally avoids onboarding flow and complex roles.
@@ -117,7 +125,6 @@ Current unresolved P1: none. Admin allowlist sync remains documented as an MVP t
 ### P3 future roadmap
 
 - Custom claims setup script.
-- Sitemap/robots generation.
 - React/Nuxt adapters.
 - Bunny.net/no-storage adapters.
-- Additional templates after MVP stability.
+- Additional templates after the five supported MVP templates stay stable.

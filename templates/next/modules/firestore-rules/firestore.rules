@@ -34,6 +34,66 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /portfolioProjects/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /portfolioServices/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /portfolioTestimonials/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /portfolioNotes/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /serviceBusinessServices/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /serviceBusinessPackages/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /serviceBusinessProcess/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /serviceBusinessCaseStudies/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /serviceBusinessFaqs/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /companyServices/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /companyCaseStudies/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /companyTeamMembers/{documentId} {
+      allow read: if isAdmin() || isPublished();
+      allow write: if isAdmin();
+    }
+
     match /messages/{messageId} {
       allow create: if request.resource.data.keys().hasOnly(["name", "email", "subject", "message", "published", "createdAt", "updatedAt"])
         && request.resource.data.published == false

@@ -28,6 +28,7 @@ npm run dev -- create my-website
 - Setup README
 - Product search/filter UI for Product Catalog websites
 - Product/category CMS structure for Product Catalog websites
+- Project, service, package, testimonial, and FAQ CMS structures for the newer Portfolio and Service Business templates
 
 ## Installation
 
@@ -49,6 +50,8 @@ Generate a specific template:
 ```bash
 npm run dev -- create company-site --app-type company-profile --frontend next --storage firebase-storage
 npm run dev -- create catalog-site --app-type product-catalog --frontend next --storage firebase-storage
+npm run dev -- create portfolio-site --app-type portfolio --frontend next --storage firebase-storage
+npm run dev -- create service-site --app-type service-business --frontend next --storage firebase-storage
 ```
 
 The generated app then runs with:
@@ -65,6 +68,8 @@ npm run dev
 npm run dev -- create my-website
 npm run dev -- create acme-site --app-type company-profile
 npm run dev -- create catalog-site --app-type product-catalog --frontend next --storage firebase-storage
+npm run dev -- create freelancer-site --app-type portfolio
+npm run dev -- create studio-site --app-type service-business
 ```
 
 The published command target is:
@@ -84,6 +89,8 @@ web-template-wizard create my-website
 - Landing Page
 - Company Profile
 - Product Catalog Website
+- Portfolio Website
+- Service Business Website
 
 ## Frontend
 
@@ -117,7 +124,7 @@ Core Engine
 
 The generator starts from `templates/next/base`, merges generated Firebase rules from `templates/next/modules/firestore-rules`, then overlays one of the supported app types from `templates/next/app-types/*`.
 
-The base template owns shared Next.js, Firebase client, admin, CMS services, theme, contact, layout, and UI components. App-type templates own public pages, app-specific CMS schema/defaults/forms, sections, and theme presets.
+The base template owns shared Next.js, Firebase client, admin, CMS services, theme, contact, layout, and UI components. App-type templates own public pages, app-specific CMS schema/defaults/forms, sections, theme presets, and any template-specific CMS collections.
 
 ## Firestore Structure
 
@@ -131,12 +138,29 @@ cms/
   landingPage
   companyProfile
   productCatalog
+  portfolio
+  serviceBusiness
 
 products/
   {productId}
 
 categories/
   {categoryId}
+
+portfolioProjects/
+portfolioServices/
+portfolioTestimonials/
+portfolioNotes/
+
+serviceBusinessServices/
+serviceBusinessPackages/
+serviceBusinessProcess/
+serviceBusinessCaseStudies/
+serviceBusinessFaqs/
+
+companyServices/
+companyCaseStudies/
+companyTeamMembers/
 
 messages/
   {messageId}
@@ -151,7 +175,6 @@ Admin access is based on an email allowlist for this release. The project README
 ## Roadmap
 
 - Optional Firebase custom claims script
-- Sitemap and robots generation
 - React.js and Nuxt.js frontend adapters
 - Bunny.net and no-storage modes
 - Additional app types through the same modular template boundary

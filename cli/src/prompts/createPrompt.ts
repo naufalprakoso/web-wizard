@@ -1,4 +1,5 @@
 import prompts from "prompts";
+import type { SupportedAppType } from "../types.js";
 import { normalizeAppType, normalizeFrontend, normalizeStorage, toDisplayName } from "../utils/strings.js";
 import { validateProjectName } from "../utils/validation.js";
 
@@ -12,7 +13,7 @@ export type CreatePromptInput = {
 export type CreatePromptResult = {
   projectName: string;
   displayName: string;
-  appType: "landing-page" | "company-profile" | "product-catalog";
+  appType: SupportedAppType;
   appDisplayName: string;
   frontend: "next";
   storage: "firebase-storage";
@@ -27,7 +28,9 @@ export type CreatePromptResult = {
 const appChoices = [
   { title: "Landing Page", value: "landing-page" },
   { title: "Company Profile", value: "company-profile" },
-  { title: "Product Catalog Website", value: "product-catalog" }
+  { title: "Product Catalog Website", value: "product-catalog" },
+  { title: "Portfolio Website", value: "portfolio" },
+  { title: "Service Business Website", value: "service-business" }
 ];
 
 const frontendChoices = [
@@ -92,7 +95,7 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
   }
 
   if (!isSupportedAppType(appType)) {
-    throw new Error("Supported app types are: landing-page, company-profile, product-catalog.");
+    throw new Error("Supported app types are: landing-page, company-profile, product-catalog, portfolio, service-business.");
   }
 
   const selectedFrontend = await resolvePlannedChoice({
@@ -128,7 +131,7 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
 }
 
 function isSupportedAppType(value: string): value is CreatePromptResult["appType"] {
-  return value === "landing-page" || value === "company-profile" || value === "product-catalog";
+  return value === "landing-page" || value === "company-profile" || value === "product-catalog" || value === "portfolio" || value === "service-business";
 }
 
 async function resolvePlannedChoice<TSupported extends "next" | "firebase-storage">({

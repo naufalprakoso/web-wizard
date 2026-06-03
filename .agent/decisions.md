@@ -67,3 +67,23 @@ Landing Page and Company Profile admin forms use reusable repeater fields for ar
 ## Contact subjects
 
 Contact messages now include a simple subject selected from three chips. This improves admin inbox context without introducing complex lead routing, roles, or CRM-style workflow.
+
+## Portfolio and Service Business templates
+
+Portfolio and Service Business were added as the next supported app types because they are broadly useful, fit the existing CMS/admin/theme architecture, and can be generated without adding payments, tenant mode, booking workflow, subscriptions, owner dashboards, or complex roles.
+
+Portfolio focuses on project credibility: selected work, skills, services, testimonials, notes, and a project inquiry path. Service Business focuses on qualified inquiry: services, package comparison, process steps, case studies, FAQ, and request-a-quote copy.
+
+Both templates reuse the shared base app, Firebase client, admin CMS shell, theme system, contact service, generated rules, and SEO routes. App-specific code stays inside `templates/next/app-types/*` so future templates do not fork the base app.
+
+## App-type-specific contact subjects
+
+The shared contact section derives its three subject chips from the generated app type. This keeps the base component reusable while preventing mismatched Product Catalog labels from leaking into Portfolio, Service Business, Landing Page, or Company Profile sites.
+
+## Template-specific CMS collections
+
+The CMS should stay different per template instead of becoming a generic one-size-fits-all editor. The shared base owns auth, admin shell, Firestore CRUD helpers, upload handling, theme settings, contact messages, and rules. Each app type owns the schema, form tabs, public query behavior, and collection names that match that template's real content model.
+
+Product Catalog keeps `products` and `categories`. Portfolio now uses `portfolioProjects`, `portfolioServices`, `portfolioTestimonials`, and `portfolioNotes`. Service Business now uses `serviceBusinessServices`, `serviceBusinessPackages`, `serviceBusinessProcess`, `serviceBusinessCaseStudies`, and `serviceBusinessFaqs`. Company Profile now uses `companyServices`, `companyCaseStudies`, and `companyTeamMembers`.
+
+Repeated records use `published` flags and public pages read them through published-only collection helpers. Top-level hero, SEO, and page-level copy remain in the `cms/{templateId}` document. This keeps the MVP simple while giving each generated admin dashboard a CMS shape that feels native to the selected template.

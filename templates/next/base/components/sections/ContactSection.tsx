@@ -4,9 +4,20 @@ import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { submitContactMessage } from "@/lib/contact/contact-service";
 
+const appType: string = "__APP_TYPE__";
+
+const subjectOptionsByAppType: Record<string, string[]> = {
+  "company-profile": ["Partnership", "Team inquiry", "General question"],
+  "landing-page": ["Demo request", "Pricing question", "Implementation help"],
+  "portfolio": ["Project inquiry", "Availability check", "Collaboration"],
+  "product-catalog": ["Product questions", "Availability checks", "Custom requests"],
+  "service-business": ["Service inquiry", "Package question", "Custom request"]
+};
+
 export function ContactSection({ title = "Start the conversation", subtitle = "Tell us what you need and we will get back to you soon." }: { title?: string; subtitle?: string }) {
+  const subjectOptions = subjectOptionsByAppType[appType] ?? ["General question", "Availability check", "Custom request"];
   const [status, setStatus] = useState("");
-  const [subject, setSubject] = useState("Product questions");
+  const [subject, setSubject] = useState(subjectOptions[0]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,7 +46,7 @@ export function ContactSection({ title = "Start the conversation", subtitle = "T
           <h2 className="mt-3 text-3xl font-black leading-tight md:text-4xl">{title}</h2>
           <p className="mt-4 max-w-xl text-base leading-8 text-white/75 md:text-lg">{subtitle}</p>
           <div className="mt-8 grid gap-3 text-sm text-white/70 sm:grid-cols-3">
-            {["Product questions", "Availability checks", "Custom requests"].map((item) => (
+            {subjectOptions.map((item) => (
               <button
                 key={item}
                 type="button"

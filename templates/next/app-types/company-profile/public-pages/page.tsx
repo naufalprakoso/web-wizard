@@ -7,9 +7,10 @@ import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { GeneratedHeroVisual } from "@/components/sections/GeneratedVisuals";
 import { SectionHeader } from "@/components/sections/LandingBlocks";
-import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
+import { getPublishedCmsDocument, listPublishedCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { companyProfileDefaultContent } from "@/lib/app-type/cms/default-content";
+import type { CompanyCaseStudy, CompanyService, CompanyTeamMember } from "@/lib/app-type/cms/schema";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPublishedCmsDocument("companyProfile", companyProfileDefaultContent);
@@ -17,9 +18,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CompanyProfilePage() {
-  const content = await getPublishedCmsDocument("companyProfile", companyProfileDefaultContent);
+  const [content, serviceItems, caseStudyItems, teamItems] = await Promise.all([
+    getPublishedCmsDocument("companyProfile", companyProfileDefaultContent),
+    listPublishedCollection<CompanyService>("companyServices"),
+    listPublishedCollection<CompanyCaseStudy>("companyCaseStudies"),
+    listPublishedCollection<CompanyTeamMember>("companyTeamMembers")
+  ]);
   if (!content) notFound();
-  const projects = content.projects.map(normalizeProject);
+  const services = resolveItems(serviceItems, content.services);
+  const projects = resolveItems(caseStudyItems, content.projects).map(normalizeProject);
+  const teamMembers = resolveItems(teamItems, content.teamMembers);
 
   return (
     <>
@@ -66,7 +74,7 @@ export default async function CompanyProfilePage() {
               </div>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
-              {content.services.map((service) => (
+              {services.map((service) => (
                 <Card key={service.title} className="p-5">
                   <h3 className="text-xl font-black text-primary">{service.title}</h3>
                   <p className="mt-3 leading-7 text-slate-600">{service.description}</p>
@@ -105,7 +113,7 @@ export default async function CompanyProfilePage() {
             <div>
               <p className="text-sm font-bold uppercase tracking-widest text-accent">Team</p>
               <div className="mt-6 grid gap-4">
-                {content.teamMembers.map((member) => (
+                {teamMembers.map((member) => (
                   <Card key={member.name} className="grid gap-4 p-5 sm:grid-cols-[56px_1fr]">
                     <div className="grid h-14 w-14 place-items-center rounded-full bg-primary text-lg font-black text-white">{initials(member.name)}</div>
                     <div>
@@ -149,6 +157,10 @@ export default async function CompanyProfilePage() {
       <PublicFooter />
     </>
   );
+}
+
+function resolveItems<TItem>(collectionItems: TItem[] | null, fallback: TItem[]) {
+  return collectionItems && collectionItems.length > 0 ? collectionItems : fallback;
 }
 
 function initials(name: string) {

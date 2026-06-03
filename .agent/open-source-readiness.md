@@ -4,8 +4,11 @@
 - [x] Generated project builds
 - [x] Generated project runs
 - [x] Product Catalog template is polished
+- [x] Portfolio template works and builds
+- [x] Service Business template works and builds
 - [x] Admin dashboard works
 - [x] CMS structure is ready
+- [x] Template-specific CMS CRUD exists for repeated records
 - [x] Theme settings work
 - [x] Firebase rules exist
 - [x] Storage rules exist
@@ -49,6 +52,23 @@
 - Pass 3 verified all three projects with `npm install`, `npm run typecheck && npm run build`, runtime route smoke, mobile overflow checks, and screenshots.
 - Generated `qa:routes` passed for Product Catalog, Landing Page, and Company Profile.
 - Generated projects now include `robots.txt`, `sitemap.xml`, local default visuals, CMS repeater fields, and contact subject chips.
+- Fresh Portfolio and Service Business projects were generated under `/tmp/web-wizard-new-templates`.
+- Portfolio and Service Business both passed `npm install`, `npm run typecheck && npm run build`, `npm run qa:routes`, runtime route checks, desktop screenshot checks, and 390px mobile overflow checks.
+- Portfolio screenshots:
+  - `/tmp/web-wizard-new-templates/screenshots-final/portfolio-desktop.png`
+  - `/tmp/web-wizard-new-templates/screenshots-final/portfolio-mobile.png`
+- Service Business screenshots:
+  - `/tmp/web-wizard-new-templates/screenshots-final/service-desktop.png`
+  - `/tmp/web-wizard-new-templates/screenshots-final/service-mobile.png`
+- Template-specific CMS collection pass generated Portfolio, Service Business, and Company Profile projects under `/tmp/web-wizard-template-cms`.
+- All three CMS collection projects passed `npm install`, `npm run typecheck && npm run build`, `npm run qa:routes`, runtime route checks, and 390px mobile overflow checks.
+- CMS collection screenshots:
+  - `/tmp/web-wizard-template-cms/screenshots/portfolio-desktop.png`
+  - `/tmp/web-wizard-template-cms/screenshots/portfolio-mobile.png`
+  - `/tmp/web-wizard-template-cms/screenshots/service-desktop.png`
+  - `/tmp/web-wizard-template-cms/screenshots/service-mobile.png`
+  - `/tmp/web-wizard-template-cms/screenshots/company-desktop.png`
+  - `/tmp/web-wizard-template-cms/screenshots/company-mobile.png`
 
 ## Remaining documented tradeoffs
 
@@ -56,3 +76,5 @@
 - Category/product relationship uses category names rather than category IDs; suitable for the simple MVP, but category rename handling belongs in a future CMS modeling pass.
 - Field-level admin form validation remains polish work.
 - Generated Product Catalog no longer ships a fake WhatsApp URL; inquiry CTAs use `/contact` until a real URL is configured.
+- The newest Portfolio and Service Business templates are intentionally CMS-ready inquiry sites, not booking, payment, subscription, or CRM systems.
+- Collection item ordering currently follows collection query order/timestamps rather than a dedicated manual sort field.

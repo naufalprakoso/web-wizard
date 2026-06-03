@@ -4,13 +4,14 @@ import ora from "ora";
 import { copyTemplate } from "./copyTemplate.js";
 import { mergeAppTypeTemplate, mergeModuleTemplate } from "./mergeTemplates.js";
 import { writeEnvExample } from "./writeEnvExample.js";
+import type { SupportedAppType } from "../types.js";
 import { getPackageRoot } from "../utils/paths.js";
 import { replacePlaceholders } from "../utils/strings.js";
 
 export type GenerateProjectOptions = {
   projectName: string;
   displayName: string;
-  appType: "landing-page" | "company-profile" | "product-catalog";
+  appType: SupportedAppType;
   appDisplayName: string;
   frontend: "next";
   storage: "firebase-storage";

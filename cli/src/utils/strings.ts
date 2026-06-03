@@ -32,7 +32,13 @@ export function normalizeAppType(value: string | undefined): string | null {
     company: "company-profile",
     "company-profile": "company-profile",
     "product-catalog": "product-catalog",
-    catalog: "product-catalog"
+    catalog: "product-catalog",
+    portfolio: "portfolio",
+    "personal-brand": "portfolio",
+    service: "service-business",
+    services: "service-business",
+    "service-business": "service-business",
+    "service-business-website": "service-business"
   };
   return aliases[normalized] ?? normalized;
 }

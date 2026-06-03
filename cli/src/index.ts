@@ -13,7 +13,7 @@ program
   .command("create")
   .description("Create a new website project.")
   .argument("[projectName]", "Project folder name")
-  .option("--app-type <appType>", "landing-page, company-profile, product-catalog")
+  .option("--app-type <appType>", "landing-page, company-profile, product-catalog, portfolio, service-business")
   .option("--frontend <frontend>", "next, react, nuxt")
   .option("--storage <storage>", "firebase-storage, bunny, none")
   .option("--install", "Install generated project dependencies")

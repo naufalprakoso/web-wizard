@@ -2,6 +2,8 @@ const appType: string = "__APP_TYPE__";
 
 export function PublicFooter() {
   const productCatalog = appType === "product-catalog";
+  const portfolio = appType === "portfolio";
+  const serviceBusiness = appType === "service-business";
 
   return (
     <footer className="border-t border-slate-200 bg-slate-950 py-10 text-white">
@@ -11,12 +13,18 @@ export function PublicFooter() {
           <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
             {productCatalog
               ? "A product catalog built for browsing, comparison, and direct inquiry."
+              : portfolio
+                ? "A portfolio website built for projects, services, notes, and contact."
+                : serviceBusiness
+                  ? "A service business website built for offers, packages, proof, and inquiry."
               : "A responsive website built for clear content management."}
           </p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm font-semibold text-slate-300 md:justify-end">
           <a className="hover:text-white" href="/">Home</a>
           {productCatalog ? <a className="hover:text-white" href="/products">Products</a> : null}
+          {portfolio ? <a className="hover:text-white" href="/#projects">Projects</a> : null}
+          {serviceBusiness ? <a className="hover:text-white" href="/#packages">Packages</a> : null}
           <a className="hover:text-white" href={productCatalog ? "/about" : "/#about"}>About</a>
           <a className="hover:text-white" href={productCatalog ? "/contact" : "/#contact"}>Contact</a>
         </div>

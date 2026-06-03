@@ -13,6 +13,20 @@ const defaultNavItems = [
   { label: "Contact", href: "/#contact" }
 ];
 
+const portfolioNavItems = [
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/#projects" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" }
+];
+
+const serviceBusinessNavItems = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/#about" },
+  { label: "Packages", href: "/#packages" },
+  { label: "Contact", href: "/#contact" }
+];
+
 const productCatalogNavItems = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
@@ -24,7 +38,7 @@ const productCatalogNavItems = [
 export function PublicHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const navItems = appType === "product-catalog" ? productCatalogNavItems : defaultNavItems;
+  const navItems = appType === "product-catalog" ? productCatalogNavItems : appType === "portfolio" ? portfolioNavItems : appType === "service-business" ? serviceBusinessNavItems : defaultNavItems;
 
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">

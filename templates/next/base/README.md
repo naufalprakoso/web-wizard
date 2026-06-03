@@ -14,6 +14,19 @@ Product Catalog projects include:
 - Admin CMS forms for products, categories, catalog copy, and SEO
 - Contact form and admin message inbox
 
+Portfolio projects include:
+
+- Project cards with stack, impact, and optional links
+- Services, testimonials, notes, skills, and contact
+- Template-specific CMS collections for projects, services, testimonials, and notes
+- CMS fields for profile, skills, SEO, and theme settings
+
+Service Business projects include:
+
+- Services, packages, process steps, case studies, FAQ, and contact
+- Template-specific CMS collections for service offers, packages, process steps, case studies, and FAQ
+- Contact form and admin message inbox
+
 ## Install
 
 ```bash
@@ -56,7 +69,7 @@ NEXT_PUBLIC_SHOW_ADMIN_LINK=false
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-The website renders with fallback content when Firebase is not configured. Firebase is required for saving CMS content, products, categories, theme settings, uploaded images, and contact messages.
+The website renders with fallback content when Firebase is not configured. Firebase is required for saving CMS content, template-specific collection records, products, categories, theme settings, uploaded images, and contact messages.
 
 `NEXT_PUBLIC_ADMIN_EMAILS` controls the client-side admin gate. It does not update deployed Firestore or Storage rules by itself.
 
@@ -103,6 +116,7 @@ Before deploying, replace `admin@example.com` in both rule files. If the env all
 - Admin sign-in works but saves/uploads fail: keep `NEXT_PUBLIC_ADMIN_EMAILS`, `firestore.rules`, and `storage.rules` allowlists in sync.
 - Contact form says Firestore is not configured: add Firebase Web App values to `.env.local` and restart `npm run dev`.
 - Product detail 404: publish the product and keep its stable slug/ID.
+- Template-specific records are missing publicly: publish the record and confirm the matching Firestore rules have been deployed.
 
 ## Admin Dashboard
 
@@ -110,6 +124,7 @@ Go to `/admin/login`, sign in with the allowlisted admin email, then manage:
 
 - CMS content
 - Products and categories
+- Template-specific records such as projects, services, packages, testimonials, notes, team members, case studies, and FAQ
 - Product images
 - Featured products
 - Product status and specifications
@@ -143,6 +158,25 @@ messages/
 ```
 
 Use stable product IDs because they become product detail URLs such as `/products/modular-oak-desk`.
+
+Other templates keep top-level page copy in `cms/{templateId}` and store repeated business records in template-specific collections:
+
+```text
+portfolioProjects/
+portfolioServices/
+portfolioTestimonials/
+portfolioNotes/
+
+serviceBusinessServices/
+serviceBusinessPackages/
+serviceBusinessProcess/
+serviceBusinessCaseStudies/
+serviceBusinessFaqs/
+
+companyServices/
+companyCaseStudies/
+companyTeamMembers/
+```
 
 ## Theme Colors
 

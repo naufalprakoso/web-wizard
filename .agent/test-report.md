@@ -215,3 +215,123 @@ Product Catalog build output includes:
 - P0: none.
 - P1: none unresolved.
 - P2: generated QA script is route-focused; screenshot/overflow QA remains an agent/developer workflow rather than a dependency-free npm script.
+
+## New template addition cycle - Portfolio and Service Business
+
+### Commands executed
+
+- `npm run build`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create portfolio-check --app-type portfolio --frontend next --storage firebase-storage`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create service-check --app-type service-business --frontend next --storage firebase-storage`
+- `npm install` in each generated project
+- `npm run typecheck && npm run build` in each generated project
+- `npm run dev -- --port 4311` for Portfolio
+- `npm run dev -- --port 4312` for Service Business
+- `QA_BASE_URL=http://localhost:4311 npm run qa:routes`
+- `QA_BASE_URL=http://localhost:4312 npm run qa:routes`
+- Chrome/Playwright runtime QA from `/tmp/web-wizard-qa-runner`
+
+### Generated project names
+
+- `/tmp/web-wizard-new-templates/portfolio-check`
+- `/tmp/web-wizard-new-templates/service-check`
+
+### Build results
+
+- Root CLI build passed.
+- Portfolio: install passed, typecheck passed, build passed.
+- Service Business: install passed, typecheck passed, build passed.
+- Both generated build outputs include `/`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, and `/sitemap.xml`.
+
+### Runtime results
+
+- Portfolio dev server ran on `http://localhost:4311`.
+- Service Business dev server ran on `http://localhost:4312`.
+- Generated `qa:routes` passed for both projects.
+- Runtime route checks passed for `/`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, and `/sitemap.xml`.
+- Portfolio homepage rendered expected content: `Selected work`, `A compact skill set`, `Work with Ari`, and `Project inquiry`.
+- Service Business homepage rendered expected content: `Simple package comparison`, `Common service questions`, `Contact Clearpath Studio`, and `Service inquiry`.
+- Mobile overflow check passed at 390px for both templates.
+- No fatal browser console errors were detected.
+
+### Screenshots
+
+- `/tmp/web-wizard-new-templates/screenshots-final/portfolio-desktop.png`
+- `/tmp/web-wizard-new-templates/screenshots-final/portfolio-mobile.png`
+- `/tmp/web-wizard-new-templates/screenshots-final/service-desktop.png`
+- `/tmp/web-wizard-new-templates/screenshots-final/service-mobile.png`
+
+### Bugs and UX issues fixed in this cycle
+
+- Added `portfolio` and `service-business` to supported CLI app types, aliases, prompt choices, validation, and command help.
+- Added Portfolio public page, CMS schema/default content/admin form, and theme preset.
+- Added Service Business public page, CMS schema/default content/admin form, and theme preset.
+- Updated public header/footer navigation and generated README copy for the two new templates.
+- Made shared contact subject chips app-type-specific so Portfolio and Service Business no longer show Product Catalog inquiry labels.
+
+### Remaining issues
+
+- P0: none.
+- P1: none unresolved for these two new templates.
+- P2: deeper field-level validation and richer admin preview states remain future polish.
+
+## Template-specific CMS collection cycle
+
+### Commands executed
+
+- `npm run build`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create portfolio-cms --app-type portfolio --frontend next --storage firebase-storage`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create service-cms --app-type service-business --frontend next --storage firebase-storage`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create company-cms --app-type company-profile --frontend next --storage firebase-storage`
+- `npm install` in each generated project
+- `npm run typecheck && npm run build` in each generated project
+- `npm run dev -- --port 4321` for Portfolio
+- `npm run dev -- --port 4322` for Service Business
+- `npm run dev -- --port 4323` for Company Profile
+- `QA_BASE_URL=http://localhost:<port> npm run qa:routes` in each generated project
+- Chrome/Playwright runtime QA from `/tmp/web-wizard-qa-runner`
+
+### Generated project names
+
+- `/tmp/web-wizard-template-cms/portfolio-cms`
+- `/tmp/web-wizard-template-cms/service-cms`
+- `/tmp/web-wizard-template-cms/company-cms`
+
+### Build results
+
+- Root CLI build passed.
+- Portfolio CMS project: install passed, typecheck passed, build passed.
+- Service Business CMS project: install passed, typecheck passed, build passed.
+- Company Profile CMS project: install passed, typecheck passed, build passed.
+
+### Runtime results
+
+- Portfolio route smoke passed for `/`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, and `/sitemap.xml`.
+- Service Business route smoke passed for `/`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, and `/sitemap.xml`.
+- Company Profile route smoke passed for `/`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, `/admin/settings`, `/robots.txt`, and `/sitemap.xml`.
+- Mobile overflow check passed at 390px for Portfolio, Service Business, and Company Profile.
+- Public pages rendered fallback collection content correctly when Firebase was not configured.
+
+### Screenshots
+
+- `/tmp/web-wizard-template-cms/screenshots/portfolio-desktop.png`
+- `/tmp/web-wizard-template-cms/screenshots/portfolio-mobile.png`
+- `/tmp/web-wizard-template-cms/screenshots/service-desktop.png`
+- `/tmp/web-wizard-template-cms/screenshots/service-mobile.png`
+- `/tmp/web-wizard-template-cms/screenshots/company-desktop.png`
+- `/tmp/web-wizard-template-cms/screenshots/company-mobile.png`
+
+### Bugs and UX issues fixed in this cycle
+
+- Added shared `CollectionCrudField` for template-specific admin collection CRUD.
+- Portfolio CMS now has separate CRUD records for projects, services, testimonials, and notes.
+- Service Business CMS now has separate CRUD records for services, packages, process steps, case studies, and FAQ.
+- Company Profile CMS now has separate CRUD records for services, case studies, and team members.
+- Public pages now read published template-specific collections and fall back to template content when Firebase or records are unavailable.
+- Firestore rules now include admin-only writes and published-only public reads for the new template-specific collections.
+
+### Remaining issues
+
+- P0: none.
+- P1: none unresolved from the CMS collection pass.
+- P2: collection item ordering is currently timestamp-based; explicit ordering fields can be added later if authors need manual ordering after records are saved.
