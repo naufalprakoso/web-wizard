@@ -22,6 +22,7 @@ npm run dev -- create my-website
 - Firebase Storage
 - Theme color settings
 - SEO metadata setup
+- Custom 404 page
 - Contact form
 - Firestore and Storage rules
 - `.env.example`

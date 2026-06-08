@@ -5,6 +5,7 @@ Created with Web Template Wizard.
 ## Project Overview
 
 This is a responsive Next.js website generated for `__APP_DISPLAY_NAME__`. It includes a public website, admin login, CMS-ready content, Firebase Auth, Firestore, Firebase Storage, contact messages, SEO defaults, and theme color settings.
+Generated projects also include a custom 404 page for missing or unpublished routes.
 
 Product Catalog projects include:
 
