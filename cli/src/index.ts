@@ -7,7 +7,7 @@ const program = new Command();
 program
   .name("web-template-wizard")
   .description("Generate responsive website templates with CMS, admin dashboard, Firebase, and customizable themes.")
-  .version("0.1.3");
+  .version("0.1.5");
 
 program
   .command("create")
