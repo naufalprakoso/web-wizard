@@ -5,7 +5,7 @@ import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
-import { FinalCTA, SectionHeader, TrustBar } from "@/components/sections/LandingBlocks";
+import { SectionHeader, TrustBar } from "@/components/sections/LandingBlocks";
 import { getPublishedCmsDocument } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { landingPageDefaultContent } from "@/lib/app-type/cms/default-content";
@@ -87,20 +87,20 @@ export default async function LandingPage() {
 
         <section id="features" className="bg-white py-20">
           <div className="section-shell">
-            <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <div>
-                <h2 className="text-4xl font-black leading-tight text-primary md:text-5xl">{content.outcomeTitle}</h2>
+            <div className="rounded-[28px] border border-green-100 bg-green-50 p-6 md:p-8">
+              <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+                <h2 className="text-4xl font-black leading-tight text-green-950 md:text-5xl">{content.outcomeTitle}</h2>
+                <p className="max-w-2xl leading-7 text-green-950/65 lg:justify-self-end">{content.outcomeBody}</p>
               </div>
-              <p className="max-w-2xl leading-7 text-slate-600 lg:justify-self-end">{content.outcomeBody}</p>
-            </div>
-            <div className="mt-10 grid overflow-hidden rounded-[32px] border border-slate-200 md:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
               {content.features.map((feature, index) => (
-                <div key={feature} className="border-b border-slate-200 bg-slate-50 p-6 last:border-b-0 md:border-r md:last:border-r-0 lg:border-b-0">
-                  <span className="text-5xl font-black text-slate-200">0{index + 1}</span>
-                  <p className="mt-8 text-lg font-black text-primary">{feature}</p>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">Built into the CMS-backed landing experience.</p>
+                <div key={feature} className="rounded-[20px] border border-green-100 bg-white p-5">
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-green-50 font-black text-green-700">0{index + 1}</span>
+                  <p className="mt-5 text-lg font-black text-green-950">{feature}</p>
+                  <p className="mt-3 text-sm leading-6 text-green-950/60">Built into the CMS-backed landing experience.</p>
                 </div>
               ))}
+              </div>
             </div>
           </div>
         </section>
@@ -116,17 +116,19 @@ export default async function LandingPage() {
         </section>
 
         <section className="py-20">
-          <div className="section-shell grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-            <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="section-shell">
+            <div>
               <p className="text-sm font-black uppercase tracking-widest text-accent">How it works</p>
               <h2 className="mt-3 text-4xl font-black leading-tight text-primary">From offer to published page.</h2>
               <p className="mt-4 leading-7 text-slate-600">A landing page should move from decision to action with a visible path.</p>
             </div>
-            <div className="grid gap-4">
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
               {content.steps.map((step, index) => (
-                <div key={step} className="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-[80px_1fr]">
-                  <span className="text-5xl font-black text-secondary">0{index + 1}</span>
-                  <p className="text-2xl font-black leading-tight text-primary">{step}</p>
+                <div key={step} className="relative text-center">
+                  <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-green-500 bg-white text-lg font-black text-green-700">0{index + 1}</span>
+                  {index < content.steps.length - 1 ? <span className="absolute left-[60%] right-[-40%] top-8 hidden h-px bg-green-300 md:block" /> : null}
+                  <p className="mt-5 text-xl font-black leading-tight text-primary">{step}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-500">A focused step that keeps the launch moving without adding process overhead.</p>
                 </div>
               ))}
             </div>
@@ -153,12 +155,44 @@ export default async function LandingPage() {
 
         <section className="py-20">
           <div className="section-shell grid gap-4 md:grid-cols-2">
-            <SectionHeader label="FAQ" title="Common launch questions." body="Answers stay short so the page keeps moving toward the contact path." />
+            <SectionHeader label="FAQ" title="Frequently Asked Questions" body="Answers stay short so the page keeps moving toward the contact path." />
             <FaqAccordion items={content.faqs} />
           </div>
         </section>
 
-        <FinalCTA title={content.finalCtaTitle} body={content.finalCtaText} ctaHref={content.ctaLink} ctaLabel="Start the conversation" />
+        <section className="bg-violet-50 py-16 md:py-20">
+          <div className="section-shell grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-widest text-violet-700">Launch-ready system</p>
+              <h2 className="mt-3 text-4xl font-black leading-tight text-violet-950">{content.finalCtaTitle}</h2>
+              <p className="mt-4 max-w-xl leading-7 text-violet-950/65">{content.finalCtaText}</p>
+              <div className="mt-6 grid gap-2 text-sm font-bold text-violet-950">
+                {["CMS-managed content", "Responsive sections", "Firebase-ready forms"].map((item) => <p key={item}>✓ {item}</p>)}
+              </div>
+              <ButtonLink href={content.ctaLink} className="mt-8">Start the conversation</ButtonLink>
+            </div>
+            <div className="rounded-[28px] border border-violet-100 bg-white p-6 shadow-xl">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                <p className="font-black text-primary">Campaign overview</p>
+                <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-black text-green-700">Ready</span>
+              </div>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                {["Sections", "Leads", "Updates"].map((item, index) => (
+                  <div key={item} className="rounded-[18px] bg-slate-50 p-4">
+                    <p className="text-2xl font-black text-violet-700">{index === 0 ? "8" : index === 1 ? "24" : "CMS"}</p>
+                    <p className="mt-2 text-xs font-bold text-slate-500">{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 h-32 rounded-[20px] bg-[linear-gradient(180deg,#f5f3ff_0%,#ffffff_100%)] p-5">
+                <div className="h-2 w-1/3 rounded-full bg-violet-200" />
+                <div className="mt-12 flex items-end gap-2">
+                  {[36, 52, 44, 72, 62, 88].map((height, index) => <div key={index} className="flex-1 rounded-t bg-violet-500" style={{ height }} />)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <ContactSection title="Talk through the next step" subtitle={`Reach us at ${content.contactInfo} or send a note through the form.`} />
       </main>

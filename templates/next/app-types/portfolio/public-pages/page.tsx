@@ -75,11 +75,16 @@ export default async function PortfolioPage() {
         <section id="about" className="border-y border-slate-200 bg-slate-50 py-16 md:py-20">
           <div className="section-shell grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
             <SectionHeader label="Capabilities" title="A compact skill set for useful launches." body="The portfolio template keeps skills visible without turning the homepage into a resume wall." />
-            <div className="grid overflow-hidden rounded-[28px] border border-slate-200 bg-white sm:grid-cols-2 lg:grid-cols-3">
+            <div className="overflow-hidden rounded-[28px] border border-orange-100 bg-white">
+              <div className="grid grid-cols-[1fr_repeat(4,70px)] border-b border-orange-100 bg-orange-50 px-5 py-4 text-xs font-black text-slate-500">
+                <span>Capability</span><span>Expert</span><span>Advanced</span><span>Proficient</span><span>Basic</span>
+              </div>
               {content.skills.map((skill, index) => (
-                <div key={skill} className="min-h-36 border-b border-slate-200 p-5 last:border-b-0 sm:border-r sm:last:border-r-0 lg:[&:nth-child(3n)]:border-r-0">
-                  <p className="text-4xl font-black text-slate-200">0{index + 1}</p>
-                  <p className="mt-8 text-lg font-black text-primary">{skill}</p>
+                <div key={skill} className="grid grid-cols-[1fr_repeat(4,70px)] items-center border-b border-orange-100 px-5 py-4 text-sm last:border-b-0">
+                  <p className="font-black text-primary">{skill}</p>
+                  {[0, 1, 2, 3].map((level) => (
+                    <span key={level} className={`mx-auto h-2.5 w-2.5 rounded-full ${level <= index % 4 ? "bg-orange-500" : "border border-slate-300"}`} />
+                  ))}
                 </div>
               ))}
             </div>
@@ -89,21 +94,38 @@ export default async function PortfolioPage() {
         <section id="projects" className="py-16 md:py-20">
           <div className="section-shell">
             <SectionHeader label="Selected work" title="Projects with context, not just thumbnails." body="Each project card explains the assignment, outcome, and stack so visitors can judge fit quickly." />
-            <div className="mt-8 grid gap-5">
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
               {projects.map((project, index) => (
-                <div key={project.name} className="grid gap-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-[220px_1fr_220px] md:items-center">
-                  <div className="rounded-[22px] bg-slate-950 p-5 text-white">
+                <div key={project.name} className="overflow-hidden rounded-[24px] border border-orange-100 bg-white shadow-sm">
+                  <div className={`relative aspect-[16/9] overflow-hidden p-5 ${index % 2 === 0 ? "bg-slate-950" : "bg-orange-50"}`}>
+                    <div className={`absolute inset-5 rounded-[16px] border ${index % 2 === 0 ? "border-white/10 bg-white/5" : "border-orange-100 bg-white"}`}>
+                      <div className="flex gap-2 border-b border-current/10 p-3">
+                        <span className="h-2 w-2 rounded-full bg-orange-500" />
+                        <span className="h-2 w-2 rounded-full bg-slate-300" />
+                        <span className="h-2 w-2 rounded-full bg-slate-300" />
+                      </div>
+                      <div className="grid h-[calc(100%_-_37px)] grid-cols-[0.35fr_0.65fr] gap-3 p-3">
+                        <div className="rounded bg-current/5" />
+                        <div className="grid gap-3">
+                          <div className="rounded bg-current/10" />
+                          <div className="grid grid-cols-3 gap-2">
+                            <span className="rounded bg-orange-500/70" />
+                            <span className="rounded bg-current/10" />
+                            <span className="rounded bg-current/10" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-5">
                     <p className="text-xs font-black uppercase tracking-widest text-secondary">{project.type}</p>
-                    <p className="mt-12 text-5xl font-black">0{index + 1}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-3xl font-black leading-tight text-primary">{project.name}</h3>
+                    <h3 className="mt-2 text-2xl font-black leading-tight text-primary">{project.name}</h3>
                     <p className="mt-4 leading-7 text-slate-600">{project.summary}</p>
+                    <div className="mt-5 flex items-center justify-between gap-4">
+                      <p className="text-sm font-black text-orange-600">{project.impact}</p>
+                      <p className="text-xs font-bold text-slate-500">{project.stack}</p>
+                    </div>
                     {project.link ? <a className="mt-5 inline-flex text-sm font-black text-accent" href={project.link}>View project</a> : null}
-                  </div>
-                  <div className="grid gap-3 text-sm font-bold">
-                    <p className="rounded-[18px] bg-secondary px-4 py-4 text-slate-950">{project.impact}</p>
-                    <p className="rounded-[18px] bg-slate-50 px-4 py-4 text-slate-500">{project.stack}</p>
                   </div>
                 </div>
               ))}

@@ -70,17 +70,18 @@ export default async function ServiceBusinessPage() {
         </section>
 
         <section id="about" className="border-y border-slate-200 bg-white py-16 md:py-20">
-          <div className="section-shell grid gap-8 lg:grid-cols-[340px_1fr]">
+          <div className="section-shell">
             <SectionHeader label="Services" title="Clear offers visitors can understand quickly." body="This template is built for service businesses that need practical packages, trust cues, and a simple inquiry flow." />
-            <div className="grid gap-4">
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
               {services.map((service, index) => (
-                <div key={service.title} className="grid gap-4 rounded-[28px] border border-slate-200 bg-slate-50 p-5 md:grid-cols-[70px_1fr_220px] md:items-center">
-                  <span className="text-5xl font-black text-orange-200">0{index + 1}</span>
-                  <div>
-                    <h3 className="text-2xl font-black text-primary">{service.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p>
+                <div key={service.title} className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-teal-50 text-lg font-black text-teal-700">0{index + 1}</span>
+                  <h3 className="mt-8 text-2xl font-black text-primary">{service.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">{service.description}</p>
+                  <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-4">
+                    <p className="text-sm font-black text-teal-700">{service.outcome}</p>
+                    <span className="text-xl text-teal-700">→</span>
                   </div>
-                  <p className="rounded-[20px] bg-white px-4 py-4 text-sm font-black leading-6 text-accent shadow-sm">{service.outcome}</p>
                 </div>
               ))}
             </div>
@@ -90,43 +91,58 @@ export default async function ServiceBusinessPage() {
         <section id="packages" className="py-16 md:py-20">
           <div className="section-shell">
             <SectionHeader label="Packages" title="Simple package comparison." body="Keep pricing directional, explain what is included, and route detailed questions into contact." />
-            <div className="mt-8 overflow-hidden rounded-[32px] border border-slate-200">
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
               {packages.map((item, index) => (
-                <div key={item.name} className="grid gap-5 border-b border-slate-200 bg-white p-6 last:border-b-0 md:grid-cols-[1fr_170px_1.1fr] md:items-center">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-widest text-accent">Package 0{index + 1}</p>
-                    <h3 className="mt-2 text-2xl font-black text-primary">{item.name}</h3>
+                <div key={item.name} className={`relative rounded-[24px] border bg-white p-6 ${index === 1 ? "border-teal-600 shadow-xl ring-1 ring-teal-600" : "border-slate-200 shadow-sm"}`}>
+                  {index === 1 ? <p className="absolute inset-x-5 -top-3 rounded-full bg-teal-700 px-3 py-1 text-center text-xs font-black uppercase tracking-widest text-white">Most popular</p> : null}
+                  <p className="text-sm font-black text-primary">{item.name}</p>
+                  <p className="mt-5 text-4xl font-black text-primary">{item.price}</p>
+                  <p className="mt-4 min-h-20 text-sm leading-6 text-slate-600">{item.description}</p>
+                  <div className="mt-6 border-t border-slate-200 pt-5">
+                    {item.features.split(",").map((feature) => (
+                      <p key={feature} className="mt-3 flex gap-2 text-sm font-bold text-slate-700">
+                        <span className="text-teal-700">✓</span>{feature.trim()}
+                      </p>
+                    ))}
                   </div>
-                  <p className="text-3xl font-black text-accent md:text-center">{item.price}</p>
-                  <div>
-                    <p className="text-sm leading-6 text-slate-600">{item.description}</p>
-                    <p className="mt-4 rounded-[18px] bg-page px-4 py-3 text-sm font-bold text-primary">{item.features}</p>
-                  </div>
+                  <ButtonLink href="#contact" variant={index === 1 ? "secondary" : "ghost"} className="mt-7 w-full border border-slate-200">
+                    {index === packages.length - 1 ? "Contact us" : "Get started"}
+                  </ButtonLink>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-primary py-16 text-white md:py-20">
+        <section className="border-y border-slate-200 bg-white py-16 md:py-20">
           <div className="section-shell">
-            <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
-              <div>
-                <p className="text-sm font-black uppercase tracking-widest text-secondary">Process</p>
-                <h2 className="mt-3 text-4xl font-black leading-tight">A short path from inquiry to published offer.</h2>
-              </div>
-              <div className="grid gap-5">
-                {process.map((item, index) => (
-                  <div key={item.step} className="grid gap-4 border-t border-white/10 pt-5 md:grid-cols-[80px_1fr]">
-                    <span className="text-5xl font-black text-secondary">0{index + 1}</span>
-                    <span>
-                      <span className="block text-2xl font-black">{item.step}</span>
-                      <span className="mt-3 block text-sm leading-6 text-white/75">{item.description}</span>
-                    </span>
-                  </div>
-                ))}
-              </div>
+            <SectionHeader label="Process" title="A short path from inquiry to published offer." />
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {process.map((item, index) => (
+                <div key={item.step} className="relative text-center">
+                  <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-teal-600 bg-white text-lg font-black text-teal-700">0{index + 1}</div>
+                  {index < process.length - 1 ? <div className="absolute left-[60%] right-[-40%] top-8 hidden h-px bg-teal-300 md:block" /> : null}
+                  <h3 className="mt-5 text-xl font-black text-primary">{item.step}</h3>
+                  <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-slate-600">{item.description}</p>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 py-12">
+          <div className="section-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: "120+", label: "CMS-ready sections" },
+              { value: "300+", label: "Editable content entries" },
+              { value: "95%", label: "Responsive coverage" },
+              { value: "24/7", label: "Public availability" }
+            ].map((item) => (
+              <div key={item.label} className="rounded-[20px] border border-slate-200 bg-white p-5">
+                <p className="text-3xl font-black text-teal-700">{item.value}</p>
+                <p className="mt-2 text-sm font-bold text-slate-600">{item.label}</p>
+              </div>
+            ))}
           </div>
         </section>
 

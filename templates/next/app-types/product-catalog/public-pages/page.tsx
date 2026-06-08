@@ -130,7 +130,7 @@ export default async function ProductCatalogPage() {
           <div className="section-shell">
             <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
               <div>
-                <p className="text-sm font-black uppercase tracking-widest text-accent">Products</p>
+                <p className="text-sm font-black uppercase tracking-widest text-accent">Featured Products</p>
                 <h2 className="mt-3 text-3xl font-black text-primary md:text-5xl">Search, filter, and compare from one catalog surface.</h2>
               </div>
               <p className="max-w-2xl leading-8 text-slate-600 lg:justify-self-end">Filter by category, search by product detail, and sort the catalog without turning this into a checkout flow. Every card keeps inquiry context visible.</p>
@@ -143,27 +143,68 @@ export default async function ProductCatalogPage() {
 
         <section id="about" className="py-16 md:py-20">
           <div className="section-shell">
-            <div className="overflow-hidden rounded-[32px] bg-primary text-white">
-              <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
-                <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-                  <p className="text-sm font-black uppercase tracking-widest text-secondary">Why choose us</p>
-                  <h2 className="mt-4 text-3xl font-black leading-tight md:text-5xl">{content.trustHeadline}</h2>
-                  <p className="mt-6 max-w-xl leading-8 text-white/70">A catalog site should make selection feel safer: clear availability, practical guidance, and product data that stays editable from the CMS.</p>
-                </div>
-                <div className="grid gap-0 md:grid-cols-3">
-                  {(content.trustPoints.length > 0 ? content.trustPoints : productCatalogDefaultContent.trustPoints).map((point, index) => (
-                    <div key={point} className="border-b border-white/10 p-6 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
-                      <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-sm font-black text-slate-950">{index + 1}</span>
-                      <p className="mt-8 text-lg font-black leading-7">{point}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white">
+              <div className="border-b border-slate-200 p-6">
+                <p className="text-sm font-black uppercase tracking-widest text-accent">Why customers choose us</p>
+                <h2 className="mt-3 text-3xl font-black text-primary">{content.trustHeadline}</h2>
               </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-[720px] w-full text-left text-sm">
+                  <thead className="bg-slate-50 text-xs font-black uppercase tracking-widest text-slate-500">
+                    <tr>
+                      <th className="px-5 py-4">Catalog standard</th>
+                      <th className="bg-blue-50 px-5 py-4 text-blue-700">Your catalog</th>
+                      <th className="px-5 py-4">Typical directory</th>
+                      <th className="px-5 py-4">Static brochure</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      "Published-only public data",
+                      "Category-led browsing",
+                      "Availability and specifications",
+                      "Direct inquiry path",
+                      "CMS-managed updates"
+                    ].map((label, index) => (
+                      <tr key={label} className="border-t border-slate-200">
+                        <td className="px-5 py-4 font-bold text-primary">{label}</td>
+                        <td className="bg-blue-50 px-5 py-4 text-center font-black text-blue-700">✓</td>
+                        <td className="px-5 py-4 text-center text-slate-400">{index < 2 ? "✓" : "×"}</td>
+                        <td className="px-5 py-4 text-center text-slate-400">{index === 0 ? "✓" : "×"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="mt-6 grid overflow-hidden rounded-[28px] border border-slate-200 bg-slate-50 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { value: `${products.length}+`, label: "Published products" },
+                { value: `${categories.length}`, label: "Catalog categories" },
+                { value: "CMS", label: "Managed content" },
+                { value: "24/7", label: "Public discovery" }
+              ].map((item) => (
+                <div key={item.label} className="border-b border-slate-200 p-6 last:border-b-0 sm:border-r lg:border-b-0">
+                  <p className="text-3xl font-black text-blue-700">{item.value}</p>
+                  <p className="mt-2 text-xs font-black uppercase tracking-widest text-slate-500">{item.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         <ContactSection title="Need product guidance?" subtitle="Tell us what you are looking for and our team will help shortlist the right option." />
+        <section className="border-t border-slate-200 bg-white py-10">
+          <div className="section-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {["Clear availability", "CMS-managed catalog", "Secure public data", "Responsive product discovery"].map((item, index) => (
+              <div key={item} className="text-center">
+                <span className="mx-auto grid h-11 w-11 place-items-center rounded-full border border-blue-200 bg-blue-50 font-black text-blue-700">{index + 1}</span>
+                <p className="mt-3 text-sm font-black text-primary">{item}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
       <PublicFooter />
     </>

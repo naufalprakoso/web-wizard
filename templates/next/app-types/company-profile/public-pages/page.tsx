@@ -79,19 +79,12 @@ export default async function CompanyProfilePage() {
                 ))}
               </div>
             </div>
-            <div className="overflow-hidden rounded-[32px] border border-slate-200">
+            <div className="grid gap-4 md:grid-cols-2">
               {services.map((service, index) => (
-                <div key={service.title} className="grid gap-5 border-b border-slate-200 bg-white p-6 last:border-b-0 md:grid-cols-[72px_1fr_220px] md:items-center">
-                  <span className="text-5xl font-black text-slate-200">0{index + 1}</span>
-                  <div>
-                    <h3 className="text-2xl font-black text-primary">{service.title}</h3>
-                    <p className="mt-3 leading-7 text-slate-600">{service.description}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black uppercase tracking-widest text-slate-500 md:grid-cols-1">
-                    {["Plan", "Align", "Deliver"].map((step) => (
-                      <span key={step} className="rounded-full bg-page px-2 py-2">{step}</span>
-                    ))}
-                  </div>
+                <div key={service.title} className="rounded-[24px] border border-violet-100 bg-white p-6 shadow-sm">
+                  <span className="grid h-11 w-11 place-items-center rounded-theme bg-violet-50 font-black text-violet-700">0{index + 1}</span>
+                  <h3 className="mt-6 text-2xl font-black text-primary">{service.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -101,21 +94,29 @@ export default async function CompanyProfilePage() {
         <section className="border-y border-slate-200 bg-slate-50 py-20">
           <div className="section-shell">
             <SectionHeader label="Selected work" title="Case-study patterns without the heavy case-study page." body="Each card keeps the challenge, approach, and result visible for fast scanning." />
-            <div className="mt-10 grid gap-5">
+            <div className="relative mt-10 grid gap-5 before:absolute before:bottom-8 before:left-[31px] before:top-8 before:w-px before:bg-violet-300 md:before:left-[95px]">
               {projects.map((project, index) => (
-                <div key={project.name} className="grid gap-5 rounded-[28px] bg-white p-5 shadow-sm md:grid-cols-[170px_1fr_240px] md:items-center">
-                  <div>
-                    <p className="text-5xl font-black text-secondary">0{index + 1}</p>
-                    <p className="mt-4 text-xs font-black uppercase tracking-widest text-accent">{project.type}</p>
+                <div key={project.name} className="relative grid gap-5 pl-16 md:grid-cols-[90px_1fr] md:pl-0">
+                  <div className="absolute left-4 top-7 grid h-8 w-8 place-items-center rounded-full border-4 border-violet-100 bg-violet-600 text-xs font-black text-white md:static md:mx-auto">
+                    {index + 1}
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-primary">{project.name}</h3>
-                    <div className="mt-4 grid gap-3 text-sm leading-6 text-slate-600 md:grid-cols-2">
-                      <p><span className="font-black text-primary">Challenge:</span> {project.challenge}</p>
-                      <p><span className="font-black text-primary">Approach:</span> {project.approach}</p>
+                  <div className="grid gap-5 rounded-[24px] border border-violet-100 bg-white p-5 shadow-sm md:grid-cols-[1fr_220px] md:items-center">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <p className="text-xs font-black uppercase tracking-widest text-violet-700">{2024 - index}</p>
+                        <span className="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-700">{project.type}</span>
+                      </div>
+                      <h3 className="mt-3 text-2xl font-black text-primary">{project.name}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{project.challenge}</p>
+                      <p className="mt-3 text-sm font-black text-violet-700">{project.result}</p>
+                    </div>
+                    <div className="h-32 rounded-[18px] bg-[linear-gradient(135deg,#ede9fe,#ffffff)] p-4">
+                      <div className="h-2 w-2/3 rounded-full bg-violet-200" />
+                      <div className="mt-8 grid grid-cols-4 items-end gap-2">
+                        {[40, 64, 52, 82].map((height, itemIndex) => <span key={itemIndex} className="rounded-t bg-violet-500" style={{ height }} />)}
+                      </div>
                     </div>
                   </div>
-                  <p className="rounded-[22px] bg-primary px-4 py-5 text-sm font-black leading-6 text-white">{project.result}</p>
                 </div>
               ))}
             </div>
@@ -128,12 +129,12 @@ export default async function CompanyProfilePage() {
               <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
                   <p className="text-sm font-bold uppercase tracking-widest text-secondary">Team</p>
-                  <div className="mt-8 grid gap-4">
+                  <div className="mt-8 grid gap-4 sm:grid-cols-3">
                     {teamMembers.map((member) => (
-                      <div key={member.name} className="grid gap-4 rounded-[24px] border border-white/10 bg-white/5 p-5 sm:grid-cols-[56px_1fr]">
-                        <div className="grid h-14 w-14 place-items-center rounded-full bg-white text-lg font-black text-primary">{initials(member.name)}</div>
+                      <div key={member.name} className="rounded-[20px] border border-white/10 bg-white/5 p-5 text-center">
+                        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white text-lg font-black text-primary">{initials(member.name)}</div>
                         <div>
-                          <p className="text-xl font-black">{member.name}</p>
+                          <p className="mt-4 text-lg font-black">{member.name}</p>
                           <p className="mt-1 font-semibold text-secondary">{member.role}</p>
                           {member.bio ? <p className="mt-3 text-sm leading-6 text-white/65">{member.bio}</p> : null}
                         </div>
@@ -152,6 +153,22 @@ export default async function CompanyProfilePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="bg-[#17103f] py-12 text-white">
+          <div className="section-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: "10+", label: "Years in business" },
+              { value: "250+", label: "Projects delivered" },
+              { value: "98%", label: "Client retention" },
+              { value: "30+", label: "Team collaborators" }
+            ].map((item) => (
+              <div key={item.label} className="text-center">
+                <p className="text-3xl font-black">{item.value}</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-widest text-white/55">{item.label}</p>
+              </div>
+            ))}
           </div>
         </section>
 
