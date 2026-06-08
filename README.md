@@ -84,6 +84,32 @@ Package builds expose the executable as:
 web-template-wizard create my-website
 ```
 
+## Accessing the Generated CMS
+
+After generating a project, start the generated Next.js app:
+
+```bash
+cd my-website
+npm install
+npm run dev
+```
+
+Open the CMS login page:
+
+```text
+http://localhost:3000/admin/login
+```
+
+After signing in as an allowlisted admin, use these admin routes:
+
+```text
+/admin/dashboard  - overview and contact messages
+/admin/cms        - edit template-specific CMS content
+/admin/settings   - edit theme colors and radius
+```
+
+Firebase is required for saving CMS changes. Create an Email/Password user in Firebase Authentication, add the same email to `NEXT_PUBLIC_ADMIN_EMAILS`, and replace `admin@example.com` in the generated `firestore.rules` and `storage.rules` before deploying rules.
+
 ## Supported App Types
 
 - Landing Page

@@ -36,6 +36,32 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+## Access the CMS
+
+Start the generated app:
+
+```bash
+npm run dev
+```
+
+Open the admin login page:
+
+```text
+http://localhost:3000/admin/login
+```
+
+After signing in as an allowlisted admin, use:
+
+```text
+/admin/dashboard  - overview and contact messages
+/admin/cms        - edit CMS content for this template
+/admin/settings   - edit theme colors and border radius
+```
+
+The public header hides the Admin link by default. You can always access the CMS directly through `/admin/login`, or set `NEXT_PUBLIC_SHOW_ADMIN_LINK=true` if you want the public header to show an Admin link during development.
+
+CMS saves require Firebase. Public pages can render fallback content without Firebase, but editing CMS content, uploading images, saving theme settings, and reading contact messages require configured Firebase env values and an allowlisted admin user.
+
 ## Useful Scripts
 
 ```bash
