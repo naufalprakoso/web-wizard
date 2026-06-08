@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { ButtonLink } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { FinalCTA, SectionHeader, TrustBar } from "@/components/sections/LandingBlocks";
@@ -37,34 +36,52 @@ export default async function ServiceBusinessPage() {
     <>
       <PublicHeader />
       <main>
-        <section className="bg-page py-16 md:py-20">
-          <div className="section-shell grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div className="min-w-0">
-              <p className="text-sm font-black uppercase tracking-widest text-accent">{content.businessName}</p>
-              <h1 className="mt-4 max-w-4xl break-words text-4xl font-black leading-tight text-primary sm:text-5xl md:text-6xl">{content.headline}</h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{content.subtitle}</p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="#packages">Compare packages</ButtonLink>
-                <ButtonLink href="#contact" variant="secondary">Request a quote</ButtonLink>
+        <section className="bg-[#fff7ed] py-14 md:py-20">
+          <div className="section-shell">
+            <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-stretch">
+              <div className="min-w-0 rounded-[36px] bg-white p-6 shadow-xl shadow-orange-950/10 md:p-10">
+                <p className="text-sm font-black uppercase tracking-widest text-accent">{content.businessName}</p>
+                <h1 className="mt-5 max-w-4xl break-words text-4xl font-black leading-[0.95] tracking-tight text-primary sm:text-6xl md:text-7xl">{content.headline}</h1>
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{content.subtitle}</p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <ButtonLink href="#packages">Compare packages</ButtonLink>
+                  <ButtonLink href="#contact" variant="secondary">Request a quote</ButtonLink>
+                </div>
+                <div className="mt-8">
+                  <TrustBar items={[content.serviceArea, content.responsePromise, ...content.trustPoints.slice(0, 1)]} />
+                </div>
               </div>
-              <div className="mt-8">
-                <TrustBar items={[content.serviceArea, content.responsePromise, ...content.trustPoints.slice(0, 1)]} />
+              <div className="grid content-between gap-4 rounded-[36px] bg-primary p-5 text-white shadow-xl shadow-orange-950/10">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-secondary">Fast quote path</p>
+                  <div className="mt-5 grid gap-3">
+                    {packages.slice(0, 3).map((item) => (
+                      <a key={item.name} href="#contact" className="rounded-2xl border border-white/10 bg-white/10 p-4 transition hover:bg-white/15">
+                        <span className="block text-lg font-black">{item.name}</span>
+                        <span className="mt-1 block text-sm font-bold text-secondary">{item.price}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <ServiceVisual imageUrl={content.heroImage} alt={content.heroImageAlt || content.businessName} businessName={content.businessName} />
               </div>
             </div>
-            <ServiceVisual imageUrl={content.heroImage} alt={content.heroImageAlt || content.businessName} businessName={content.businessName} />
           </div>
         </section>
 
-        <section id="about" className="border-y border-slate-200 bg-slate-50 py-16 md:py-20">
-          <div className="section-shell">
+        <section id="about" className="border-y border-slate-200 bg-white py-16 md:py-20">
+          <div className="section-shell grid gap-8 lg:grid-cols-[340px_1fr]">
             <SectionHeader label="Services" title="Clear offers visitors can understand quickly." body="This template is built for service businesses that need practical packages, trust cues, and a simple inquiry flow." />
-            <div className="mt-8 grid gap-5 md:grid-cols-3">
-              {services.map((service) => (
-                <Card key={service.title} className="p-5">
-                  <h3 className="text-xl font-black text-primary">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p>
-                  <p className="mt-5 rounded-theme bg-page px-3 py-2 text-sm font-black text-accent">{service.outcome}</p>
-                </Card>
+            <div className="grid gap-4">
+              {services.map((service, index) => (
+                <div key={service.title} className="grid gap-4 rounded-[28px] border border-slate-200 bg-slate-50 p-5 md:grid-cols-[70px_1fr_220px] md:items-center">
+                  <span className="text-5xl font-black text-orange-200">0{index + 1}</span>
+                  <div>
+                    <h3 className="text-2xl font-black text-primary">{service.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p>
+                  </div>
+                  <p className="rounded-[20px] bg-white px-4 py-4 text-sm font-black leading-6 text-accent shadow-sm">{service.outcome}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -73,41 +90,58 @@ export default async function ServiceBusinessPage() {
         <section id="packages" className="py-16 md:py-20">
           <div className="section-shell">
             <SectionHeader label="Packages" title="Simple package comparison." body="Keep pricing directional, explain what is included, and route detailed questions into contact." />
-            <div className="mt-8 grid gap-5 md:grid-cols-3">
-              {packages.map((item) => (
-                <Card key={item.name} className="p-6">
-                  <h3 className="text-2xl font-black text-primary">{item.name}</h3>
-                  <p className="mt-3 text-2xl font-black text-accent">{item.price}</p>
-                  <p className="mt-4 text-sm leading-6 text-slate-600">{item.description}</p>
-                  <p className="mt-5 rounded-theme bg-page px-3 py-3 text-sm font-bold text-primary">{item.features}</p>
-                </Card>
+            <div className="mt-8 overflow-hidden rounded-[32px] border border-slate-200">
+              {packages.map((item, index) => (
+                <div key={item.name} className="grid gap-5 border-b border-slate-200 bg-white p-6 last:border-b-0 md:grid-cols-[1fr_170px_1.1fr] md:items-center">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-widest text-accent">Package 0{index + 1}</p>
+                    <h3 className="mt-2 text-2xl font-black text-primary">{item.name}</h3>
+                  </div>
+                  <p className="text-3xl font-black text-accent md:text-center">{item.price}</p>
+                  <div>
+                    <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                    <p className="mt-4 rounded-[18px] bg-page px-4 py-3 text-sm font-bold text-primary">{item.features}</p>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         <section className="bg-primary py-16 text-white md:py-20">
-          <div className="section-shell grid gap-4 md:grid-cols-3">
-            {process.map((item, index) => (
-              <div key={item.step} className="rounded-theme border border-white/10 bg-white/5 p-5">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary font-black text-slate-950">{index + 1}</span>
-                <h3 className="mt-5 text-xl font-black">{item.step}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/75">{item.description}</p>
+          <div className="section-shell">
+            <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+              <div>
+                <p className="text-sm font-black uppercase tracking-widest text-secondary">Process</p>
+                <h2 className="mt-3 text-4xl font-black leading-tight">A short path from inquiry to published offer.</h2>
               </div>
-            ))}
+              <div className="grid gap-5">
+                {process.map((item, index) => (
+                  <div key={item.step} className="grid gap-4 border-t border-white/10 pt-5 md:grid-cols-[80px_1fr]">
+                    <span className="text-5xl font-black text-secondary">0{index + 1}</span>
+                    <span>
+                      <span className="block text-2xl font-black">{item.step}</span>
+                      <span className="mt-3 block text-sm leading-6 text-white/75">{item.description}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
         <section className="py-16 md:py-20">
-          <div className="section-shell">
+          <div className="section-shell grid gap-8 lg:grid-cols-[340px_1fr]">
             <SectionHeader label="Proof" title="Service work with concrete outcomes." />
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4">
               {caseStudies.map((item) => (
-                <Card key={item.client} className="p-5">
+                <div key={item.client} className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
                   <p className="text-xs font-black uppercase tracking-widest text-accent">{item.client}</p>
-                  <p className="mt-4 text-sm leading-6 text-slate-600"><span className="font-black text-primary">Need:</span> {item.need}</p>
-                  <p className="mt-4 rounded-theme bg-page px-3 py-2 text-sm font-black text-primary">{item.result}</p>
-                </Card>
+                  <div className="mt-4 grid gap-4 md:grid-cols-[1fr_240px] md:items-center">
+                    <p className="text-sm leading-6 text-slate-600"><span className="font-black text-primary">Need:</span> {item.need}</p>
+                    <p className="rounded-[18px] bg-slate-950 px-4 py-4 text-sm font-black leading-6 text-white">{item.result}</p>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
