@@ -2,173 +2,174 @@ import type { Category, Product, ProductCatalogContent } from "./schema";
 
 export const productCatalogDefaultContent: ProductCatalogContent = {
   published: true,
-  headline: "Curated products, presented with clarity",
-  subtitle: "A premium catalog experience for teams that want buyers to browse, compare, and start a direct inquiry without the complexity of checkout.",
-  about: "Built for product-led brands, studios, distributors, and small teams that need polished product pages, category browsing, and fast contact paths.",
-  trustHeadline: "Built for inquiry-led product discovery",
+  headline: "Modern essentials for everyday style",
+  subtitle: "A polished storefront for fashion, lifestyle, and curated retail catalogs with campaign sections, product rails, category browsing, and direct inquiry CTAs.",
+  about: "Built for boutique retailers, local fashion labels, lifestyle shops, and catalog-first teams that need a visual storefront without managing a full checkout stack.",
+  trustHeadline: "A storefront designed for confident browsing",
   trustPoints: [
     "Published-only catalog reads keep draft products private",
-    "Category browsing and search help visitors narrow decisions quickly",
-    "Inquiry-first CTAs support direct sales without checkout complexity"
+    "Campaign, category, and product sections help visitors find collections faster",
+    "Inquiry-first CTAs support assisted sales without checkout complexity"
   ],
-  whatsappCta: "Request availability",
+  whatsappCta: "Ask for availability",
   whatsappUrl: "",
-  seoTitle: "Premium Product Catalog",
-  seoDescription: "A responsive product catalog website with CMS, Firebase, product management, and contact CTAs."
+  seoTitle: "Modern Fashion Product Catalog",
+  seoDescription: "A responsive fashion and lifestyle product catalog with CMS, Firebase, product management, and contact CTAs."
 };
 
 export const defaultCategories: Category[] = [
-  { id: "workspace", published: true, featured: true, name: "Workspace", description: "Furniture and tools for focused, flexible work." },
-  { id: "home", published: true, featured: true, name: "Home", description: "Warm interior pieces with durable everyday utility." },
-  { id: "carry", published: true, featured: true, name: "Carry", description: "Soft goods and compact essentials for daily movement." }
+  { id: "clothing", published: true, featured: true, name: "Clothing", description: "Layerable shirts, jackets, knitwear, and everyday wardrobe staples." },
+  { id: "accessories", published: true, featured: true, name: "Accessories", description: "Bags, belts, eyewear, and compact details that complete the look." },
+  { id: "sneakers", published: true, featured: true, name: "Sneakers", description: "Daily footwear with clean profiles, soft palettes, and comfortable builds." },
+  { id: "beauty", published: true, featured: false, name: "Beauty", description: "Compact beauty essentials for campaign bundles and lifestyle shelves." }
 ];
 
 export const defaultProducts: Product[] = [
   {
-    id: "modular-oak-desk",
+    id: "linen-resort-shirt",
     published: true,
     featured: true,
-    name: "Modular Oak Desk",
-    shortDescription: "A compact oak desk with soft edges and integrated cable routing.",
-    description: "A refined work surface for home offices, studios, and compact retail spaces. The modular frame keeps the profile light while the oak top brings warmth and long-term durability.",
+    name: "Linen Resort Shirt",
+    shortDescription: "A breathable linen shirt with relaxed tailoring and a soft drape.",
+    description: "A lightweight resort shirt designed for warm days, layered outfits, and effortless catalog styling. The relaxed cut keeps the look polished without feeling formal.",
     imageUrl: "",
-    imageAlt: "Minimal oak writing desk with rounded corners",
-    imageTone: "from-amber-100 via-stone-100 to-slate-200",
-    category: "Workspace",
-    price: "$420",
+    imageAlt: "Neutral linen resort shirt",
+    imageTone: "from-rose-100 via-stone-100 to-orange-100",
+    category: "Clothing",
+    price: "$58",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Oak veneer, powder-coated steel" },
-      { label: "Dimensions", value: "120 x 62 x 74 cm" },
-      { label: "Lead time", value: "Ships in 5-7 business days" }
+      { label: "Material", value: "Washed linen blend" },
+      { label: "Fit", value: "Relaxed unisex cut" },
+      { label: "Colors", value: "Ivory, Sand, Coral" }
     ],
-    seoTitle: "Modular Oak Desk",
-    seoDescription: "A modular oak desk for focused home and studio work."
+    seoTitle: "Linen Resort Shirt",
+    seoDescription: "A breathable linen resort shirt for modern fashion catalogs."
   },
   {
-    id: "linen-lounge-chair",
+    id: "cropped-utility-jacket",
     published: true,
     featured: true,
-    name: "Linen Lounge Chair",
-    shortDescription: "A low-profile lounge chair with textured linen and a generous seat.",
-    description: "A relaxed accent chair designed for reading corners, lobby spaces, and calm living rooms. The neutral upholstery lets the shape work across furniture, decor, and lifestyle catalogs.",
+    name: "Cropped Utility Jacket",
+    shortDescription: "A structured cropped jacket with oversized pockets and matte snaps.",
+    description: "A statement outer layer that works across campaign, streetwear, and weekend edits. The compact silhouette pairs with wide trousers, denim, and neutral basics.",
     imageUrl: "",
-    imageAlt: "Neutral linen lounge chair",
-    imageTone: "from-stone-200 via-zinc-100 to-emerald-100",
-    category: "Home",
-    price: "$310",
+    imageAlt: "Cropped utility jacket",
+    imageTone: "from-orange-100 via-stone-100 to-zinc-200",
+    category: "Clothing",
+    price: "$92",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Linen blend, solid ash frame" },
-      { label: "Seat height", value: "40 cm" },
-      { label: "Care", value: "Removable cushion cover" }
+      { label: "Material", value: "Cotton twill" },
+      { label: "Details", value: "Oversized front pockets" },
+      { label: "Fit", value: "Cropped box fit" }
     ],
-    seoTitle: "Linen Lounge Chair",
-    seoDescription: "A neutral linen lounge chair for premium home and decor catalogs."
+    seoTitle: "Cropped Utility Jacket",
+    seoDescription: "A cropped utility jacket for fashion product catalogs."
   },
   {
-    id: "ceramic-task-lamp",
+    id: "wide-leg-trouser",
     published: true,
     featured: true,
-    name: "Ceramic Task Lamp",
-    shortDescription: "A dimmable ceramic lamp for desks, shelves, and bedside tables.",
-    description: "A warm directional lamp with a compact footprint and tactile ceramic shade. It adds a focused pool of light without overpowering the surrounding interior.",
+    name: "Wide Leg Trouser",
+    shortDescription: "A high-rise trouser with clean pleats and soft movement.",
+    description: "A polished everyday trouser for studio, office, and off-duty looks. The fabric falls cleanly and makes the product card feel editorial without needing complex photography.",
     imageUrl: "",
-    imageAlt: "Ceramic task lamp with warm shade",
-    imageTone: "from-yellow-100 via-orange-100 to-stone-200",
-    category: "Home",
-    price: "$95",
+    imageAlt: "Wide leg trouser",
+    imageTone: "from-slate-100 via-stone-100 to-sky-100",
+    category: "Clothing",
+    price: "$76",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Matte ceramic, brass switch" },
-      { label: "Light", value: "Dimmable warm LED" },
-      { label: "Cable", value: "1.8 m braided cord" }
+      { label: "Material", value: "Tencel blend" },
+      { label: "Waist", value: "High rise" },
+      { label: "Sizes", value: "XS to XL" }
     ],
-    seoTitle: "Ceramic Task Lamp",
-    seoDescription: "A refined ceramic task lamp for warm interior lighting."
+    seoTitle: "Wide Leg Trouser",
+    seoDescription: "A high-rise wide leg trouser for modern retail catalogs."
   },
   {
-    id: "canvas-travel-bag",
+    id: "woven-market-bag",
     published: true,
     featured: false,
-    name: "Canvas Travel Bag",
-    shortDescription: "A structured canvas bag for short trips and daily carry.",
-    description: "A durable carryall with reinforced handles, weather-resistant canvas, and a practical interior layout for three-day trips, studio equipment, or everyday essentials.",
+    name: "Woven Market Bag",
+    shortDescription: "A soft structured bag for daily errands, weekend markets, and travel.",
+    description: "A tactile accessory with a roomy interior and clean silhouette. It gives lifestyle catalogs a warm, handcrafted product moment without using branded imagery.",
     imageUrl: "",
-    imageAlt: "Neutral canvas travel bag",
+    imageAlt: "Woven market bag",
     imageTone: "from-amber-100 via-stone-100 to-sky-100",
-    category: "Carry",
-    price: "$160",
+    category: "Accessories",
+    price: "$42",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Waxed cotton canvas" },
-      { label: "Capacity", value: "32 L" },
-      { label: "Details", value: "Reinforced handles, inner zip pocket" }
+      { label: "Material", value: "Recycled woven fiber" },
+      { label: "Capacity", value: "18 L" },
+      { label: "Details", value: "Inner zip pocket" }
     ],
-    seoTitle: "Canvas Travel Bag",
-    seoDescription: "A neutral canvas travel bag for catalog and inquiry websites."
+    seoTitle: "Woven Market Bag",
+    seoDescription: "A woven market bag for lifestyle catalog websites."
   },
   {
-    id: "minimal-wall-shelf",
+    id: "daily-canvas-sneaker",
     published: true,
     featured: false,
-    name: "Minimal Wall Shelf",
-    shortDescription: "A slim display shelf for books, ceramics, and small decor.",
-    description: "A clean wall-mounted shelf that creates a simple product display moment in homes, studios, and retail interiors.",
+    name: "Daily Canvas Sneaker",
+    shortDescription: "A clean low-top sneaker with a flexible sole and minimal stitching.",
+    description: "A comfortable everyday sneaker with a quiet profile that works across fashion, lifestyle, and back-to-school collections.",
     imageUrl: "",
-    imageAlt: "Minimal wall shelf with decor objects",
-    imageTone: "from-slate-100 via-stone-100 to-rose-100",
-    category: "Home",
-    price: "$88",
+    imageAlt: "Daily canvas sneaker",
+    imageTone: "from-blue-100 via-stone-100 to-zinc-100",
+    category: "Sneakers",
+    price: "$64",
     status: "Limited stock",
     specifications: [
-      { label: "Material", value: "Ash wood, hidden bracket" },
-      { label: "Dimensions", value: "80 x 18 x 5 cm" },
-      { label: "Load", value: "Up to 12 kg" }
+      { label: "Upper", value: "Organic cotton canvas" },
+      { label: "Sole", value: "Flexible rubber" },
+      { label: "Sizes", value: "36 to 45" }
     ],
-    seoTitle: "Minimal Wall Shelf",
-    seoDescription: "A minimal wall shelf for home decor and product catalog websites."
+    seoTitle: "Daily Canvas Sneaker",
+    seoDescription: "A low-top canvas sneaker for retail catalog websites."
   },
   {
-    id: "everyday-tote-bag",
+    id: "soft-rib-sweater",
     published: true,
     featured: false,
-    name: "Everyday Tote Bag",
-    shortDescription: "A soft, structured tote for workdays and weekend errands.",
-    description: "A neutral tote with reinforced seams, a padded laptop sleeve, and enough structure to stand cleanly in product photography and catalog grids.",
+    name: "Soft Rib Sweater",
+    shortDescription: "A midweight rib sweater with a clean neckline and relaxed sleeves.",
+    description: "A cozy knit for seasonal edits and soft campaign shelves. The shape is simple, the palette is flexible, and the description is ready for CMS edits.",
     imageUrl: "",
-    imageAlt: "Everyday neutral tote bag",
-    imageTone: "from-indigo-100 via-stone-100 to-teal-100",
-    category: "Carry",
-    price: "$72",
+    imageAlt: "Soft rib sweater",
+    imageTone: "from-purple-100 via-stone-100 to-pink-100",
+    category: "Clothing",
+    price: "$68",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Recycled cotton canvas" },
-      { label: "Fits", value: "Up to 14-inch laptop" },
-      { label: "Care", value: "Spot clean only" }
+      { label: "Material", value: "Cotton merino blend" },
+      { label: "Fit", value: "Relaxed sleeves" },
+      { label: "Care", value: "Cold wash, dry flat" }
     ],
-    seoTitle: "Everyday Tote Bag",
-    seoDescription: "A neutral everyday tote bag for premium product catalogs."
+    seoTitle: "Soft Rib Sweater",
+    seoDescription: "A soft rib sweater for seasonal fashion catalogs."
   },
   {
-    id: "desktop-organizer-tray",
+    id: "matte-lip-set",
     published: true,
     featured: false,
-    name: "Desktop Organizer Tray",
-    shortDescription: "A low-profile tray for notebooks, tools, and daily desk essentials.",
-    description: "A compact organizer that keeps workspace surfaces calm and intentional. The tray is designed for desks, counters, and studio shelves where small objects need a clean home.",
+    name: "Matte Lip Set",
+    shortDescription: "A compact trio of soft matte shades for daily wear and gifting.",
+    description: "A beauty accessory that gives the catalog a broader lifestyle range. Use it for bundles, seasonal promos, or small-format product cards.",
     imageUrl: "",
-    imageAlt: "Minimal desktop organizer tray",
-    imageTone: "from-zinc-100 via-stone-100 to-amber-100",
-    category: "Workspace",
-    price: "$48",
+    imageAlt: "Matte lip color set",
+    imageTone: "from-pink-100 via-rose-100 to-stone-100",
+    category: "Beauty",
+    price: "$35",
     status: "Available",
     specifications: [
-      { label: "Material", value: "Pressed fiber composite" },
-      { label: "Dimensions", value: "32 x 18 x 3 cm" },
-      { label: "Finish", value: "Soft-touch matte coating" }
+      { label: "Finish", value: "Soft matte" },
+      { label: "Set", value: "Three wearable shades" },
+      { label: "Use", value: "Daily, event, travel" }
     ],
-    seoTitle: "Desktop Organizer Tray",
-    seoDescription: "A minimal desktop organizer tray for workspace product catalogs."
+    seoTitle: "Matte Lip Set",
+    seoDescription: "A compact matte lip set for beauty and lifestyle catalogs."
   }
 ];

@@ -87,3 +87,11 @@ The CMS should stay different per template instead of becoming a generic one-siz
 Product Catalog keeps `products` and `categories`. Portfolio now uses `portfolioProjects`, `portfolioServices`, `portfolioTestimonials`, and `portfolioNotes`. Service Business now uses `serviceBusinessServices`, `serviceBusinessPackages`, `serviceBusinessProcess`, `serviceBusinessCaseStudies`, and `serviceBusinessFaqs`. Company Profile now uses `companyServices`, `companyCaseStudies`, and `companyTeamMembers`.
 
 Repeated records use `published` flags and public pages read them through published-only collection helpers. Top-level hero, SEO, and page-level copy remain in the `cms/{templateId}` document. This keeps the MVP simple while giving each generated admin dashboard a CMS shape that feels native to the selected template.
+
+## Product Catalog fashion storefront direction
+
+The Product Catalog homepage now follows a fashion/lifestyle storefront composition instead of the previous generic catalog composition. The reference target used a campaign hero, visual category shelves, repeated product rails, promo panels, trust/service strips, and a dark footer; those patterns were adopted without copying brand names, logos, or source images.
+
+A generated bitmap hero image is bundled at `/template-visuals/product-fashion-hero.png` so the generated project has a strong first viewport without depending on external stock URLs. Product cards still use CSS-generated neutral visuals from CMS product data to keep package size controlled and avoid shipping a large image library before the MVP needs it.
+
+The template remains inquiry-led, not checkout-led. Product cards use ecommerce-like metadata, sale/original price treatment, and direct availability CTAs, but no cart or payment flow was added because subscriptions, checkout, and broader commerce infrastructure are outside the current MVP scope.

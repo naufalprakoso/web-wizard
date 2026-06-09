@@ -335,3 +335,73 @@ Product Catalog build output includes:
 - P0: none.
 - P1: none unresolved from the CMS collection pass.
 - P2: collection item ordering is currently timestamp-based; explicit ordering fields can be added later if authors need manual ordering after records are saved.
+
+## Product Catalog fashion storefront redesign cycle
+
+### Commands executed
+
+- `npm run typecheck`
+- `npm run build`
+- `node /Users/naufal.prakoso/web-wizard/dist/index.js create web-wizard-fashion-product --app-type product-catalog --frontend next --storage firebase-storage`
+- `npm install --prefer-offline` in `/tmp/web-wizard-fashion-product`
+- `npm run typecheck` in `/tmp/web-wizard-fashion-product`
+- `npm run build` in `/tmp/web-wizard-fashion-product`
+- `npm run dev -- --hostname 127.0.0.1 --port 4851` in `/tmp/web-wizard-fashion-product`
+- Browser QA on `http://127.0.0.1:4851/`
+- Node `fetch` route smoke checks because `curl` is not available in this environment
+
+### Generated project names
+
+- `/tmp/web-wizard-fashion-product`
+
+### Build results
+
+- Root CLI typecheck passed.
+- Root CLI build passed.
+- Generated Product Catalog install passed with 0 npm vulnerabilities.
+- Generated Product Catalog typecheck passed.
+- Generated Product Catalog production build passed.
+
+### Runtime results
+
+- Generated Product Catalog dev server ran on `http://127.0.0.1:4851`.
+- Browser opened `/` successfully with title `Modern Fashion Product Catalog`.
+- Hero image loaded from `/template-visuals/product-fashion-hero.png`.
+- Browser console check returned 0 errors and 0 warnings for the checked pages.
+- Desktop overflow check passed.
+- Mobile 390px overflow check passed.
+- Category filter interaction passed: selecting `Sneakers` changed the finder to `Showing 1 of 7 products` with `Daily Canvas Sneaker`.
+- Search interaction passed: entering `lip` after resetting category changed the finder to `Showing 1 of 7 products` with `Matte Lip Set`.
+
+### Routes checked
+
+- `200 /`
+- `200 /products`
+- `200 /products/linen-resort-shirt`
+- `200 /about`
+- `200 /contact`
+- `200 /admin/login`
+- `200 /admin/dashboard`
+- `200 /admin/cms`
+- `200 /admin/settings`
+- `404 /missing-route`
+
+### Bugs and UX issues fixed in this cycle
+
+- Product Catalog homepage no longer uses the generic dark catalog layout that felt visually disconnected from fashion ecommerce references.
+- Added a generated, non-branded hero campaign image to the generated project assets.
+- Reworked Product Catalog default content into fashion/lifestyle categories and products.
+- Replaced the old comparison-table-heavy homepage with a storefront flow: campaign hero, promo cards, category shelves, product rails, promo tiles, interactive style finder, trust section, brand strip, service strip, and contact section.
+- Reworked product cards to look like ecommerce cards with taller visuals, status pills, rating/sold metadata, sale/original price treatment, and direct inquiry CTA.
+- Updated Product Catalog theme preset to a cleaner fashion storefront palette.
+- Avoided recognizable brand names and external image dependencies in default content.
+
+### Screenshots
+
+- Desktop and mobile screenshots were captured during QA and removed from the repository after inspection because they were temporary artifacts.
+
+### Remaining issues
+
+- P0: none.
+- P1: none from this redesign cycle.
+- P2: product card visuals are generated with CSS placeholders except for the hero campaign image. Future template versions can add more generated bitmap product packshots if package size remains acceptable.

@@ -57,9 +57,9 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
   }, [category, products, query, sort]);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
-      <aside className="rounded-theme border border-slate-200 bg-white p-4 shadow-sm">
-        <p className="text-sm font-black text-primary">Categories</p>
+    <div className="grid gap-5 lg:grid-cols-[240px_1fr]">
+      <aside className="rounded-[24px] border border-zinc-200 bg-white p-4 shadow-[0_18px_60px_rgba(17,17,17,0.06)]">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-zinc-950">Categories</p>
         <div className="mt-4 grid gap-1">
           {categoryNames.map((item) => {
             const active = item === category;
@@ -67,22 +67,22 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
               <button
                 key={item}
                 type="button"
-                className={`focus-ring flex min-h-10 items-center justify-between rounded-theme px-3 text-left text-sm font-bold transition ${
-                  active ? "bg-primary text-white" : "text-slate-600 hover:bg-page hover:text-primary"
+                className={`focus-ring flex min-h-11 items-center justify-between rounded-full px-4 text-left text-sm font-black transition ${
+                  active ? "bg-zinc-950 text-white" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950"
                 }`}
                 onClick={() => setCategory(item)}
               >
                 <span>{item === "All" ? "All products" : item}</span>
-                <span aria-hidden="true">{active ? "→" : ""}</span>
+                <span aria-hidden="true">{active ? ">" : ""}</span>
               </button>
             );
           })}
         </div>
-        <div className="mt-6 border-t border-slate-200 pt-5">
-          <p className="text-xs font-black uppercase tracking-widest text-slate-400">Catalog filters</p>
-          {["Published products", "Category browsing", "Availability status", "Inquiry-first CTA"].map((item) => (
-            <p key={item} className="mt-3 flex items-center gap-2 text-xs font-bold text-slate-600">
-              <span className="h-2 w-2 rounded-full bg-secondary" />
+        <div className="mt-6 rounded-[20px] bg-[#f8f5ef] p-4">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-zinc-400">Shop assist</p>
+          {["Published products", "Category browsing", "Live availability", "Direct inquiry CTA"].map((item) => (
+            <p key={item} className="mt-3 flex items-center gap-2 text-xs font-bold text-zinc-600">
+              <span className="h-2 w-2 rounded-full bg-[#f97316]" />
               {item}
             </p>
           ))}
@@ -90,21 +90,21 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
       </aside>
 
       <div className="grid gap-5">
-        <div className="rounded-theme border border-slate-200 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
+        <div className="rounded-[24px] border border-zinc-200 bg-white/95 p-3 shadow-[0_18px_60px_rgba(17,17,17,0.06)] backdrop-blur md:p-4">
           <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
           <label className="block">
             <span className="sr-only">Search products</span>
             <input
-              className="focus-ring min-h-12 w-full rounded-theme border border-slate-200 bg-page px-4 text-sm font-semibold text-ink placeholder:text-slate-400"
+              className="focus-ring min-h-12 w-full rounded-full border border-zinc-200 bg-[#f8f5ef] px-5 text-sm font-bold text-zinc-950 placeholder:text-zinc-400"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search products, materials, or categories"
+              placeholder="Search shirts, bags, sneakers, materials..."
             />
           </label>
           <label className="block">
             <span className="sr-only">Sort products</span>
             <select
-              className="focus-ring min-h-12 w-full rounded-theme border border-slate-200 bg-page px-4 text-sm font-bold text-ink lg:w-48"
+              className="focus-ring min-h-12 w-full rounded-full border border-zinc-200 bg-[#f8f5ef] px-5 text-sm font-black text-zinc-950 lg:w-52"
               value={sort}
               onChange={(event) => setSort(event.target.value as SortMode)}
             >
@@ -116,11 +116,11 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
           </label>
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm font-bold text-slate-600">
-              Showing <span className="text-primary">{filteredProducts.length}</span> of <span className="text-primary">{products.length}</span> products
+            <p className="text-sm font-bold text-zinc-600">
+              Showing <span className="text-zinc-950">{filteredProducts.length}</span> of <span className="text-zinc-950">{products.length}</span> products
             </p>
             {activeFilterCount > 0 ? (
-              <button type="button" className="focus-ring rounded-full px-3 py-2 text-sm font-black text-accent hover:bg-page" onClick={() => {
+              <button type="button" className="focus-ring rounded-full px-3 py-2 text-sm font-black text-[#f97316] hover:bg-[#fff7ed]" onClick={() => {
                 setQuery("");
                 setCategory("All");
                 setSort("featured");
@@ -139,12 +139,12 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
         </div>
 
         {filteredProducts.length === 0 ? (
-          <div className="rounded-theme border border-dashed border-slate-300 bg-white p-8 text-center">
-          <p className="text-lg font-black text-primary">No matching products yet.</p>
-          <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
+          <div className="rounded-[24px] border border-dashed border-zinc-300 bg-white p-8 text-center">
+          <p className="text-lg font-black text-zinc-950">No matching products yet.</p>
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-zinc-600">
             Try another search term or category. In the admin dashboard, you can publish more products and categories for this catalog.
           </p>
-          <button type="button" className="focus-ring mt-5 rounded-theme bg-primary px-5 py-3 text-sm font-black text-white" onClick={() => {
+          <button type="button" className="focus-ring mt-5 rounded-full bg-zinc-950 px-5 py-3 text-sm font-black text-white" onClick={() => {
             setQuery("");
             setCategory("All");
             setSort("featured");
@@ -158,26 +158,28 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
             <a
               key={product.id ?? product.name}
               href={`/products/${product.id ?? encodeURIComponent(product.name)}`}
-              className="group overflow-hidden rounded-theme border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:border-accent hover:shadow-xl"
+              className="group overflow-hidden rounded-[24px] border border-zinc-200 bg-white shadow-[0_18px_60px_rgba(17,17,17,0.06)] transition duration-200 hover:-translate-y-1 hover:border-zinc-950 hover:shadow-[0_24px_80px_rgba(17,17,17,0.12)]"
             >
-              <ProductVisual product={product} className="aspect-[4/3] w-full" />
+              <ProductVisual product={product} className="aspect-[4/5] w-full" />
               <div className="p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-slate-200 bg-page px-3 py-1 text-xs font-black uppercase tracking-widest text-primary">{product.category}</span>
-                  {product.price ? <span className="text-sm font-black text-primary">{product.price}</span> : null}
+                  <span className="rounded-full bg-[#f4efe7] px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-zinc-700">{product.status}</span>
+                  <span className="text-xs font-black text-amber-500">4.{ratingSeed(product.name)} · {soldSeed(product.name)} sold</span>
                 </div>
-                <h3 className="mt-3 text-xl font-black leading-tight text-primary">{product.name}</h3>
-                <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{product.shortDescription || product.description}</p>
+                <h3 className="mt-3 text-xl font-black leading-tight text-zinc-950">{product.name}</h3>
+                <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600">{product.shortDescription || product.description}</p>
                 {product.specifications?.[0] ? (
-                  <p className="mt-3 rounded-theme bg-page px-3 py-2 text-xs font-bold text-slate-600">
+                  <p className="mt-3 rounded-[16px] bg-[#f8f5ef] px-3 py-2 text-xs font-bold text-zinc-600">
                     {product.specifications[0].label}: {product.specifications[0].value}
                   </p>
                 ) : null}
                 <div className="mt-4 flex items-center justify-between gap-3">
-                  <span className="text-sm font-bold text-accent">Compare details</span>
-                  <span className="rounded-full bg-page px-3 py-1 text-xs font-bold text-slate-600">{product.status}</span>
+                  <span className="flex items-baseline gap-2">
+                    {product.price ? <span className="text-lg font-black text-zinc-950">{product.price}</span> : <span className="text-lg font-black text-zinc-950">Ask</span>}
+                    {product.price ? <span className="text-xs font-bold text-zinc-400 line-through">{oldPrice(product.price)}</span> : null}
+                  </span>
+                  <span className="rounded-full bg-zinc-950 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-white transition group-hover:bg-[#f97316]">{ctaLabel}</span>
                 </div>
-                <p className="mt-2 text-xs font-bold text-slate-500">{ctaLabel}</p>
               </div>
             </a>
           ))}
@@ -190,8 +192,8 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
 
 function ActiveChip({ label, onClear }: { label: string; onClear: () => void }) {
   return (
-    <button type="button" className="focus-ring rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-black text-accent" onClick={onClear}>
-      {label} ×
+    <button type="button" className="focus-ring rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-black text-[#c2410c]" onClick={onClear}>
+      {label} x
     </button>
   );
 }
@@ -210,11 +212,18 @@ export function ProductVisual({ product, className = "" }: { product: Product; c
 
   return (
     <div className={`${className} relative overflow-hidden bg-gradient-to-br ${product.imageTone || "from-slate-100 via-stone-100 to-zinc-200"}`}>
-      <div className="absolute left-[12%] top-[14%] h-[42%] w-[52%] rotate-[-5deg] rounded-theme border border-white/70 bg-white/45 shadow-sm" />
-      <div className="absolute right-[13%] top-[22%] h-[48%] w-[30%] rotate-[7deg] rounded-theme border border-white/70 bg-white/35 shadow-sm" />
-      <div className="absolute inset-x-8 bottom-8 rounded-theme border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur">
-        <p className="text-xs font-black uppercase tracking-widest text-accent">{product.category}</p>
-        <p className="mt-1 text-lg font-black text-primary">{product.name}</p>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.82),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.2),rgba(0,0,0,0.04))]" />
+      <div className="absolute left-1/2 top-[14%] h-[58%] w-[34%] -translate-x-1/2 rounded-t-[42%] rounded-b-[18%] border border-white/75 bg-white/55 shadow-[0_30px_70px_rgba(17,17,17,0.14)] backdrop-blur-sm" />
+      <div className="absolute left-[28%] top-[25%] h-[34%] w-[12%] -rotate-12 rounded-full border border-white/70 bg-white/35 shadow-sm" />
+      <div className="absolute right-[28%] top-[25%] h-[34%] w-[12%] rotate-12 rounded-full border border-white/70 bg-white/35 shadow-sm" />
+      <div className="absolute bottom-[16%] left-[30%] h-[22%] w-[17%] rotate-3 rounded-b-[38%] border border-white/75 bg-white/45 shadow-sm" />
+      <div className="absolute bottom-[16%] right-[30%] h-[22%] w-[17%] -rotate-3 rounded-b-[38%] border border-white/75 bg-white/45 shadow-sm" />
+      <div className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-zinc-700 shadow-sm backdrop-blur">
+        {product.category}
+      </div>
+      <div className="absolute inset-x-4 bottom-4 rounded-[20px] border border-white/80 bg-white/90 p-4 shadow-sm backdrop-blur">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f97316]">New edit</p>
+        <p className="mt-1 text-lg font-black text-zinc-950">{product.name}</p>
       </div>
     </div>
   );
@@ -231,4 +240,18 @@ function priceNumber(value?: string) {
   if (!value) return Number.MAX_SAFE_INTEGER;
   const parsed = Number(value.replace(/[^0-9.]/g, ""));
   return Number.isFinite(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
+}
+
+function oldPrice(value?: string) {
+  const price = priceNumber(value);
+  if (!Number.isFinite(price) || price === Number.MAX_SAFE_INTEGER) return "";
+  return `$${Math.round(price * 1.32)}`;
+}
+
+function ratingSeed(value: string) {
+  return 6 + (value.length % 4);
+}
+
+function soldSeed(value: string) {
+  return 320 + value.length * 37;
 }
