@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { RecordListField, StringListField } from "@/components/admin/RepeaterFields";
 import { deleteCollectionItem, getCmsDocument, listCollection, saveCmsDocument, saveCollectionItem } from "@/lib/cms/cms-service";
 import { productCatalogDefaultContent, defaultCategories, defaultProducts } from "./default-content";
 import { categorySchema, productCatalogSchema, productSchema, type Category, type Product, type ProductCatalogContent } from "./schema";
 
-type AdminTab = "overview" | "products" | "categories";
+type AdminTab = "overview" | "homepage" | "products" | "categories";
 
 export function AppContentForm() {
   const [content, setContent] = useState<ProductCatalogContent>(productCatalogDefaultContent);
@@ -27,7 +28,11 @@ export function AppContentForm() {
         setContent({
           ...productCatalogDefaultContent,
           ...cms,
-          trustPoints: cms.trustPoints ?? productCatalogDefaultContent.trustPoints
+          trustPoints: cms.trustPoints ?? productCatalogDefaultContent.trustPoints,
+          sideBanners: cms.sideBanners ?? productCatalogDefaultContent.sideBanners,
+          promoTiles: cms.promoTiles ?? productCatalogDefaultContent.promoTiles,
+          brandStrip: cms.brandStrip ?? productCatalogDefaultContent.brandStrip,
+          serviceBenefits: cms.serviceBenefits ?? productCatalogDefaultContent.serviceBenefits
         });
         if (productItems.length > 0) setProducts(productItems.map(normalizeProduct));
         if (categoryItems.length > 0) setCategories(categoryItems);
@@ -41,7 +46,7 @@ export function AppContentForm() {
   async function saveOverview() {
     const parsed = productCatalogSchema.safeParse(content);
     if (!parsed.success) {
-      setStatus("Complete catalog overview, trust, CTA, and SEO fields before saving.");
+      setStatus("Complete catalog overview, homepage, trust, CTA, and SEO fields before saving.");
       return;
     }
     try {
@@ -92,6 +97,7 @@ export function AppContentForm() {
       <div className="flex gap-2 overflow-x-auto rounded-theme border border-slate-200 bg-white p-2 shadow-sm">
         {[
           ["overview", "Overview"],
+          ["homepage", "Homepage"],
           ["products", "Products"],
           ["categories", "Categories"]
         ].map(([value, label]) => (
@@ -133,6 +139,86 @@ export function AppContentForm() {
         </Card>
       ) : null}
 
+      {tab === "homepage" ? (
+        <div className="grid gap-6">
+          <Card className="p-5">
+            <div>
+              <h2 className="text-xl font-black text-primary">Hero campaign</h2>
+              <p className="mt-1 text-sm leading-6 text-slate-600">Manage the main banner image, campaign labels, hero copy, and primary action.</p>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <ImageUploadField label="Main banner image" value={content.heroImageUrl} folder="uploads/catalog/homepage" onChange={(heroImageUrl) => setContent({ ...content, heroImageUrl })} />
+              <TextField label="Banner image alt text" value={content.heroImageAlt} onChange={(heroImageAlt) => setContent({ ...content, heroImageAlt })} />
+              <TextField label="Campaign label" value={content.campaignLabel} onChange={(campaignLabel) => setContent({ ...content, campaignLabel })} />
+              <TextField label="Campaign period" value={content.campaignPeriod} onChange={(campaignPeriod) => setContent({ ...content, campaignPeriod })} />
+              <TextField label="Campaign eyebrow" value={content.campaignEyebrow} onChange={(campaignEyebrow) => setContent({ ...content, campaignEyebrow })} />
+              <TextField label="Primary CTA label" value={content.primaryCtaLabel} onChange={(primaryCtaLabel) => setContent({ ...content, primaryCtaLabel })} />
+            </div>
+          </Card>
+
+          <RecordListField
+            label="Side promotional banners"
+            value={content.sideBanners}
+            createItem={() => ({ eyebrow: "Promotion", title: "New collection", body: "Describe this promotion.", ctaLabel: "Explore", href: "/products", imageUrl: "", imageAlt: "Promotion image", tone: "rose" })}
+            fields={[
+              { key: "eyebrow", label: "Eyebrow" },
+              { key: "title", label: "Title" },
+              { key: "body", label: "Description", multiline: true },
+              { key: "ctaLabel", label: "CTA label" },
+              { key: "href", label: "CTA link" },
+              { key: "imageUrl", label: "Optional banner image", image: true, folder: "uploads/catalog/side-banners" },
+              { key: "imageAlt", label: "Image alt text" },
+              { key: "tone", label: "Color tone: rose, violet, orange, blue, purple, or green" }
+            ]}
+            onChange={(sideBanners) => setContent({ ...content, sideBanners })}
+          />
+
+          <Card className="p-5">
+            <h2 className="text-xl font-black text-primary">Section headings</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <TextField label="Category eyebrow" value={content.categoryEyebrow} onChange={(categoryEyebrow) => setContent({ ...content, categoryEyebrow })} />
+              <TextField label="Category title" value={content.categoryTitle} onChange={(categoryTitle) => setContent({ ...content, categoryTitle })} />
+              <TextField label="Top deals rail title" value={content.topDealsTitle} onChange={(topDealsTitle) => setContent({ ...content, topDealsTitle })} />
+              <TextField label="Accessories rail title" value={content.accessoryRailTitle} onChange={(accessoryRailTitle) => setContent({ ...content, accessoryRailTitle })} />
+              <TextField label="Finder eyebrow" value={content.finderEyebrow} onChange={(finderEyebrow) => setContent({ ...content, finderEyebrow })} />
+              <TextField label="Finder title" value={content.finderTitle} onChange={(finderTitle) => setContent({ ...content, finderTitle })} />
+              <TextArea label="Finder description" value={content.finderDescription} onChange={(finderDescription) => setContent({ ...content, finderDescription })} />
+              <TextField label="Clothing rail title" value={content.clothingRailTitle} onChange={(clothingRailTitle) => setContent({ ...content, clothingRailTitle })} />
+            </div>
+          </Card>
+
+          <RecordListField
+            label="Promotional tiles"
+            value={content.promoTiles}
+            createItem={() => ({ title: "New promotion", ctaLabel: "Explore", href: "/products", imageUrl: "", imageAlt: "Promotion image", tone: "orange" })}
+            fields={[
+              { key: "title", label: "Title" },
+              { key: "ctaLabel", label: "CTA label" },
+              { key: "href", label: "CTA link" },
+              { key: "imageUrl", label: "Optional tile image", image: true, folder: "uploads/catalog/promo-tiles" },
+              { key: "imageAlt", label: "Image alt text" },
+              { key: "tone", label: "Color tone: rose, violet, orange, blue, purple, or green" }
+            ]}
+            onChange={(promoTiles) => setContent({ ...content, promoTiles })}
+          />
+
+          <StringListField label="Brand strip labels" value={content.brandStrip} onChange={(brandStrip) => setContent({ ...content, brandStrip })} />
+
+          <RecordListField
+            label="Service and benefit strip"
+            value={content.serviceBenefits}
+            createItem={() => ({ title: "New benefit", body: "Describe the customer benefit." })}
+            fields={[
+              { key: "title", label: "Title" },
+              { key: "body", label: "Description", multiline: true }
+            ]}
+            onChange={(serviceBenefits) => setContent({ ...content, serviceBenefits })}
+          />
+
+          <Button className="w-full md:w-auto" type="button" onClick={() => void saveOverview()}>Save homepage</Button>
+        </div>
+      ) : null}
+
       {tab === "products" ? (
         <Card className="p-5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -150,7 +236,10 @@ export function AppContentForm() {
                   <TextField label="Slug / ID" value={product.id ?? ""} onChange={(id) => updateProduct(index, { id })} />
                   <TextField label="Name" value={product.name} onChange={(name) => updateProduct(index, { name })} />
                   <TextField label="Category" value={product.category} onChange={(category) => updateProduct(index, { category })} />
-                  <TextField label="Price optional" value={product.price ?? ""} onChange={(price) => updateProduct(index, { price })} />
+                  <TextField label="Current price optional" value={product.price ?? ""} onChange={(price) => updateProduct(index, { price })} />
+                  <TextField label="Compare-at / original price optional" value={product.compareAtPrice ?? ""} onChange={(compareAtPrice) => updateProduct(index, { compareAtPrice })} />
+                  <NumberField label="Rating (0-5)" value={product.rating} min={0} max={5} step={0.1} onChange={(rating) => updateProduct(index, { rating })} />
+                  <NumberField label="Sold count" value={product.soldCount} min={0} step={1} onChange={(soldCount) => updateProduct(index, { soldCount })} />
                   <TextField label="Status" value={product.status} onChange={(statusValue) => updateProduct(index, { status: statusValue })} />
                   <TextField label="SEO title" value={product.seoTitle} onChange={(seoTitle) => updateProduct(index, { seoTitle })} />
                   <ImageUploadField label="Image URL" value={product.imageUrl} folder="uploads/products" onChange={(imageUrl) => updateProduct(index, { imageUrl })} />
@@ -244,6 +333,23 @@ function TextArea({ label, value, onChange }: { label: string; value: string; on
   );
 }
 
+function NumberField({ label, value, min, max, step, onChange }: { label: string; value: number; min: number; max?: number; step: number; onChange: (value: number) => void }) {
+  return (
+    <label className="text-sm font-bold text-slate-700">
+      {label}
+      <input
+        className="focus-ring mt-2 min-h-12 w-full rounded-theme border border-slate-300 bg-white px-4"
+        type="number"
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        onChange={(event) => onChange(Number(event.target.value))}
+      />
+    </label>
+  );
+}
+
 function Checkbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (value: boolean) => void }) {
   return (
     <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
@@ -266,6 +372,9 @@ function normalizeProduct(product: Product): Product {
   return {
     ...product,
     shortDescription: product.shortDescription || product.description,
+    compareAtPrice: product.compareAtPrice ?? "",
+    rating: product.rating ?? 0,
+    soldCount: product.soldCount ?? 0,
     specifications: product.specifications ?? []
   };
 }
@@ -283,6 +392,9 @@ function newProduct(): Product {
     imageTone: "from-slate-100 via-stone-100 to-zinc-200",
     category: "General",
     price: "",
+    compareAtPrice: "",
+    rating: 4.8,
+    soldCount: 0,
     status: "Available",
     specifications: [{ label: "Material", value: "Add material" }],
     seoTitle: "New product",

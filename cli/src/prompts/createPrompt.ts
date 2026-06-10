@@ -1,10 +1,11 @@
 import prompts from "prompts";
 import type { SupportedAppType } from "../types.js";
 import { normalizeAppType, normalizeFrontend, normalizeStorage, toDisplayName } from "../utils/strings.js";
-import { validateProjectName } from "../utils/validation.js";
+import { validateProjectName, validateSiteName } from "../utils/validation.js";
 
 export type CreatePromptInput = {
   projectName?: string;
+  siteName?: string;
   appType?: string;
   frontend?: string;
   storage?: string;
@@ -12,7 +13,7 @@ export type CreatePromptInput = {
 
 export type CreatePromptResult = {
   projectName: string;
-  displayName: string;
+  siteName: string;
   appType: SupportedAppType;
   appDisplayName: string;
   frontend: "next";
@@ -46,14 +47,27 @@ const storageChoices = [
 ];
 
 export async function createPrompt(input: CreatePromptInput): Promise<CreatePromptResult | null> {
+  const projectAnswer = await prompts(
+    {
+      type: input.projectName ? null : "text",
+      name: "projectName",
+      message: "Project folder name",
+      initial: "my-website",
+      validate: validateProjectName
+    },
+    { onCancel: () => true }
+  );
+  const projectName = input.projectName ?? projectAnswer.projectName;
+  if (!projectName) return null;
+
   const firstPass = await prompts(
     [
       {
-        type: input.projectName ? null : "text",
-        name: "projectName",
-        message: "Project name",
-        initial: "my-website",
-        validate: validateProjectName
+        type: input.siteName || !process.stdin.isTTY ? null : "text",
+        name: "siteName",
+        message: "Website name",
+        initial: toDisplayName(projectName),
+        validate: validateSiteName
       },
       {
         type: input.appType ? null : "select",
@@ -80,18 +94,23 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
     { onCancel: () => true }
   );
 
-  const projectName = input.projectName ?? firstPass.projectName;
+  const siteName = (input.siteName ?? firstPass.siteName ?? toDisplayName(projectName)).trim();
   const appType = normalizeAppType(input.appType ?? firstPass.appType);
   const frontend = normalizeFrontend(input.frontend ?? firstPass.frontend ?? "next");
   const storage = normalizeStorage(input.storage ?? firstPass.storage ?? "firebase-storage");
 
-  if (!projectName || !appType || !frontend || !storage) {
+  if (!siteName || !appType || !frontend || !storage) {
     return null;
   }
 
   const nameValidation = validateProjectName(projectName);
   if (nameValidation !== true) {
     throw new Error(String(nameValidation));
+  }
+
+  const siteNameValidation = validateSiteName(siteName);
+  if (siteNameValidation !== true) {
+    throw new Error(String(siteNameValidation));
   }
 
   if (!isSupportedAppType(appType)) {
@@ -116,7 +135,7 @@ export async function createPrompt(input: CreatePromptInput): Promise<CreateProm
 
   return {
     projectName,
-    displayName: toDisplayName(projectName),
+    siteName,
     appType,
     appDisplayName: toDisplayName(appType),
     frontend: selectedFrontend,

@@ -1,5 +1,16 @@
 # Web Wizard Implementation Decisions
 
+## Bundled demo product images
+
+Product Catalog demo photography is downloaded during template development,
+converted to WebP, and committed under `public/template-visuals/products`.
+Generated projects make no runtime calls to image providers and require no
+image API key. Every third-party photo has a source and license entry in
+`THIRD_PARTY_ASSETS.md`.
+
+Images with visible recognizable brand names were rejected. CMS users can
+replace every bundled image through the existing image fields.
+
 ## MVP support lane
 
 Next.js and Firebase Storage remain the only fully supported MVP lane. React.js, Nuxt.js, Bunny.net, and no-storage modes should be documented as planned and must not produce broken projects.
@@ -95,3 +106,17 @@ The Product Catalog homepage now follows a fashion/lifestyle storefront composit
 A generated bitmap hero image is bundled at `/template-visuals/product-fashion-hero.png` so the generated project has a strong first viewport without depending on external stock URLs. Product cards still use CSS-generated neutral visuals from CMS product data to keep package size controlled and avoid shipping a large image library before the MVP needs it.
 
 The template remains inquiry-led, not checkout-led. Product cards use ecommerce-like metadata, sale/original price treatment, and direct availability CTAs, but no cart or payment flow was added because subscriptions, checkout, and broader commerce infrastructure are outside the current MVP scope.
+
+## Project folder and website name
+
+The CLI treats the project folder name and public website name as separate values. The project folder is normalized into an npm-safe slug and replaces `__PACKAGE_NAME__`; the website name replaces `__PROJECT_NAME__` in the public header, footer, generated README, admin login, and SEO metadata.
+
+Interactive terminal runs ask for the website name after the folder name. Non-interactive runs default to a humanized folder name unless `--site-name` is provided, which keeps existing scripts backward compatible while allowing deterministic branding in CI.
+
+## Product Catalog homepage CMS
+
+Product Catalog homepage configuration remains inside the existing `cms/productCatalog` document. Hero image and labels, side promotional banners, promo tiles, rail headings, finder copy, brand labels, and service benefits are page-level content rather than separate Firestore collections.
+
+Rating, sold count, and compare-at price belong to each `products/{id}` record because they describe a product card across homepage and catalog views. Existing product records are normalized with safe empty or zero defaults until an admin saves the new fields.
+
+Banner and promo repeaters support Firebase Storage uploads through the shared image upload component. Tone values are restricted at render time to a known visual palette, so invalid CMS values fall back safely instead of becoming arbitrary Tailwind class names.

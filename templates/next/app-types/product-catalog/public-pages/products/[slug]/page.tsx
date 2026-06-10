@@ -159,6 +159,9 @@ function normalizeProduct(product: Product): Product {
   return {
     ...product,
     shortDescription: product.shortDescription || product.description,
+    compareAtPrice: product.compareAtPrice ?? "",
+    rating: product.rating ?? 0,
+    soldCount: product.soldCount ?? 0,
     specifications: product.specifications ?? []
   };
 }

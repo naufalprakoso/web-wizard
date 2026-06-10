@@ -6,13 +6,16 @@ Created with Web Template Wizard.
 
 This is a responsive Next.js website generated for `__APP_DISPLAY_NAME__`. It includes a public website, admin login, CMS-ready content, Firebase Auth, Firestore, Firebase Storage, contact messages, SEO defaults, and theme color settings.
 Generated projects also include a custom 404 page for missing or unpublished routes.
+Demo product photography is bundled locally and needs no image API or API key.
+See `THIRD_PARTY_ASSETS.md` for source and license details.
 
 Product Catalog projects include:
 
 - Product and category pages
 - Search, category filters, and sort UI
 - Product detail pages with specifications and inquiry CTA
-- Admin CMS forms for products, categories, catalog copy, and SEO
+- Admin CMS forms for products, categories, catalog copy, homepage campaigns, promotional banners, product rails, brand/benefit strips, and SEO
+- CMS-managed product rating, sold count, current price, and compare-at price
 - Contact form and admin message inbox
 
 Portfolio projects include:

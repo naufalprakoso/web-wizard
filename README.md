@@ -2,8 +2,23 @@
 
 Web Template Wizard is an open-source CLI for building responsive website templates with CMS, admin dashboard, Firebase, and theme settings.
 
+Product Catalog demo photography is bundled locally as optimized WebP files.
+Generated sites do not require an image API or image API key; source and
+license details are included in the generated `THIRD_PARTY_ASSETS.md`.
+
 ```bash
 npx web-template-wizard create my-website
+```
+
+The interactive CLI asks for both:
+
+- **Project folder name**, used for the folder and npm package name
+- **Website name**, shown in the generated header, footer, README, and SEO metadata
+
+For scripts or CI, provide the website name directly:
+
+```bash
+npx web-template-wizard create my-website --site-name "Northstar Studio"
 ```
 
 For local development:
@@ -29,6 +44,7 @@ npm run dev -- create my-website
 - Setup README
 - Product search/filter UI for Product Catalog websites
 - Product/category CMS structure for Product Catalog websites
+- Product Catalog homepage CMS for hero banners, promotions, rail titles, brand/benefit strips, ratings, sold counts, and compare-at prices
 - Project, service, package, testimonial, and FAQ CMS structures for the newer Portfolio and Service Business templates
 
 ## Installation
@@ -50,7 +66,7 @@ Generate a specific template:
 
 ```bash
 npm run dev -- create company-site --app-type company-profile --frontend next --storage firebase-storage
-npm run dev -- create catalog-site --app-type product-catalog --frontend next --storage firebase-storage
+npm run dev -- create catalog-site --site-name "Northstar Market" --app-type product-catalog --frontend next --storage firebase-storage
 npm run dev -- create portfolio-site --app-type portfolio --frontend next --storage firebase-storage
 npm run dev -- create service-site --app-type service-business --frontend next --storage firebase-storage
 ```

@@ -10,7 +10,7 @@ import { replacePlaceholders } from "../utils/strings.js";
 
 export type GenerateProjectOptions = {
   projectName: string;
-  displayName: string;
+  siteName: string;
   appType: SupportedAppType;
   appDisplayName: string;
   frontend: "next";
@@ -36,7 +36,8 @@ export async function generateProject(options: GenerateProjectOptions): Promise<
     await mergeAppTypeTemplate(path.join(nextRoot, "app-types", options.appType), options.targetDir);
 
     await replacePlaceholders(options.targetDir, {
-      __PROJECT_NAME__: options.projectName,
+      __PACKAGE_NAME__: options.projectName,
+      __PROJECT_NAME__: options.siteName,
       __APP_TYPE__: options.appType,
       __APP_DISPLAY_NAME__: options.appDisplayName,
       __DEFAULT_THEME__: options.appType

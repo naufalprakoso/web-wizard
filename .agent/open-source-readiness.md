@@ -16,6 +16,8 @@
 - [x] `.env.example` is clear
 - [x] No hardcoded local path in generated output
 - [x] No branded copyrighted sample images
+- [x] Demo image sources and licenses documented
+- [x] Demo images require no runtime image API or API key
 - [x] No lorem ipsum in main content
 - [x] No broken links found in checked Product Catalog routes
 - [x] No crashing placeholder pages found
@@ -32,6 +34,9 @@
 - Product Catalog dev server ran on `http://localhost:3211`.
 - Browser QA checked `/`, `/products`, `/products/modular-oak-desk`, `/about`, `/contact`, `/admin/login`, `/admin/dashboard`, `/admin/cms`, and `/admin/settings`.
 - Product search/filter interaction was exercised.
+- Fresh Product Catalog with bundled local product photography passed install,
+  typecheck, build, route smoke, desktop/mobile browser QA, image loading
+  checks, and runtime scans for image-provider API/CDN dependencies.
 - Desktop and mobile screenshots were captured for `/products`:
   - `/tmp/web-wizard-review/screenshots/product-desktop.png`
   - `/tmp/web-wizard-review/screenshots/product-mobile.png`

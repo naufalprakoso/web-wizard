@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 type TextFieldSpec<TItem extends Record<string, string | undefined>> = {
   key: keyof TItem;
   label: string;
   multiline?: boolean;
+  image?: boolean;
+  folder?: string;
 };
 
 export function StringListField({ label, value, onChange }: { label: string; value: string[]; onChange: (value: string[]) => void }) {
@@ -56,22 +59,34 @@ export function RecordListField<TItem extends Record<string, string | undefined>
           <div key={index} className="rounded-theme border border-slate-200 bg-slate-50 p-3">
             <div className="grid gap-3">
               {fields.map((field) => (
-                <label key={String(field.key)} className="text-xs font-black uppercase tracking-widest text-slate-500">
-                  {field.label}
-                  {field.multiline ? (
+                <div key={String(field.key)}>
+                  {field.image ? (
+                    <ImageUploadField
+                      label={field.label}
+                      value={item[field.key] ?? ""}
+                      folder={field.folder}
+                      onChange={(nextValue) => onChange(updateRecord(value, index, field.key, nextValue))}
+                    />
+                  ) : field.multiline ? (
+                    <label className="text-xs font-black uppercase tracking-widest text-slate-500">
+                      {field.label}
                     <textarea
                       className="focus-ring mt-2 min-h-24 w-full rounded-theme border border-slate-300 bg-white px-3 py-2 text-sm font-semibold normal-case tracking-normal text-slate-900"
                       value={item[field.key] ?? ""}
                       onChange={(event) => onChange(updateRecord(value, index, field.key, event.target.value))}
                     />
+                    </label>
                   ) : (
+                    <label className="text-xs font-black uppercase tracking-widest text-slate-500">
+                      {field.label}
                     <input
                       className="focus-ring mt-2 min-h-11 w-full rounded-theme border border-slate-300 bg-white px-3 text-sm font-semibold normal-case tracking-normal text-slate-900"
                       value={item[field.key] ?? ""}
                       onChange={(event) => onChange(updateRecord(value, index, field.key, event.target.value))}
                     />
+                    </label>
                   )}
-                </label>
+                </div>
               ))}
             </div>
             <div className="mt-3">

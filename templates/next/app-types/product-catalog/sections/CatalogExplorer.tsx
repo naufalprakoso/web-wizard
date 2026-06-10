@@ -164,7 +164,7 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
               <div className="p-4">
                 <div className="flex items-center justify-between gap-3">
                   <span className="rounded-full bg-[#f4efe7] px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-zinc-700">{product.status}</span>
-                  <span className="text-xs font-black text-amber-500">4.{ratingSeed(product.name)} · {soldSeed(product.name)} sold</span>
+                  <span className="text-xs font-black text-amber-500">{(product.rating ?? 0).toFixed(1)} · {(product.soldCount ?? 0).toLocaleString()} sold</span>
                 </div>
                 <h3 className="mt-3 text-xl font-black leading-tight text-zinc-950">{product.name}</h3>
                 <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600">{product.shortDescription || product.description}</p>
@@ -176,7 +176,7 @@ export function CatalogExplorer({ products, categories, ctaLabel, compact = fals
                 <div className="mt-4 flex items-center justify-between gap-3">
                   <span className="flex items-baseline gap-2">
                     {product.price ? <span className="text-lg font-black text-zinc-950">{product.price}</span> : <span className="text-lg font-black text-zinc-950">Ask</span>}
-                    {product.price ? <span className="text-xs font-bold text-zinc-400 line-through">{oldPrice(product.price)}</span> : null}
+                    {product.compareAtPrice ? <span className="text-xs font-bold text-zinc-400 line-through">{product.compareAtPrice}</span> : null}
                   </span>
                   <span className="rounded-full bg-zinc-950 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-white transition group-hover:bg-[#f97316]">{ctaLabel}</span>
                 </div>
@@ -240,18 +240,4 @@ function priceNumber(value?: string) {
   if (!value) return Number.MAX_SAFE_INTEGER;
   const parsed = Number(value.replace(/[^0-9.]/g, ""));
   return Number.isFinite(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
-}
-
-function oldPrice(value?: string) {
-  const price = priceNumber(value);
-  if (!Number.isFinite(price) || price === Number.MAX_SAFE_INTEGER) return "";
-  return `$${Math.round(price * 1.32)}`;
-}
-
-function ratingSeed(value: string) {
-  return 6 + (value.length % 4);
-}
-
-function soldSeed(value: string) {
-  return 320 + value.length * 37;
 }

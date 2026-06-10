@@ -404,4 +404,147 @@ Product Catalog build output includes:
 
 - P0: none.
 - P1: none from this redesign cycle.
-- P2: product card visuals are generated with CSS placeholders except for the hero campaign image. Future template versions can add more generated bitmap product packshots if package size remains acceptable.
+- P2: none from this redesign cycle. Product cards now use bundled local WebP
+  photography with source and license records.
+
+## Website name CLI prompt cycle
+
+### Commands executed
+
+- `npm run typecheck`
+- `npm run build`
+- `node dist/index.js create --help`
+- `node dist/index.js create web-wizard-site-name --site-name "Northstar Market" --app-type product-catalog --frontend next --storage firebase-storage`
+- `node dist/index.js create web-wizard-site-fallback --app-type landing-page --frontend next --storage firebase-storage`
+- Interactive PTY check of the `Website name` prompt
+- `npm install --prefer-offline`
+- `npm run typecheck`
+- `npm run build`
+
+### Results
+
+- Interactive creation now asks `Website name` separately from `Project folder name`.
+- `--site-name` is available for scripts and CI.
+- The generated npm package kept the safe slug `web-wizard-site-name`.
+- Header, footer, generated README, admin login, and SEO metadata used `Northstar Market`.
+- A non-interactive command without `--site-name` remained backward compatible and used `Web Wizard Site Fallback`.
+- Generated Product Catalog install, typecheck, and production build passed.
+- npm audit reported 0 vulnerabilities.
+
+### Remaining issues
+
+- P0: none.
+- P1: none.
+
+## Local licensed product image cycle
+
+### Commands executed
+
+- `npm run typecheck`
+- `npm run build`
+- Generated `web-wizard-local-images` as Product Catalog with website name
+  `Northstar Market`
+- `npm install`
+- `npm run typecheck`
+- `npm run build`
+- `npm run dev -- --hostname 127.0.0.1 --port 4851`
+- `QA_BASE_URL=http://127.0.0.1:4851 npm run qa:routes`
+- Browser desktop and 390px mobile QA
+- Runtime scans for image-provider CDN URLs and image API environment variables
+
+### Build and runtime results
+
+- Root CLI typecheck and build passed.
+- Generated Product Catalog install passed with 0 npm vulnerabilities.
+- Generated Product Catalog typecheck passed.
+- Generated Product Catalog production build passed.
+- Dev server ran at `http://127.0.0.1:4851`.
+- All seven product images loaded from local
+  `/template-visuals/products/*.webp` paths with non-zero natural dimensions.
+- Browser console reported 0 errors and 0 warnings.
+- Desktop and 390px mobile horizontal overflow checks passed.
+- Mobile navigation expanded and exposed all public links.
+- Search interaction with `lip` showed `1 of 7 products` and `Matte Lip Set`.
+- Product detail `/products/matte-lip-set` rendered its local image,
+  specifications, inquiry CTA, and related-products empty state.
+
+### Routes checked
+
+- `200 /`
+- `200 /products`
+- `200 /products/linen-resort-shirt`
+- `200 /about`
+- `200 /contact`
+- `200 /admin/login`
+- `200 /admin/dashboard`
+- `200 /admin/cms`
+- `200 /admin/settings`
+- `404 /missing-route`
+
+### Asset and security checks
+
+- No runtime Unsplash, Pexels, or Pixabay CDN URL exists in generated source.
+- No image API package, image API key, or image-provider environment variable
+  was added.
+- Source URLs appear only in `THIRD_PARTY_ASSETS.md`.
+- A lipstick photo with visible brand text was rejected and replaced with an
+  unbranded asset.
+- Demo images are optimized WebP files bundled into the generated project.
+
+### Screenshots
+
+- Desktop: `/tmp/web-wizard-local-images-desktop.png`
+- Mobile navigation: `/tmp/web-wizard-local-images-mobile.png`
+
+### Remaining issues
+
+- P0: none.
+- P1: none.
+
+## Product Catalog homepage CMS cycle
+
+### Commands executed
+
+- `npm run build`
+- Generated `web-wizard-cms-homepage` as Product Catalog with website name `Northstar Market`
+- `npm install --prefer-offline`
+- `npm run typecheck`
+- `npm run build`
+- `npm run dev -- --hostname 127.0.0.1 --port 4851`
+- Browser runtime checks for homepage data and console output
+- Temporary generated-content mutation to prove each homepage section reads CMS data instead of hardcoded page literals
+
+### Build results
+
+- Root CLI build passed.
+- Generated Product Catalog install passed with 0 npm vulnerabilities.
+- Generated Product Catalog typecheck passed.
+- Generated Product Catalog production build passed with all public and admin routes.
+
+### Runtime results
+
+- Main banner image loaded from the CMS/default content URL.
+- Campaign label and period updated after content mutation.
+- Side promotional banner content updated after content mutation.
+- Promotional tile content updated after content mutation.
+- Product rail title updated after content mutation.
+- Brand strip and service benefit strip updated after content mutation.
+- Product rating, sold count, and compare-at price updated after product data mutation.
+- Browser console reported 0 errors and 0 warnings.
+- Desktop horizontal overflow check passed.
+
+### CMS controls verified in generated source
+
+- Homepage tab
+- Main banner image upload
+- Side promotional banner repeaters with optional image uploads
+- Promotional tile repeaters with optional image uploads
+- Product rail and finder headings
+- Brand strip editor
+- Service/benefit strip editor
+- Product rating, sold count, and compare-at price fields
+
+### Remaining issues
+
+- P0: none.
+- P1: none.

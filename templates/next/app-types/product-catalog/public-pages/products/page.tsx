@@ -48,6 +48,9 @@ function normalizeProducts(products: Product[]): Product[] {
   return products.map((product) => ({
     ...product,
     shortDescription: product.shortDescription || product.description,
+    compareAtPrice: product.compareAtPrice ?? "",
+    rating: product.rating ?? 0,
+    soldCount: product.soldCount ?? 0,
     specifications: product.specifications ?? []
   }));
 }

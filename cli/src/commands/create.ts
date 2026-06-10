@@ -7,6 +7,7 @@ import { logger } from "../utils/logger.js";
 import { normalizeProjectName } from "../utils/strings.js";
 
 type CreateOptions = {
+  siteName?: string;
   appType?: string;
   frontend?: string;
   storage?: string;
@@ -16,6 +17,7 @@ type CreateOptions = {
 export async function createCommand(projectName: string | undefined, options: CreateOptions): Promise<void> {
   const answers = await createPrompt({
     projectName,
+    siteName: options.siteName,
     appType: options.appType,
     frontend: options.frontend,
     storage: options.storage
@@ -43,7 +45,7 @@ export async function createCommand(projectName: string | undefined, options: Cr
     await installDependencies(targetDir);
   }
 
-  logger.success(`Created ${answers.displayName} in ${targetDir}`);
+  logger.success(`Created ${answers.siteName} in ${targetDir}`);
   logger.info(`Template: ${answers.appDisplayName} · Frontend: Next.js · Storage: Firebase Storage`);
   logger.info(options.install ? `Next steps: cd ${safeProjectName} && npm run dev` : `Next steps: cd ${safeProjectName} && npm install && npm run dev`);
 }
