@@ -66,10 +66,42 @@ export const productCatalogDefaultContent: ProductCatalogContent = {
 };
 
 export const defaultCategories: Category[] = [
-  { id: "clothing", published: true, featured: true, name: "Clothing", description: "Layerable shirts, jackets, knitwear, and everyday wardrobe staples." },
-  { id: "accessories", published: true, featured: true, name: "Accessories", description: "Bags, belts, eyewear, and compact details that complete the look." },
-  { id: "sneakers", published: true, featured: true, name: "Sneakers", description: "Daily footwear with clean profiles, soft palettes, and comfortable builds." },
-  { id: "beauty", published: true, featured: false, name: "Beauty", description: "Compact beauty essentials for campaign bundles and lifestyle shelves." }
+  {
+    id: "clothing",
+    published: true,
+    featured: true,
+    name: "Clothing",
+    description: "Layerable shirts, jackets, knitwear, and everyday wardrobe staples.",
+    imageUrl: "/template-visuals/categories/clothing.webp",
+    imageAlt: "Curated clothing displayed for a fashion collection"
+  },
+  {
+    id: "accessories",
+    published: true,
+    featured: true,
+    name: "Accessories",
+    description: "Bags, belts, eyewear, and compact details that complete the look.",
+    imageUrl: "/template-visuals/categories/accessories.webp",
+    imageAlt: "Neutral accessories arranged for a lifestyle collection"
+  },
+  {
+    id: "sneakers",
+    published: true,
+    featured: true,
+    name: "Sneakers",
+    description: "Daily footwear with clean profiles, soft palettes, and comfortable builds.",
+    imageUrl: "/template-visuals/categories/sneakers.webp",
+    imageAlt: "White canvas sneakers styled for an everyday collection"
+  },
+  {
+    id: "beauty",
+    published: true,
+    featured: false,
+    name: "Beauty",
+    description: "Compact beauty essentials for campaign bundles and lifestyle shelves.",
+    imageUrl: "/template-visuals/categories/beauty.webp",
+    imageAlt: "Unbranded beauty products arranged on a soft background"
+  }
 ];
 
 export const defaultProducts: Product[] = [

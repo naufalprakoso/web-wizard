@@ -22,7 +22,7 @@ export default async function ProductsPage() {
   if (!content) notFound();
 
   const products = normalizeProducts(dbProducts ?? defaultProducts).filter((item) => item.published);
-  const categories = (dbCategories ?? defaultCategories).filter((item) => item.published);
+  const categories = normalizeCategories(dbCategories ?? defaultCategories).filter((item) => item.published);
 
   return (
     <>
@@ -52,5 +52,14 @@ function normalizeProducts(products: Product[]): Product[] {
     rating: product.rating ?? 0,
     soldCount: product.soldCount ?? 0,
     specifications: product.specifications ?? []
+  }));
+}
+
+function normalizeCategories(categories: Category[]): Category[] {
+  return categories.map((category) => ({
+    ...category,
+    featured: category.featured ?? false,
+    imageUrl: category.imageUrl ?? "",
+    imageAlt: category.imageAlt ?? ""
   }));
 }

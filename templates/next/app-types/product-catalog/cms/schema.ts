@@ -56,7 +56,9 @@ export const categorySchema = z.object({
   published: z.boolean(),
   featured: z.boolean().optional(),
   name: z.string().min(2),
-  description: z.string().min(2)
+  description: z.string().min(2),
+  imageUrl: imageSourceSchema,
+  imageAlt: z.string()
 });
 
 export const productCatalogSchema = z.object({

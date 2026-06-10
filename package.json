@@ -1,6 +1,6 @@
 {
   "name": "web-template-wizard",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Open-source CLI to generate responsive website templates with CMS, admin dashboard, Firebase, and theme settings.",
   "homepage": "https://github.com/naufalprakoso/web-wizard#readme",
   "bugs": {
@@ -31,6 +31,7 @@
     "dev": "tsx cli/src/index.ts",
     "build": "tsc -p tsconfig.json",
     "prepack": "npm run build",
+    "test:category-images": "node scripts/test-product-category-images.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

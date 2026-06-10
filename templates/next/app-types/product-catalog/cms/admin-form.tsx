@@ -35,7 +35,7 @@ export function AppContentForm() {
           serviceBenefits: cms.serviceBenefits ?? productCatalogDefaultContent.serviceBenefits
         });
         if (productItems.length > 0) setProducts(productItems.map(normalizeProduct));
-        if (categoryItems.length > 0) setCategories(categoryItems);
+        if (categoryItems.length > 0) setCategories(categoryItems.map(normalizeCategory));
       })
       .catch((error) => {
         const message = error instanceof Error ? error.message : "Unable to load CMS data.";
@@ -76,15 +76,15 @@ export function AppContentForm() {
   }
 
   async function saveCategory(category: Category) {
-    const parsed = categorySchema.safeParse(category);
+    const parsed = categorySchema.safeParse(normalizeCategory(category));
     if (!parsed.success) {
-      setStatus("Check category name and description before saving.");
+      setStatus("Check category name, description, image URL, and image alt text before saving.");
       return;
     }
     const id = category.id?.trim() || slugify(category.name);
     try {
       await saveCollectionItem("categories", id, { ...parsed.data, id });
-      setCategories((items) => items.map((item) => (item === category ? { ...parsed.data, id } : item)));
+      setCategories((items) => items.map((item) => (item === category ? normalizeCategory({ ...parsed.data, id }) : item)));
       setStatus(`Category "${parsed.data.name}" saved.`);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to save category.";
@@ -284,6 +284,15 @@ export function AppContentForm() {
                 <TextField label="Slug / ID" value={category.id ?? ""} onChange={(id) => updateCategory(index, { id })} />
                 <TextField label="Name" value={category.name} onChange={(name) => updateCategory(index, { name })} />
                 <TextArea label="Description" value={category.description} onChange={(description) => updateCategory(index, { description })} />
+                <div className="mt-4 grid gap-4">
+                  <ImageUploadField
+                    label="Category image"
+                    value={category.imageUrl}
+                    folder="uploads/categories"
+                    onChange={(imageUrl) => updateCategory(index, { imageUrl })}
+                  />
+                  <TextField label="Image alt text" value={category.imageAlt} onChange={(imageAlt) => updateCategory(index, { imageAlt })} />
+                </div>
                 <div className="mt-4 flex flex-wrap gap-4">
                   <Checkbox label="Published" checked={category.published} onChange={(published) => updateCategory(index, { published })} />
                   <Checkbox label="Featured" checked={Boolean(category.featured)} onChange={(featured) => updateCategory(index, { featured })} />
@@ -311,7 +320,7 @@ export function AppContentForm() {
   }
 
   function updateCategory(index: number, patch: Partial<Category>) {
-    setCategories((items) => items.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)));
+    setCategories((items) => items.map((item, itemIndex) => (itemIndex === index ? normalizeCategory({ ...item, ...patch }) : item)));
   }
 }
 
@@ -379,6 +388,15 @@ function normalizeProduct(product: Product): Product {
   };
 }
 
+function normalizeCategory(category: Category): Category {
+  return {
+    ...category,
+    featured: category.featured ?? false,
+    imageUrl: category.imageUrl ?? "",
+    imageAlt: category.imageAlt ?? ""
+  };
+}
+
 function newProduct(): Product {
   return {
     id: "",
@@ -403,7 +421,15 @@ function newProduct(): Product {
 }
 
 function newCategory(): Category {
-  return { id: "", published: true, featured: false, name: "New category", description: "Describe this category." };
+  return normalizeCategory({
+    id: "",
+    published: true,
+    featured: false,
+    name: "New category",
+    description: "Describe this category.",
+    imageUrl: "",
+    imageAlt: ""
+  });
 }
 
 function lines(value: string) {

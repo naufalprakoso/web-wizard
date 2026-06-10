@@ -5,3 +5,6 @@ dist/
 .env.local
 .playwright-mcp/
 .project-decisions
+.superpowers/
+
+.agent/

@@ -19,6 +19,15 @@ These files are used under the [Unsplash License](https://unsplash.com/license):
 | `public/template-visuals/products/daily-canvas-sneaker.webp` | Nati Melnychuk (`@natinati`) | [White canvas sneakers among leaves](https://unsplash.com/photos/a-persons-feet-in-white-sneakers-on-a-pile-of-leaves-R6ehXBEf3Tg) |
 | `public/template-visuals/products/soft-rib-sweater.webp` | Valentina Ivanova (`@valnastudio`) | [Person wearing a grey knit sweater](https://unsplash.com/photos/person-wearing-grey-knit-sweater-mU88MlEFcoU) |
 
+### Category photography
+
+| Local file | Photographer | Source |
+| --- | --- | --- |
+| `public/template-visuals/categories/clothing.webp` | Priscilla Du Preez (`@priscilladupreez`) | [Hanged shirts against a white background](https://unsplash.com/photos/hanged-shirts-against-white-background-DulFuY7K82g) |
+| `public/template-visuals/categories/accessories.webp` | Artem Beliaikin (`@belart84`) | [Round brown woven sling bags](https://unsplash.com/photos/round-brown-woven-sling-bags-Ef3qTutSTAY) |
+| `public/template-visuals/categories/sneakers.webp` | Nati Melnychuk (`@natinati`) | [White canvas sneakers among leaves](https://unsplash.com/photos/a-persons-feet-in-white-sneakers-on-a-pile-of-leaves-R6ehXBEf3Tg) |
+| `public/template-visuals/categories/beauty.webp` | Shamblen Studios (`@shamblenstudios`) | [Pink and brown makeup brush set](https://unsplash.com/photos/pink-and-brown-makeup-brush-set-xwM61TPMlYk) |
+
 ## Pixabay Content License
 
 This file is used under the

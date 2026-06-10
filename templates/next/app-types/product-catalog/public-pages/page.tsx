@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { CatalogExplorer, ProductVisual } from "@/components/sections/CatalogExplorer";
+import { CategoryImage } from "@/components/sections/CategoryImage";
 import { getPublishedCmsDocument, listPublishedCollection } from "@/lib/cms/cms-service";
 import { buildMetadata } from "@/lib/seo/seo";
 import { defaultCategories, defaultProducts, productCatalogDefaultContent } from "@/lib/app-type/cms/default-content";
@@ -25,7 +26,7 @@ export default async function ProductCatalogPage() {
   if (!content) notFound();
 
   const products = normalizeProducts(dbProducts ?? defaultProducts).filter((item) => item.published);
-  const categories = (dbCategories ?? defaultCategories).filter((item) => item.published);
+  const categories = normalizeCategories(dbCategories ?? defaultCategories).filter((item) => item.published);
   const featured = products.filter((product) => product.featured);
   const heroProducts = (featured.length > 0 ? featured : products).slice(0, 4);
   const accessoryProducts = products.filter((product) => ["Accessories", "Sneakers", "Beauty"].includes(product.category)).slice(0, 4);
@@ -94,14 +95,20 @@ export default async function ProductCatalogPage() {
                     className="group overflow-hidden rounded-[28px] border border-zinc-200 bg-[#f8f5ef] shadow-[0_18px_60px_rgba(17,17,17,0.05)] transition hover:-translate-y-1 hover:border-zinc-950 hover:bg-white hover:shadow-[0_24px_80px_rgba(17,17,17,0.1)]"
                   >
                     <div className={`relative aspect-[4/3] overflow-hidden ${categoryTone(category.name)}`}>
-                      <div className="absolute inset-x-8 bottom-0 h-[72%] rounded-t-full bg-white/50 shadow-2xl backdrop-blur" />
-                      <div className="absolute left-6 top-6 rounded-full bg-white/80 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-zinc-700">0{index + 1}</div>
+                      <CategoryImage src={category.imageUrl} alt={category.imageAlt || category.name} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                      <div className={`absolute right-5 top-5 h-11 w-11 rounded-full ${categoryAccent(category.name)} ring-4 ring-white/75 shadow-lg`} />
+                      <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                        <div className="flex items-center gap-3">
+                          <span className="rounded-full border border-white/25 bg-black/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] backdrop-blur">0{index + 1}</span>
+                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/75">{category.featured ? "Featured shelf" : "Catalog shelf"}</span>
+                        </div>
+                        <h3 className="mt-3 text-2xl font-black leading-tight">{category.name}</h3>
+                      </div>
                     </div>
                     <div className="p-5">
-                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#f97316]">{category.featured ? "Featured shelf" : "Catalog shelf"}</p>
-                      <h3 className="mt-2 text-2xl font-black text-zinc-950">{category.name}</h3>
-                      <p className="mt-3 line-clamp-2 text-sm leading-6 text-zinc-600">{category.description}</p>
-                      <p className="mt-5 text-sm font-black text-zinc-950 transition group-hover:text-[#f97316]">Explore category</p>
+                      <p className="line-clamp-2 text-sm leading-6 text-zinc-600">{category.description}</p>
+                      <p className="mt-4 text-sm font-black text-zinc-950 transition group-hover:text-[#f97316]">Explore category</p>
                     </div>
                   </a>
                 ))}
@@ -286,6 +293,16 @@ function categoryTone(name: string) {
   return tones[index];
 }
 
+function categoryAccent(name: string) {
+  const accents = [
+    "bg-orange-400",
+    "bg-rose-300",
+    "bg-sky-300",
+    "bg-fuchsia-300"
+  ];
+  return accents[name.length % accents.length];
+}
+
 function normalizeProducts(products: Product[]): Product[] {
   return products.map((product) => ({
     ...product,
@@ -294,6 +311,15 @@ function normalizeProducts(products: Product[]): Product[] {
     rating: product.rating ?? 0,
     soldCount: product.soldCount ?? 0,
     specifications: product.specifications ?? []
+  }));
+}
+
+function normalizeCategories(categories: Category[]): Category[] {
+  return categories.map((category) => ({
+    ...category,
+    featured: category.featured ?? false,
+    imageUrl: category.imageUrl ?? "",
+    imageAlt: category.imageAlt ?? ""
   }));
 }
 
