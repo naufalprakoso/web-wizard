@@ -2,42 +2,43 @@ import type { LandingPageContent } from "./schema";
 
 export const landingPageDefaultContent: LandingPageContent = {
   published: true,
-  heroTitle: "Launch a focused website in days, not months",
-  heroSubtitle: "A conversion-focused landing page for teams that need clear messaging, editable sections, and a practical way to collect leads.",
-  ctaText: "Book a strategy call",
+  heroTitle: "Convert clicks into booked calls",
+  heroSubtitle: "A polished landing page system for campaigns, offers, and launches that need clear messaging, mobile-first sections, and CMS-managed lead capture.",
+  ctaText: "Start your launch",
   ctaLink: "#contact",
-  conversionNote: "Best for campaigns, service offers, waitlists, and product launches that need one clear next step.",
+  conversionNote: "Best for teams that need one high-converting page instead of a heavy website rebuild.",
   heroImage: "",
-  heroImageAlt: "Structured landing page campaign preview",
-  problemTitle: "Campaign pages often stall between design, copy, and deployment.",
-  problemBody: "This template gives small teams a focused page structure they can publish quickly, then keep current from the CMS without rebuilding the whole site.",
-  outcomeTitle: "A clear path from first visit to qualified lead.",
-  outcomeBody: "Every section supports one job: explain the offer, show why it matters, answer doubts, and send visitors into a simple contact flow.",
+  heroImageAlt: "Mobile-first landing page funnel preview",
+  problemTitle: "Most campaign pages look finished but fail to guide the next decision.",
+  problemBody: "This template gives teams a landing page that feels intentionally designed from the first viewport to the contact form, with content that stays editable after launch.",
+  outcomeTitle: "A conversion story visitors can understand in one scroll.",
+  outcomeBody: "Every section supports a specific job: explain the offer, make the value tangible, answer objections, show proof, and move visitors into a simple contact path.",
   audienceSegments: [
-    { name: "Launch teams", description: "Publish a clear offer page before a campaign, event, or product release." },
-    { name: "Service businesses", description: "Explain outcomes, process, proof, and contact steps without a heavy website." },
-    { name: "Internal teams", description: "Create editable pages for pilots, programs, and announcements." }
+    { name: "Launch teams", description: "Publish a campaign page before the product, event, or announcement needs a full website." },
+    { name: "Service sellers", description: "Present outcomes, process, proof, and contact steps in one focused conversion path." },
+    { name: "Growth teams", description: "Test messaging and update sections from the CMS without waiting for a redesign." }
   ],
   contentVariants: [
-    { name: "SaaS waitlist", description: "Collect interest before a product is ready for a full website.", cta: "Join the waitlist" },
-    { name: "Service offer", description: "Explain the problem, process, proof, and contact path for a focused service.", cta: "Request a consultation" },
-    { name: "Event campaign", description: "Publish a temporary page for a launch, workshop, program, or announcement.", cta: "Reserve a spot" }
+    { name: "SaaS waitlist", description: "Validate demand with a product story, benefit blocks, FAQs, and a lightweight inquiry path.", cta: "Join the waitlist" },
+    { name: "Service offer", description: "Explain the pain point, method, expected result, proof, and next step without a bloated website.", cta: "Request a consultation" },
+    { name: "Event campaign", description: "Promote a workshop, launch, or announcement with a clear schedule and conversion-focused CTA.", cta: "Reserve a spot" }
   ],
-  proofPoints: ["Editable CMS sections", "Mobile-first conversion flow", "Firebase-ready lead capture"],
-  features: ["CMS-managed sections", "Fast responsive pages", "Firebase-ready admin", "SEO-friendly structure"],
-  benefits: ["Move campaigns faster without developer bottlenecks", "Keep messaging consistent across every section", "Capture leads through a validated contact form"],
-  steps: ["Clarify your offer", "Publish the core sections", "Review leads and update the page"],
+  proofPoints: ["CMS-managed copy", "Mobile-first funnel flow", "Firebase-ready inquiries"],
+  features: ["Hero and campaign message", "Offer modules and proof", "Lead capture contact flow", "SEO-ready content structure"],
+  benefits: ["Keep the headline, CTA, proof points, FAQ, and contact details editable from the CMS", "Turn features, objections, and proof into visual sections instead of flat text blocks", "Collect visitor intent through a clean contact form that works with the generated Firebase setup", "Ship a page that is structured for search previews, social sharing, and fast responsive loading"],
+  steps: ["Clarify the offer", "Shape the page story", "Publish and refine"],
   testimonials: [
-    { name: "Growth team", role: "Sample use case", quote: "The page made the offer obvious and helped qualify inquiries faster." },
-    { name: "Operations lead", role: "Sample use case", quote: "We can update launch content without waiting on a deployment." }
+    { name: "Growth team", role: "Campaign launch", quote: "The page made the offer obvious and helped us qualify inquiries before sales calls." },
+    { name: "Studio lead", role: "Service offer", quote: "The structure gave our pitch more confidence without turning the site into a long brochure." }
   ],
   faqs: [
-    { question: "Can we edit the content?", answer: "Yes. Admin users can update the landing page content from the CMS dashboard." },
-    { question: "Does it work on mobile?", answer: "The layout is mobile-first and adapts from one-column sections to desktop grids." }
+    { question: "Can we edit the content?", answer: "Yes. Admin users can update the headline, CTA, proof points, feature sections, testimonials, FAQs, and contact details from the CMS dashboard." },
+    { question: "Does it work on mobile?", answer: "Yes. The layout is mobile-first and then expands into richer desktop sections without changing the campaign story." },
+    { question: "Can it run without Firebase configured?", answer: "Yes. Public pages render with safe fallback content, while CMS and lead capture become active after Firebase environment variables are configured." }
   ],
-  finalCtaTitle: "Ready to turn the offer into a working page?",
-  finalCtaText: "Use the CMS to adjust the message, publish the sections that matter, and collect visitor intent through the contact form.",
+  finalCtaTitle: "Build the page around one clear next step.",
+  finalCtaText: "Use the CMS to refine the message, keep every launch section current, and collect visitor intent through the generated contact form.",
   contactInfo: "hello@example.com",
-  seoTitle: "Conversion-Focused Landing Page",
-  seoDescription: "A responsive landing page with CMS, Firebase, SEO, and theme settings."
+  seoTitle: "Modern Conversion Landing Page",
+  seoDescription: "A modern responsive landing page template with CMS-managed content, Firebase-ready lead capture, SEO, and theme settings."
 };
