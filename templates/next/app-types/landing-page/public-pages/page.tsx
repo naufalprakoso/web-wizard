@@ -181,8 +181,9 @@ export default async function LandingPage() {
         </section>
 
         <section className="bg-white py-16 md:py-24">
-          <div className="section-shell overflow-hidden rounded-[42px] bg-[radial-gradient(circle_at_80%_20%,rgba(188,255,94,0.62),transparent_34%),radial-gradient(circle_at_12%_75%,rgba(255,185,230,0.5),transparent_32%),#111111] p-6 text-white shadow-[0_30px_90px_rgba(17,17,17,0.22)] md:p-10">
-            <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
+          <div className="section-shell relative overflow-hidden rounded-[42px] bg-[#111111] p-6 text-white shadow-[0_30px_90px_rgba(17,17,17,0.22)] md:p-10">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,185,230,0.18)_0%,transparent_34%,rgba(188,255,94,0.26)_100%)]" />
+            <div className="relative grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
               <div>
                 <h2 className="max-w-4xl text-balance text-4xl font-black leading-[0.9] tracking-tight md:text-7xl">{content.finalCtaTitle}</h2>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">{content.finalCtaText}</p>
